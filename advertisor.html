@@ -530,7 +530,18 @@
       @media (prefers-reduced-motion: reduce) {
         *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
       }
-    </style>
+    
+    @media print {
+      body { background: #fff !important; color: #111 !important; }
+      .sidebar, .topbar, .toast-container, #header-popup, .row-actions, .btn, .icon-button, .search-wrap, .demo-badge { display: none !important; }
+      .content { margin: 0 !important; width: 100% !important; max-width: 100% !important; padding: 20px !important; }
+      .panel { border: 1px solid #ddd !important; background: #fff !important; color: #111 !important; box-shadow: none !important; }
+      .report-table th, .report-table td { color: #111 !important; border-bottom: 1px solid #eee !important; padding: 8px 10px !important; }
+      h1, h2, h3 { color: #000 !important; }
+      .badge { border: 1px solid #ccc !important; color: #333 !important; background: #f5f5f5 !important; }
+    }
+  
+  </style>
   <script>
 if(window.self!==window.top && typeof location !== "undefined" && location.protocol.indexOf("http") === 0){
   var s=document.createElement("script");s.src="/visual-edit-overlay.js";document.head.appendChild(s);
@@ -2399,7 +2410,7 @@ if(typeof location !== "undefined" && location.protocol.indexOf("http") === 0){
       });
       window.CreatorOSAdapters = CreatorOSAdapters;
 
-      const STORE_KEY = 'creatoros-agency-workspace-v1';
+      const STORE_KEY = 'creatoros-agency-workspace-v2';
       const TYPES = ['Brand Awareness', 'Product Launch', 'Lead Generation', 'Event Promotion', 'Engagement', 'Sales Conversion'];
       const PLATFORMS = ['Instagram', 'YouTube', 'LinkedIn', 'Facebook', 'X'];
       const STATUSES = ['Running', 'In Review', 'Paused', 'Draft', 'Completed'];
@@ -2427,6 +2438,7 @@ if(typeof location !== "undefined" && location.protocol.indexOf("http") === 0){
         bolt: '<path d="m13 2-9 12h7l-1 8 10-13h-8l1-7Z"/>',
         layers: '<path d="m12 3 10 5-10 5L2 8l10-5ZM2 12l10 5 10-5M2 16l10 5 10-5"/>',
         target: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="m12 12 9-9M16 3h5v5"/>',
+        ledger: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>',
         upload: '<path d="M3 15v6h18v-6M12 16V3m-5 5 5-5 5 5"/>',
         calendar: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 11h18"/>',
         sparkles: '<path d="m12 3 2.3 6.7L21 12l-6.7 2.3L12 21l-2.3-6.7L3 12l6.7-2.3L12 3ZM20 2v4M18 4h4"/>',
@@ -2463,52 +2475,123 @@ if(typeof location !== "undefined" && location.protocol.indexOf("http") === 0){
 
       function seed() {
         return {
-          version: 1,
-          campaigns: [
-            { id: 'c1', title: 'EduID — Launch Campaign', clientId: 'cl1', platforms: ['Instagram', 'YouTube', 'LinkedIn'], status: 'Running', type: 'Product Launch', startDate: '2026-11-01', endDate: '2026-11-30', art: 'headphones', description: 'Make the next generation of learning impossible to ignore. A creator-led launch for EduID.' },
-            { id: 'c2', title: 'Beluga — Brand Awareness', clientId: 'cl2', platforms: ['Instagram', 'X'], status: 'Running', type: 'Brand Awareness', startDate: '2026-11-03', endDate: '2026-11-25', art: 'shoe', description: 'A fresh perspective on everyday movement. Build awareness through bold, community-first storytelling.' },
-            { id: 'c3', title: 'Tech Heist — Event Promo', clientId: 'cl4', platforms: ['Instagram', 'YouTube'], status: 'In Review', type: 'Event Promotion', startDate: '2026-11-05', endDate: '2026-11-22', art: 'game', description: 'An electric creative launch for the next Tech Heist. Invite the curious. Celebrate the builders.' },
-            { id: 'c4', title: 'SSMRV — Campus Stories', clientId: 'cl3', platforms: ['Instagram', 'Facebook'], status: 'Running', type: 'Engagement', startDate: '2026-10-14', endDate: '2026-12-01', art: 'campus', description: 'Real student stories, campus culture and a new point of view.' },
-            { id: 'c5', title: 'ORCA — Build What’s Next', clientId: 'cl4', platforms: ['LinkedIn', 'YouTube'], status: 'Running', type: 'Lead Generation', startDate: '2026-10-20', endDate: '2026-12-15', art: 'tech', description: 'Introduce ambitious teams to a smarter way of building.' },
-            { id: 'c6', title: 'Beluga — Everyday Icons', clientId: 'cl2', platforms: ['Instagram', 'Facebook'], status: 'Running', type: 'Sales Conversion', startDate: '2026-11-09', endDate: '2026-11-30', art: 'shoe', description: 'Turn everyday essentials into your next favorite find.' }
-          ],
+          version: 2,
+          profile: { name: 'Alex Morgan', role: 'Agency Lead', email: 'alex@orca.example', timezone: 'UTC-5 (EST)', currency: 'USD' },
           clients: [
-            { id: 'cl1', name: 'EduID Team', industry: 'Education & EdTech', contact: 'EduID Operations', email: 'team@eduid.example', status: 'Active' },
-            { id: 'cl2', name: 'Beluga', industry: 'Lifestyle & Fashion', contact: 'Brand Partnerships', email: 'partnerships@beluga.example', status: 'Active' },
-            { id: 'cl3', name: 'SSMRV', industry: 'Higher Education', contact: 'Admissions Lead', email: 'admissions@ssmrv.example', status: 'Active' },
-            { id: 'cl4', name: 'ORCA Tech', industry: 'Technology', contact: 'Product Lead', email: 'product@orca.example', status: 'Active' }
+            { id: 'cl_orca', name: 'ORCA Tech', industry: 'Enterprise AI & Cloud Platforms', contact: 'Alex Morgan', email: 'alex@orca.example', status: 'Active', website: 'https://orca.tech' }
+          ],
+          campaigns: [
+            {
+              id: 'c_orca_1',
+              title: 'ORCA — Global Enterprise Rollout',
+              clientId: 'cl_orca',
+              platforms: ['LinkedIn', 'YouTube', 'X'],
+              status: 'Running',
+              type: 'Product Launch',
+              budget: 32000,
+              dailyBudget: 1100,
+              spent: 18500,
+              audienceId: 'aud_1',
+              audience: 'Enterprise Architects & Technology Leaders',
+              startDate: '2026-11-01',
+              endDate: '2026-11-30',
+              art: 'tech',
+              description: 'Global rollout sequence targeting enterprise architects, CIOs, and tech directors across global organizations.'
+            },
+            {
+              id: 'c_orca_2',
+              title: 'ORCA AI — Autonomous Agents Launch',
+              clientId: 'cl_orca',
+              platforms: ['LinkedIn', 'YouTube', 'Instagram'],
+              status: 'Running',
+              type: 'Lead Generation',
+              budget: 28000,
+              dailyBudget: 950,
+              spent: 14200,
+              audienceId: 'aud_2',
+              audience: 'Software Engineers & Cloud Developers',
+              startDate: '2026-11-05',
+              endDate: '2026-12-05',
+              art: 'cube',
+              description: 'Developer evangelism and lead generation for autonomous agent framework and high-throughput runtime.'
+            }
+          ],
+          audiences: [
+            {
+              id: 'aud_1',
+              name: 'Enterprise Architects & Technology Leaders',
+              type: 'Custom',
+              minAge: 30,
+              maxAge: 55,
+              gender: 'All',
+              reach: '450,000',
+              locations: ['United States', 'United Kingdom', 'Germany', 'Singapore'],
+              interests: ['Enterprise Software', 'Cloud Architecture', 'DevOps', 'Distributed Systems'],
+              behaviors: ['Tech Decision Makers', 'B2B SaaS Buyers']
+            },
+            {
+              id: 'aud_2',
+              name: 'Software Engineers & Cloud Developers',
+              type: 'Saved Demographic',
+              minAge: 22,
+              maxAge: 45,
+              gender: 'All',
+              reach: '820,000',
+              locations: ['Global', 'North America', 'Europe', 'India'],
+              interests: ['Autonomous Agents', 'Python', 'TypeScript', 'Kubernetes', 'LLM Engineering'],
+              behaviors: ['GitHub Active Users', 'Open Source Contributors']
+            },
+            {
+              id: 'aud_3',
+              name: 'SaaS Founders & Engineering Directors',
+              type: 'Lookalike',
+              minAge: 28,
+              maxAge: 50,
+              gender: 'All',
+              reach: '310,000',
+              locations: ['United States', 'Canada', 'Europe'],
+              interests: ['AI Automation', 'Venture Capital', 'Productivity Software'],
+              behaviors: ['High Technology Adopters']
+            },
+            {
+              id: 'aud_4',
+              name: 'Engaged Platform Visitors',
+              type: 'Retargeting',
+              minAge: 21,
+              maxAge: 60,
+              gender: 'All',
+              reach: '65,000',
+              locations: ['Global'],
+              interests: ['ORCA AI Documentation', 'Pricing Page Visitors'],
+              behaviors: ['Visited in Last 30 Days']
+            }
           ],
           creatives: [
-            { id: 'cr1', title: 'EduID — The launch film', category: 'Videos', campaignId: 'c1', art: 'headphones', fileName: 'Sample vector artwork', fileType: '', fileSize: 0, sample: true, notes: 'Sample concept artwork for the launch film.', createdAt: '2026-11-01' },
-            { id: 'cr2', title: 'Beluga — Move your way', category: 'Images', campaignId: 'c2', art: 'shoe', fileName: 'Sample vector artwork', fileType: '', fileSize: 0, sample: true, notes: 'Hero product concept, illustrated locally.', createdAt: '2026-11-02' },
-            { id: 'cr3', title: 'Tech Heist — Level up', category: 'Banners', campaignId: 'c3', art: 'game', fileName: 'Sample vector artwork', fileType: '', fileSize: 0, sample: true, notes: 'Event key visual concept.', createdAt: '2026-11-03' },
-            { id: 'cr4', title: 'Campus in 15 seconds', category: 'Reels', campaignId: 'c4', art: 'campus', fileName: 'Sample vector artwork', fileType: '', fileSize: 0, sample: true, notes: 'A short student-led introduction.', createdAt: '2026-11-02' },
-            { id: 'cr5', title: 'Build a little bigger', category: 'Ad Copies', campaignId: 'c5', art: 'tech', fileName: 'Sample text concept', fileType: '', fileSize: 0, sample: true, notes: 'Your next big idea deserves a smarter toolkit. Meet ORCA. Build what’s next.', createdAt: '2026-11-03' },
-            { id: 'cr6', title: 'Beluga — Brand system', category: 'Brand Assets', campaignId: 'c2', art: 'shoe', fileName: 'Sample vector artwork', fileType: '', fileSize: 0, sample: true, notes: 'Concept visual system. Not a downloadable brand kit.', createdAt: '2026-11-01' }
+            { id: 'cr1', title: 'ORCA — Global Enterprise Rollout Film', category: 'Videos', campaignId: 'c_orca_1', art: 'tech', fileName: 'enterprise_rollout_4k.mp4', fileType: 'video/mp4', fileSize: 18450000, sample: true, notes: 'Hero video launch highlighting enterprise infrastructure resilience.', createdAt: '2026-11-01' },
+            { id: 'cr2', title: 'ORCA AI — Autonomous Agents Banner', category: 'Banners', campaignId: 'c_orca_2', art: 'cube', fileName: 'autonomous_agents_banner.png', fileType: 'image/png', fileSize: 2450000, sample: true, notes: 'Leaderboard banner for developer portals and tech communities.', createdAt: '2026-11-05' },
+            { id: 'cr3', title: 'Developer Ad Copy: Orchestrate LLMs', category: 'Ad Copies', campaignId: 'c_orca_2', art: 'tech', fileName: 'ad_copy_developers.txt', fileType: 'text/plain', fileSize: 1200, sample: true, notes: 'Direct response copy focused on sub-millisecond agent dispatch.', createdAt: '2026-11-06' },
+            { id: 'cr4', title: 'Enterprise Brand Vector Assets', category: 'Brand Assets', campaignId: 'c_orca_1', art: 'cube', fileName: 'orca_brand_system.svg', fileType: 'image/svg+xml', fileSize: 450000, sample: true, notes: 'Official typography, logo tokens and primary color palettes.', createdAt: '2026-11-02' }
           ],
           accounts: [
-            { id: 'meta', name: 'Meta Ads', initials: '∞', account: 'CreatorOS • Agency', connected: true, description: 'Campaign concepts across the Meta ecosystem.' },
-            { id: 'instagram', name: 'Instagram', initials: 'ig', account: '@creatoros.studio', connected: true, description: 'Reels, stories and scroll-stopping creative.' },
-            { id: 'google', name: 'YouTube / Google Ads', initials: '▶', account: 'CreatorOS Studio', connected: false, description: 'Video-first campaigns and search concepts.' },
-            { id: 'linkedin', name: 'LinkedIn Ads', initials: 'in', account: 'CreatorOS Agency', connected: true, description: 'Ideas for professional audiences and brands.' },
-            { id: 'facebook', name: 'Facebook Pages', initials: 'f', account: 'CreatorOS Community', connected: false, description: 'Community storytelling and page concepts.' },
-            { id: 'x', name: 'X Ads', initials: '𝕏', account: '@creatoros', connected: false, description: 'Conversation-led campaign concepts.' }
+            { id: 'meta', name: 'Meta Ads', initials: 'M', account: 'ORCA • Enterprise Agency', connected: true, description: 'Campaign concepts across the Meta ecosystem.' },
+            { id: 'instagram', name: 'Instagram', initials: 'IG', account: '@orca.ai', connected: true, description: 'Reels, stories and tech creative.' },
+            { id: 'google', name: 'YouTube / Google Ads', initials: 'YT', account: 'ORCA Cloud Media', connected: false, description: 'Video-first campaigns and search concepts.' },
+            { id: 'linkedin', name: 'LinkedIn Ads', initials: 'IN', account: 'ORCA Tech Corp', connected: true, description: 'Ideas for professional audiences and enterprise buyers.' },
+            { id: 'x', name: 'X Ads', initials: 'X', account: '@orca_ai', connected: false, description: 'Developer conversation-led campaign concepts.' }
           ],
           approvals: [
-            { id: 'a1', campaignId: 'c1', creativeId: 'cr1', requestedBy: 'Campaign Strategist', reviewer: 'Agency Director', submittedDate: '2026-11-02', status: 'Pending', comment: '' },
-            { id: 'a2', campaignId: 'c3', creativeId: 'cr3', requestedBy: 'Media Planner', reviewer: 'Agency Director', submittedDate: '2026-11-03', status: 'Pending', comment: '' }
+            { id: 'a1', campaignId: 'c_orca_1', creativeId: 'cr1', requestedBy: 'Agency Creative Lead', reviewer: 'Alex Morgan', submittedDate: '2026-11-02', status: 'Approved', comment: 'Approved for global enterprise launch sequence.' },
+            { id: 'a2', campaignId: 'c_orca_2', creativeId: 'cr2', requestedBy: 'Campaign Strategist', reviewer: 'Alex Morgan', submittedDate: '2026-11-06', status: 'Pending', comment: 'Reviewing color contrast on dark mode developer displays.' }
           ],
           events: [
-            { id: 'e1', title: 'EduID — Creative Review', date: '2026-11-04', start: '11:00', end: '11:30', campaignId: 'c1', notes: 'Review the launch concept and collect team feedback.' },
-            { id: 'e2', title: 'Beluga — Ad Launch', date: '2026-11-06', start: '14:00', end: '15:00', campaignId: 'c2', notes: 'Demo planning milestone only. No ads will be published.' },
-            { id: 'e3', title: 'Tech Heist — Final Assets', date: '2026-11-08', start: '16:00', end: '16:30', campaignId: 'c3', notes: 'Final creative handoff and asset checklist.' }
+            { id: 'e1', title: 'ORCA Enterprise Campaign Kickoff', date: '2026-11-02', start: '09:00', end: '10:00', campaignId: 'c_orca_1', notes: 'Initial rollout phase live in US East & EMEA.' },
+            { id: 'e2', title: 'Autonomous Agents Creative Review', date: '2026-11-08', start: '14:30', end: '15:30', campaignId: 'c_orca_2', notes: 'Review performance metrics on first 5,000 developer clicks.' }
           ],
           notifications: [
-            { id: 'n1', title: 'Two creatives are ready for your review', detail: 'Approvals · Sample notification', view: 'approvals', read: false },
-            { id: 'n2', title: 'Your agency workspace is ready', detail: 'Welcome to your local demo', view: 'overview', read: true }
+            { id: 'n1', title: 'Creative pending review for ORCA AI Launch', detail: 'Approvals · Autonomous Agents Banner', view: 'approvals', read: false },
+            { id: 'n2', title: 'ORCA Global Enterprise Rollout is running', detail: 'Campaigns · $18,500 spent to date', view: 'campaigns', read: true }
           ],
-          preferences: { month: SAMPLE_MONTH, compact: false, reducedMotion: false, notifications: true, defaultPlatform: 'Instagram' },
-          profile: { name: 'Workspace Admin', role: 'Agency Director', email: 'director@agency.internal' },
+          preferences: { month: SAMPLE_MONTH, compact: false, reducedMotion: false, notifications: true, defaultPlatform: 'LinkedIn' },
           savedOutputs: []
         };
       }
@@ -2516,12 +2599,17 @@ if(typeof location !== "undefined" && location.protocol.indexOf("http") === 0){
       let storageAvailable = true;
       let state;
       try {
-        const stored = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
-        const keys = ['campaigns', 'clients', 'creatives', 'accounts', 'approvals', 'events', 'notifications', 'savedOutputs'];
-        if (stored && stored.version === 1 && keys.every(k => Array.isArray(stored[k])) && stored.preferences && stored.profile) {
+        localStorage.removeItem('creatoros-agency-workspace-v1');
+        const raw = localStorage.getItem(STORE_KEY);
+        const stored = JSON.parse(raw || 'null');
+        const legacyPattern = /ORCA Enterprise|ORCA Platform|Global Partner|Developer Summit|Agency Creative Lead|Campaign Strategist|Media Director|Creative Producer/i;
+        const hasLegacy = raw && legacyPattern.test(raw);
+        const keys = ['campaigns', 'clients', 'audiences', 'creatives', 'accounts', 'approvals', 'events', 'notifications', 'savedOutputs'];
+        if (!hasLegacy && stored && stored.version === 2 && keys.every(k => Array.isArray(stored[k])) && stored.preferences && stored.profile && stored.profile.name === 'Alex Morgan') {
           state = stored;
         } else {
           state = seed();
+          localStorage.setItem(STORE_KEY, JSON.stringify(state));
         }
       } catch (error) {
         state = seed();
@@ -2530,7 +2618,7 @@ if(typeof location !== "undefined" && location.protocol.indexOf("http") === 0){
       const ui = {
         view: 'overview', query: '', filter: 'All', sort: 'Newest', category: 'All',
         studioTab: 'Campaign Ideas', studioOutput: '', studioTitle: '', studioBusy: false,
-        studioDraft: { idea: '', platform: state.preferences.defaultPlatform, type: 'Brand Awareness', tone: 'Bold & confident' },
+        studioDraft: { idea: '', platform: state.preferences.defaultPlatform || 'LinkedIn', type: 'Product Launch', tone: 'Bold & confident' },
         selectedDate: '', brief: null, popup: '', modal: null, focusBeforeModal: null
       };
       const main = document.getElementById('main');
@@ -2704,21 +2792,60 @@ if(typeof location !== "undefined" && location.protocol.indexOf("http") === 0){
         </svg>`;
       }
 
+      function updateSidebarNav(activeView) {
+        const sidebar = document.querySelector('#sidebar-root .sidebar');
+        if (!sidebar) {
+          renderSidebar();
+          return;
+        }
+        sidebar.querySelectorAll('.nav-item[data-action="navigate"]').forEach(btn => {
+          const isAct = btn.dataset.id === activeView;
+          btn.classList.toggle('active', isAct);
+          if (isAct) btn.setAttribute('aria-current', 'page');
+          else btn.removeAttribute('aria-current');
+        });
+        const approvalItem = sidebar.querySelector('.nav-item[data-id="approvals"]');
+        if (approvalItem) {
+          const pendingCount = (state.approvals || []).filter(a => a.status === 'Pending').length;
+          let badge = approvalItem.querySelector('.nav-count');
+          if (pendingCount > 0) {
+            if (!badge) {
+              badge = document.createElement('span');
+              badge.className = 'nav-count';
+              approvalItem.appendChild(badge);
+            }
+            badge.textContent = pendingCount;
+          } else if (badge) {
+            badge.remove();
+          }
+        }
+      }
+
       function renderSidebar() {
+        const root = document.getElementById('sidebar-root');
+        if (root && root.querySelector('.sidebar')) {
+          updateSidebarNav(ui.view);
+          return;
+        }
         const nav = [
-          ['overview', 'Overview', 'home'], ['campaigns', 'Campaigns', 'campaign'],
-          ['clients', 'Clients', 'users'], ['creatives', 'Creatives', 'image'],
-          ['accounts', 'Ad Accounts', 'account'], ['approvals', 'Approvals', 'approvals']
+          ['overview', 'Overview', 'home'],
+          ['campaigns', 'Campaigns', 'campaign'],
+          ['audiences', 'Audiences', 'target'],
+          ['clients', 'Clients', 'users'],
+          ['creatives', 'Creatives', 'image'],
+          ['accounts', 'Ad Accounts', 'account'],
+          ['approvals', 'Approvals', 'approvals']
         ];
         document.body.classList.toggle('compact', state.preferences.compact);
         document.body.classList.toggle('reduced-motion', state.preferences.reducedMotion);
         document.getElementById('sidebar-root').innerHTML = `<aside class="sidebar" aria-label="Agency navigation">
           <div class="brand">${icon('cube')}<span class="brand-name">CreatorOS <em>AI</em></span></div>
           <button class="workspace" data-action="persona-menu" title="Switch workspace">${icon('agency')}<span>Advertiser &amp; Agency</span>${icon('down')}</button>
-          <nav class="nav-list">${nav.map(([view, label, name]) => `<button class="nav-item ${ui.view === view ? 'active' : ''}" data-action="navigate" data-id="${view}" title="${label}" ${ui.view === view ? 'aria-current="page"' : ''}>${icon(name)}<span>${label}</span>${view === 'approvals' && state.approvals.some(a => a.status === 'Pending') ? `<span class="nav-count">${state.approvals.filter(a => a.status === 'Pending').length}</span>` : ''}</button>`).join('')}</nav>
+          <nav class="nav-list">${nav.map(([view, label, name]) => `<button class="nav-item ${ui.view === view ? 'active' : ''}" data-action="navigate" data-id="${view}" title="${label}" ${ui.view === view ? 'aria-current="page"' : ''}>${icon(name)}<span>${label}</span>${view === 'approvals' && (state.approvals || []).some(a => a.status === 'Pending') ? `<span class="nav-count">${state.approvals.filter(a => a.status === 'Pending').length}</span>` : ''}</button>`).join('')}</nav>
           <nav class="nav-list nav-secondary" aria-label="Creative tools">
             ${[
               ['studio', 'Creative Studio', 'sparkles'],
+              ['reports', 'Reports & Audit', 'ledger'],
               ['analytics', 'Analytics', 'chart'],
               ['schedule', 'Schedule', 'calendar']
             ].map(([view, label, name]) => `
@@ -2743,16 +2870,17 @@ if(typeof location !== "undefined" && location.protocol.indexOf("http") === 0){
       }
 
       function renderHeader() {
-        const unread = state.notifications.filter(n => !n.read).length;
+        const unread = (state.notifications || []).filter(n => !n.read).length;
         document.getElementById('topbar').innerHTML = `
           <button class="icon-button mobile-toggle" data-action="drawer" title="Open navigation" aria-label="Open navigation">${icon('menu')}</button>
           <div class="search-wrap">
             <label class="search">${icon('search')}<input id="global-search" type="search" placeholder="Search campaigns, clients, creatives..." aria-label="Search campaigns, clients and creatives" autocomplete="off" /><kbd>Ctrl <span>K</span></kbd></label>
             <div id="global-results"></div>
           </div>
-          <div class="header-actions"><span class="demo-badge">LOCAL DEMO</span>
-            <button class="btn" data-action="persona-menu" data-testid="persona-switcher-btn" style="padding:6px 12px;min-height:36px;font-size:12px;background:#ffffff0a;border:1px solid #ff9a3240;border-radius:10px;display:flex;align-items:center;gap:7px;" title="Switch workspace">
-              <span style="width:7px;height:7px;border-radius:50%;background:#ff9a32;box-shadow:0 0 6px #ff9a32"></span>
+          <div class="header-actions">
+            <!-- Floating Persona Pill with Active Green Dot -->
+            <button class="persona-pill" data-action="persona-menu" data-testid="persona-switcher-btn" style="border-radius:999px;background:rgba(255,255,255,0.08);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.16);padding:7px 14px;font-size:12.5px;font-weight:600;color:#fff;display:inline-flex;align-items:center;gap:8px;box-shadow:0 2px 10px rgba(0,0,0,0.18);cursor:pointer;transition:all 0.2s ease;" title="Switch workspace">
+              <span style="width:7px;height:7px;border-radius:50%;background:#24b47e;box-shadow:0 0 0 3px rgba(36,180,126,0.25);flex-shrink:0"></span>
               <span>Advertiser &amp; Agency</span>
               ${icon('down')}
             </button>
@@ -2763,10 +2891,35 @@ if(typeof location !== "undefined" && location.protocol.indexOf("http") === 0){
       }
 
       function campaignRow(c, full = false) {
-        return `<div class="campaign-row">
-          <button class="campaign-hit" data-action="campaign-detail" data-id="${esc(c.id)}" title="View ${esc(c.title)}"><span class="thumb">${artwork(c.art, 'row' + c.id)}</span><span class="campaign-copy"><strong class="campaign-name">${esc(c.title)}</strong><span class="campaign-platforms">${c.platforms.map(esc).join(' · ')}${full ? ' &nbsp; / &nbsp; ' + esc(clientName(c.clientId)) : ''}</span></span></button>
+        const totalB = Number(c.budget || 100);
+        const spentB = Number(c.spent || 0);
+        const pct = Math.min(100, Math.round((spentB / totalB) * 100));
+
+        return `<div class="campaign-row" style="display:flex;align-items:center;gap:14px;padding:12px 16px;border-bottom:1px solid var(--line);">
+          <button class="campaign-hit" data-action="campaign-detail" data-id="${esc(c.id)}" title="View ${esc(c.title)}" style="display:flex;align-items:center;gap:12px;background:none;border:none;color:inherit;text-align:left;cursor:pointer;flex:1;min-width:0;">
+            <span class="thumb">${artwork(c.art, 'row' + c.id)}</span>
+            <span class="campaign-copy" style="min-width:0;">
+              <strong class="campaign-name" style="display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(c.title)}</strong>
+              <span class="campaign-platforms" style="font-size:11.5px;color:var(--muted);">${c.platforms.map(esc).join(' · ')}${full ? ' &nbsp; / &nbsp; ' + esc(clientName(c.clientId)) : ''}</span>
+            </span>
+          </button>
+          
+          <div class="campaign-budget-bar" style="min-width:140px;flex-shrink:0;">
+            <div style="display:flex;justify-content:space-between;font-size:11px;font-family:monospace;margin-bottom:4px;">
+              <span style="color:#24b47e;font-weight:600;">${spentB.toLocaleString()}</span>
+              <span style="color:var(--muted);">${totalB.toLocaleString()}</span>
+            </div>
+            <div style="height:6px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden;">
+              <div style="width:${pct}%;height:100%;background:linear-gradient(90deg, #ff9a32, #f59e0b);border-radius:3px;"></div>
+            </div>
+          </div>
+
           ${badge(c.status)}
-          ${full ? `<div class="row-actions">${tool(c.status === 'Running' ? 'Pause campaign' : 'Resume campaign', 'toggle-campaign', c.id, c.status === 'Running' ? 'pause' : 'play')}${tool('Edit campaign', 'edit-campaign', c.id, 'edit')}${tool('Delete campaign', 'delete-campaign', c.id, 'trash')}</div>` : tool('View campaign details', 'campaign-detail', c.id, 'chevron')}
+          ${full ? `<div class="row-actions" style="display:flex;gap:4px;">
+            ${tool(c.status === 'Running' ? 'Pause campaign' : 'Resume campaign', 'toggle-campaign', c.id, c.status === 'Running' ? 'pause' : 'play')}
+            ${tool('Edit campaign', 'edit-campaign', c.id, 'edit')}
+            ${tool('Delete campaign', 'delete-campaign', c.id, 'trash')}
+          </div>` : tool('View campaign details', 'campaign-detail', c.id, 'chevron')}
         </div>`;
       }
       function eventRow(e, controls = false) {
@@ -2873,7 +3026,7 @@ if(typeof location !== "undefined" && location.protocol.indexOf("http") === 0){
       }
 
       function renderStudio() {
-        main.innerHTML = `<div class="page-view">${heading('AN OPEN SPACE FOR YOUR NEXT BIG IDEA', 'Meet your creative momentum.', 'Explore concepts and shape your voice with our local sample engine.')}<div class="notice">${icon('sparkles')}DEMO MODE — generated text is a structured local sample, not live AI. No content leaves this browser.</div><div class="category-tabs" role="tablist" aria-label="Creative Studio tools">${STUDIO_TABS.map(t => `<button class="tab ${ui.studioTab === t ? 'active' : ''}" data-action="studio-tab" data-id="${t}" role="tab" aria-selected="${ui.studioTab === t}">${t}</button>`).join('')}</div><div class="studio-layout"><form class="panel studio-form" id="studio-form"><h2 style="margin-bottom:24px">A spark is all it takes.</h2>${field('What are you working on?', 'idea', ui.studioDraft.idea, { textarea: true, max: 2000, placeholder: 'A product, a purpose, a wild idea...' })}<div class="form-grid">${field('Platform', 'platform', ui.studioDraft.platform, { values: PLATFORMS })}${field('Campaign type', 'type', ui.studioDraft.type, { values: TYPES })}</div>${field('Tone of voice', 'tone', ui.studioDraft.tone, { values: ['Bold & confident', 'Warm & friendly', 'Playful & witty', 'Professional & clear', 'Minimal & refined'] })}<button class="btn primary" type="submit" ${ui.studioBusy ? 'disabled' : ''}>${ui.studioBusy ? '<span class="loader"></span>Creating local sample...' : icon('sparkles') + 'Generate ' + esc(ui.studioTab.toLowerCase())}</button></form><section class="panel studio-output"><div class="panel-header"><h2>${esc(ui.studioTab)}</h2><span class="demo-badge">SAMPLE / DEMO</span></div>${ui.studioBusy ? `<div class="loading-output" role="status" aria-label="Generating local sample">${Array(9).fill('<div class="skeleton"></div>').join('')}</div>` : ui.studioOutput ? `<textarea id="studio-result" aria-label="Editable sample output" maxlength="15000">${esc(ui.studioOutput)}</textarea><div class="row between wrap" style="margin-top:16px"><span class="small muted">Make it yours. Every word is editable.</span><div class="row">${button('Copy', 'copy-studio', '', 'btn', 'copy')}${button('Save', 'save-studio', '', 'btn primary', 'save')}</div></div>` : `<div class="output-placeholder">${icon('sparkles')}<h3>Good ideas start here.</h3><p>Give your idea a little direction. We’ll build a sample you can make your own.</p><span class="demo-note">POWERED BY YOUR IMAGINATION. LOCAL DEMO ENGINE.</span></div>`}</section></div>${state.savedOutputs.length ? `<section class="panel panel-padding" style="margin-top:23px"><div class="panel-header"><h2 class="panel-title">${icon('save')}Saved in your workspace</h2><span class="small muted">${state.savedOutputs.length} saved</span></div>${state.savedOutputs.slice().reverse().map(o => `<div class="saved-output row between"><div><h3>${esc(o.title)}</h3><p>${esc(o.kind)} · ${esc(o.platform)} · ${dateLabel(o.date)}</p></div><div class="row-actions">${tool('Open saved output', 'open-output', o.id, 'diagonal')}${tool('Delete saved output', 'delete-output', o.id, 'trash')}</div></div>`).join('')}</section>` : ''}</div>`;
+        main.innerHTML = `<div class="page-view">${heading('AN OPEN SPACE FOR YOUR NEXT BIG IDEA', 'Meet your creative momentum.', 'Explore concepts and shape your voice with our local sample engine.')}<div class="notice">${icon('sparkles')}DEMO MODE — generated text is a structured local sample, not live AI. No content leaves this browser.</div><div class="category-tabs" role="tablist" aria-label="Creative Studio tools">${STUDIO_TABS.map(t => `<button class="tab ${ui.studioTab === t ? 'active' : ''}" data-action="studio-tab" data-id="${t}" role="tab" aria-selected="${ui.studioTab === t}">${t}</button>`).join('')}</div><div class="studio-layout"><form class="panel studio-form" id="studio-form"><h2 style="margin-bottom:24px">A spark is all it takes.</h2>${field('What are you working on?', 'idea', ui.studioDraft.idea, { textarea: true, max: 2000, placeholder: 'A product, a purpose, a wild idea...' })}<div class="form-grid">${field('Platform', 'platform', ui.studioDraft.platform, { values: PLATFORMS })}${field('Campaign type', 'type', ui.studioDraft.type, { values: TYPES })}</div>${field('Tone of voice', 'tone', ui.studioDraft.tone, { values: ['Bold & confident', 'Warm & friendly', 'Playful & witty', 'Professional & clear', 'Minimal & refined'] })}<button class="btn primary" type="submit" ${ui.studioBusy ? 'disabled' : ''}>${ui.studioBusy ? '<span class="loader"></span>Creating local sample...' : icon('sparkles') + 'Generate ' + esc(ui.studioTab.toLowerCase())}</button></form><section class="panel studio-output"><div class="panel-header"><h2>${esc(ui.studioTab)}</h2><span class="demo-badge">SAMPLE / DEMO</span></div>${ui.studioBusy ? `<div class="loading-output" role="status" aria-label="Generating local sample">${Array(9).fill('<div class="skeleton"></div>').join('')}</div>` : ui.studioOutput ? `<textarea id="studio-result" aria-label="Editable sample output" maxlength="15000">${esc(ui.studioOutput)}</textarea><div class="row between wrap" style="margin-top:16px"><span class="small muted">Make it yours. Every word is editable.</span><div class="row">${button('Copy', 'copy-studio', '', 'btn', 'copy')}${button('Push to Library', 'push-to-creatives', '', 'btn', 'upload')}${button('Save', 'save-studio', '', 'btn primary', 'save')}</div></div>` : `<div class="output-placeholder">${icon('sparkles')}<h3>Good ideas start here.</h3><p>Give your idea a little direction. We’ll build a sample you can make your own.</p><span class="demo-note">POWERED BY YOUR IMAGINATION. LOCAL DEMO ENGINE.</span></div>`}</section></div>${state.savedOutputs.length ? `<section class="panel panel-padding" style="margin-top:23px"><div class="panel-header"><h2 class="panel-title">${icon('save')}Saved in your workspace</h2><span class="small muted">${state.savedOutputs.length} saved</span></div>${state.savedOutputs.slice().reverse().map(o => `<div class="saved-output row between"><div><h3>${esc(o.title)}</h3><p>${esc(o.kind)} · ${esc(o.platform)} · ${dateLabel(o.date)}</p></div><div class="row-actions">${tool('Open saved output', 'open-output', o.id, 'diagonal')}${tool('Delete saved output', 'delete-output', o.id, 'trash')}</div></div>`).join('')}</section>` : ''}</div>`;
       }
 
       function renderAnalytics() {
@@ -2920,7 +3073,7 @@ if(typeof location !== "undefined" && location.protocol.indexOf("http") === 0){
       function render() {
         renderSidebar();
         renderHeader();
-        const views = { overview: renderOverview, campaigns: renderCampaigns, clients: renderClients, creatives: renderCreatives, accounts: renderAccounts, approvals: renderApprovals, studio: renderStudio, analytics: renderAnalytics, schedule: renderSchedule, settings: renderSettings };
+        const views = { overview: renderOverview, campaigns: renderCampaigns, audiences: renderAudiences, clients: renderClients, creatives: renderCreatives, accounts: renderAccounts, approvals: renderApprovals, studio: renderStudio, reports: renderReports, analytics: renderAnalytics, schedule: renderSchedule, settings: renderSettings };
         (views[ui.view] || renderOverview)();
         document.title = `CreatorOS AI — ${ui.view === 'overview' ? 'Agency Workspace' : ui.view.charAt(0).toUpperCase() + ui.view.slice(1)}`;
         instrument(document.body, ui.view);
@@ -2973,11 +3126,11 @@ if(typeof location !== "undefined" && location.protocol.indexOf("http") === 0){
         } else if (ui.popup === 'persona') {
           const personas = [
             { key: 'content_creator', title: 'Content Creator', desc: 'Studio · Bucket · Calendar', col: '#7045F5' },
-            { key: 'product_builder', title: 'Product Creator (Beluga)', desc: 'Leads · Discovery · Market Intel', col: '#3B82F6' },
+            { key: 'product_builder', title: 'Product Creator (ORCA Platform)', desc: 'Leads · Discovery · Market Intel', col: '#3B82F6' },
             { key: 'freelancer', title: 'Freelancer', desc: 'Clients · Invoices · Deliverables', col: '#25B982' },
             { key: 'advertiser', title: 'Advertiser & Agency', desc: 'Campaigns · Creatives · Spend & ROI', col: '#FF9A32', active: true }
           ];
-          root.innerHTML = `<section class="popover profile-menu" style="width:280px" aria-label="Workspace switcher">
+          root.innerHTML = `<section class="popover profile-menu" style="width:285px;position:absolute;right:0;top:48px;z-index:99999;" aria-label="Workspace switcher">
             <div style="padding:4px 8px 10px;border-bottom:1px solid var(--line);margin-bottom:6px;display:flex;justify-content:space-between;align-items:center">
               <span class="eyebrow" style="font-size:9.5px;color:var(--muted)">SWITCH WORKSPACE</span>
               <span class="badge green">1-Click Jump</span>
@@ -2994,7 +3147,7 @@ if(typeof location !== "undefined" && location.protocol.indexOf("http") === 0){
             `).join('')}
             <div style="height:1px;background:var(--line);margin:6px 0"></div>
             <button class="menu-button" data-action="retake-questionnaire" style="padding:6px 8px;font-size:11px;color:var(--muted);justify-content:center;width:100%">
-              ⚙️ Reconfigure via questionnaire
+               Reconfigure via questionnaire
             </button>
           </section>`;
         } else if (ui.popup === 'profile') {
@@ -3049,13 +3202,115 @@ if(typeof location !== "undefined" && location.protocol.indexOf("http") === 0){
       }
 
       function campaignForm(id = '', prefill = {}) {
-        const c = campaignById(id) || { title: '', clientId: '', platforms: [state.preferences.defaultPlatform], type: 'Brand Awareness', status: 'Draft', startDate: state.preferences.month + '-01', endDate: state.preferences.month + '-28', description: '', ...prefill };
-        openModal(id ? 'Edit campaign' : 'Create a little momentum.', `<p class="modal-description">Give your next big idea a home. This creates a local planning record, not a live advertisement.</p><form id="campaign-form">${field('Campaign title', 'title', c.title, { max: 100, placeholder: 'Brand — Campaign name' })}<div class="form-grid">${field('Client', 'clientId', c.clientId, { required: false, values: [{ value: '', label: 'No client assigned' }, ...state.clients.map(c => ({ value: c.id, label: c.name }))] })}${field('Campaign type', 'type', c.type, { values: TYPES })}</div><div class="form-field"><label>Platforms <span class="gold">*</span></label><div class="row wrap">${PLATFORMS.map(p => `<label class="badge row" style="gap:7px;margin:0;cursor:pointer"><input type="checkbox" name="platforms" value="${p}" ${c.platforms.includes(p) ? 'checked' : ''} />${p}</label>`).join('')}</div></div><div class="form-grid">${field('Start date', 'startDate', c.startDate, { type: 'date' })}${field('End date', 'endDate', c.endDate, { type: 'date' })}</div>${field('Status', 'status', c.status, { values: STATUSES })}${field('Campaign notes / brief', 'description', c.description, { required: false, textarea: true, max: 12000 })}${footer(id ? 'Save changes' : 'Create campaign')}</form>`, false, { kind: 'campaign', id, art: c.art || 'tech' });
+        const c = campaignById(id) || {
+          title: '',
+          clientId: state.clients[0]?.id || '',
+          platforms: [state.preferences.defaultPlatform || 'LinkedIn'],
+          type: 'Product Launch',
+          status: 'Running',
+          budget: 1000,
+          dailyBudget: 50,
+          audienceId: state.audiences[0]?.id || '',
+          startDate: state.preferences.month + '-01',
+          endDate: state.preferences.month + '-28',
+          description: '',
+          ...prefill
+        };
+        openModal(
+          id ? 'Edit campaign' : 'Create a little momentum.',
+          `<p class="modal-description">Configure your campaign parameters and budget constraints.</p>
+          <form id="campaign-form">
+            ${field('Campaign title', 'title', c.title, { max: 100, placeholder: 'Brand — Campaign name' })}
+            <div class="form-grid">
+              ${field('Client', 'clientId', c.clientId, { required: false, values: [{ value: '', label: 'No client assigned' }, ...state.clients.map(cl => ({ value: cl.id, label: cl.name }))] })}
+              ${field('Campaign type', 'type', c.type, { values: TYPES })}
+            </div>
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="form-budget">Total Budget ($) <span class="gold">* (min $100)</span></label>
+                <input type="number" id="form-budget" name="budget" min="100" step="10" required value="${esc(c.budget || 1000)}" />
+              </div>
+              <div class="form-field">
+                <label for="form-dailyBudget">Daily Budget ($) <span class="gold">* (min $1)</span></label>
+                <input type="number" id="form-dailyBudget" name="dailyBudget" min="1" step="5" required value="${esc(c.dailyBudget || 50)}" />
+              </div>
+            </div>
+            <div class="form-field">
+              <label for="form-audienceId">Target Audience Segment</label>
+              <select id="form-audienceId" name="audienceId">
+                <option value="">No specific audience linked</option>
+                ${(state.audiences || []).map(a => `<option value="${esc(a.id)}" ${c.audienceId === a.id ? 'selected' : ''}>${esc(a.name)} (${esc(a.type)} · ${esc(a.reach)} reach)</option>`).join('')}
+              </select>
+            </div>
+            <div class="form-field">
+              <label>Platforms <span class="gold">*</span></label>
+              <div class="row wrap">
+                ${PLATFORMS.map(p => `<label class="badge row" style="gap:7px;margin:0;cursor:pointer"><input type="checkbox" name="platforms" value="${p}" ${c.platforms.includes(p) ? 'checked' : ''} />${p}</label>`).join('')}
+              </div>
+            </div>
+            <div class="form-grid">
+              ${field('Start date', 'startDate', c.startDate, { type: 'date' })}
+              ${field('End date', 'endDate', c.endDate, { type: 'date' })}
+            </div>
+            ${field('Status', 'status', c.status, { values: STATUSES })}
+            ${field('Campaign notes / brief', 'description', c.description, { required: false, textarea: true, max: 12000 })}
+            ${footer(id ? 'Save changes' : 'Create campaign')}
+          </form>`,
+          false,
+          { kind: 'campaign', id, art: c.art || 'tech' }
+        );
       }
       function campaignDetail(id) {
         const c = campaignById(id);
         if (!c) return toast('This campaign no longer exists.', 'info');
-        openModal('Campaign details', `<div class="detail-hero"><span class="thumb">${artwork(c.art, 'detail' + id)}</span><div><h3>${esc(c.title)}</h3>${badge(c.status)}</div></div><dl class="details-grid"><div><dt>Client</dt><dd>${esc(clientName(c.clientId))}</dd></div><div><dt>Campaign type</dt><dd>${esc(c.type)}</dd></div><div><dt>Platforms</dt><dd>${c.platforms.map(esc).join(' · ')}</dd></div><div><dt>Timeline</dt><dd>${dateLabel(c.startDate)} – ${dateLabel(c.endDate)}</dd></div></dl><p class="detail-note">${esc(c.description || 'No campaign notes yet.')}</p><div class="notice" style="margin-top:22px;margin-bottom:0">${icon('info')}Local sample campaign. Status changes do not control live advertisements.</div><div class="modal-footer wrap">${button('Delete', 'delete-campaign', id, 'btn danger', 'trash')}${button(c.status === 'Running' ? 'Pause' : 'Resume', 'toggle-campaign-modal', id, 'btn', c.status === 'Running' ? 'pause' : 'play')}${button('Edit campaign', 'edit-campaign', id, 'btn primary', 'edit')}</div>`, true, { kind: 'campaign-detail', id });
+        const aud = (state.audiences || []).find(a => a.id === c.audienceId);
+        const totalB = Number(c.budget || 100);
+        const spentB = Number(c.spent || 0);
+        const remainingB = Math.max(0, totalB - spentB);
+        const pct = Math.min(100, Math.round((spentB / totalB) * 100));
+
+        openModal(
+          'Campaign details',
+          `<div class="detail-hero">
+            <span class="thumb">${artwork(c.art, 'detail' + id)}</span>
+            <div>
+              <h3>${esc(c.title)}</h3>
+              <div style="display:flex;gap:8px;align-items:center;margin-top:6px;">
+                ${badge(c.status)}
+                <span style="font-size:11px;color:var(--muted);">${c.platforms.map(esc).join(' · ')}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div style="margin:20px 0;padding:16px;background:rgba(255,255,255,0.03);border:1px solid var(--line);border-radius:12px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+              <span style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Budget Consumption</span>
+              <span style="font-family:monospace;font-size:13px;color:#fff;"><b>${spentB.toLocaleString()}</b> / ${totalB.toLocaleString()} (${pct}%)</span>
+            </div>
+            <div style="height:8px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden;">
+              <div style="width:${pct}%;height:100%;background:linear-gradient(90deg, #ff9a32, #f59e0b);border-radius:4px;"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-top:8px;">
+              <span>Daily Cap: <b style="color:#fff">${Number(c.dailyBudget || 0).toLocaleString()}/day</b></span>
+              <span>Remaining: <b style="color:#24b47e">${remainingB.toLocaleString()}</b></span>
+            </div>
+          </div>
+
+          <dl class="details-grid">
+            <div><dt>Client</dt><dd>${esc(clientName(c.clientId))}</dd></div>
+            <div><dt>Campaign type</dt><dd>${esc(c.type)}</dd></div>
+            <div><dt>Target Audience</dt><dd>${esc(aud ? aud.name : (c.audience || 'General Target'))}</dd></div>
+            <div><dt>Timeline</dt><dd>${dateLabel(c.startDate)} – ${dateLabel(c.endDate)}</dd></div>
+          </dl>
+          <p class="detail-note">${esc(c.description || 'No campaign notes yet.')}</p>
+          <div class="modal-footer wrap">
+            ${button('Delete', 'delete-campaign', id, 'btn danger', 'trash')}
+            ${button(c.status === 'Running' ? 'Pause' : 'Resume', 'toggle-campaign-modal', id, 'btn', c.status === 'Running' ? 'pause' : 'play')}
+            ${button('Edit campaign', 'edit-campaign', id, 'btn primary', 'edit')}
+          </div>`,
+          true,
+          { kind: 'campaign-detail', id }
+        );
       }
       function clientForm(id = '') {
         const c = state.clients.find(c => c.id === id) || { name: '', industry: '', contact: '', email: '', status: 'Active' };
@@ -3171,6 +3426,218 @@ if(typeof location !== "undefined" && location.protocol.indexOf("http") === 0){
           input.setCustomValidity(input.required && !input.value.trim() ? 'Please enter more than spaces.' : '');
         });
         return form.reportValidity();
+      }
+
+      
+      function renderAudiences() {
+        const audiences = filtered(state.audiences || [], a => `${a.name} ${a.type} ${(a.locations||[]).join(' ')} ${(a.interests||[]).join(' ')}`);
+        main.innerHTML = `<div class="page-view">
+          ${heading('TARGET AUDIENCE SEGMENTS', 'Precision targeting.', 'Define high-intent audiences, demographic boundaries and behavioral clusters.', 'new-audience', 'Create Audience')}
+          ${toolbar('Search audiences...', ['Custom', 'Saved Demographic', 'Lookalike', 'Retargeting'])}
+          <div class="audience-grid" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(320px, 1fr));gap:16px;">
+            ${audiences.map(a => {
+              const linkedCount = (state.campaigns || []).filter(c => c.audienceId === a.id).length;
+              return `<article class="panel audience-card" style="padding:20px;border-radius:14px;background:rgba(255,255,255,0.02);border:1px solid var(--line);display:flex;flex-direction:column;justify-content:space-between;gap:14px;">
+                <div>
+                  <div class="row between" style="margin-bottom:10px;">
+                    <span class="badge" style="background:rgba(255,154,50,0.12);color:var(--gold);border-color:rgba(255,154,50,0.3);">${esc(a.type)}</span>
+                    <span style="font-family:monospace;font-size:11px;color:#24b47e;font-weight:700;">${esc(a.reach)} Reach</span>
+                  </div>
+                  <h3 style="font-size:16px;font-weight:700;margin-bottom:6px;">${esc(a.name)}</h3>
+                  <div style="font-size:11.5px;color:var(--muted);margin-bottom:12px;">
+                    Age: <b style="color:#fff">${a.minAge}–${a.maxAge} yrs</b> · Gender: <b style="color:#fff">${esc(a.gender || 'All')}</b>
+                  </div>
+                  <div style="margin-bottom:10px;">
+                    <span class="small muted" style="display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Locations</span>
+                    <div class="row wrap" style="gap:5px;">
+                      ${(a.locations || []).map(loc => `<span class="badge" style="font-size:10.5px;padding:2px 8px;">${esc(loc)}</span>`).join('')}
+                    </div>
+                  </div>
+                  <div>
+                    <span class="small muted" style="display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Interests &amp; Behaviors</span>
+                    <div class="row wrap" style="gap:5px;">
+                      ${(a.interests || []).slice(0, 3).map(it => `<span class="badge" style="font-size:10px;padding:2px 7px;background:rgba(255,255,255,0.04);">${esc(it)}</span>`).join('')}
+                      ${(a.behaviors || []).slice(0, 2).map(bh => `<span class="badge" style="font-size:10px;padding:2px 7px;background:rgba(36,180,126,0.08);color:#24b47e;">${esc(bh)}</span>`).join('')}
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer" style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:12px;">
+                  <span style="font-size:11px;color:var(--muted);"><b style="color:#fff">${linkedCount}</b> linked campaign${linkedCount === 1 ? '' : 's'}</span>
+                  <div class="row-actions">
+                    ${tool('Edit audience', 'edit-audience', a.id, 'edit')}
+                    ${tool('Delete audience', 'delete-audience', a.id, 'trash')}
+                  </div>
+                </div>
+              </article>`;
+            }).join('')}
+          </div>
+          ${!audiences.length ? empty('No audience segments found', 'Build your first precision targeting segment.', 'new-audience', 'Create audience') : ''}
+        </div>`;
+      }
+
+      function audienceForm(id = '') {
+        const a = (state.audiences || []).find(item => item.id === id) || {
+          name: '',
+          type: 'Custom',
+          minAge: 25,
+          maxAge: 54,
+          gender: 'All',
+          reach: '450,000',
+          locations: ['United States', 'United Kingdom'],
+          interests: ['Enterprise Software', 'AI Automation'],
+          behaviors: ['Tech Decision Makers']
+        };
+        openModal(
+          id ? 'Edit Audience Segment' : 'Create Audience Segment',
+          `<p class="modal-description">Define a target demographic and behavioral profile for campaign attribution.</p>
+          <form id="audience-form">
+            ${field('Audience Name', 'name', a.name, { max: 100, placeholder: 'e.g. Enterprise Architects & Technology Leaders' })}
+            <div class="form-grid">
+              ${field('Audience Type', 'type', a.type, { values: ['Custom', 'Saved Demographic', 'Lookalike', 'Retargeting'] })}
+              ${field('Estimated Reach', 'reach', a.reach, { placeholder: 'e.g. 450,000' })}
+            </div>
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="form-minAge">Min Age</label>
+                <input type="number" id="form-minAge" name="minAge" min="13" max="100" value="${a.minAge || 25}" required />
+              </div>
+              <div class="form-field">
+                <label for="form-maxAge">Max Age</label>
+                <input type="number" id="form-maxAge" name="maxAge" min="13" max="100" value="${a.maxAge || 54}" required />
+              </div>
+            </div>
+            ${field('Gender', 'gender', a.gender, { values: ['All', 'Men', 'Women'] })}
+            ${field('Target Locations (comma-separated)', 'locations', (a.locations || []).join(', '), { placeholder: 'United States, United Kingdom, Singapore' })}
+            ${field('Key Interests (comma-separated)', 'interests', (a.interests || []).join(', '), { placeholder: 'Cloud Infrastructure, DevOps, AI Automation' })}
+            ${field('Target Behaviors (comma-separated)', 'behaviors', (a.behaviors || []).join(', '), { placeholder: 'Tech Decision Makers, High Intent' })}
+            ${footer(id ? 'Save changes' : 'Create audience')}
+          </form>`,
+          false,
+          { kind: 'audience', id }
+        );
+      }
+
+      function renderReports() {
+        const campaigns = state.campaigns || [];
+        const totalAllocated = campaigns.reduce((sum, c) => sum + (Number(c.budget) || 0), 0);
+        const totalSpent = campaigns.reduce((sum, c) => sum + (Number(c.spent) || 0), 0);
+        const remainingBudget = Math.max(0, totalAllocated - totalSpent);
+        const activeCount = campaigns.filter(c => c.status === 'Running').length;
+
+        main.innerHTML = `<div class="page-view print-report-area">
+          <div class="row between wrap" style="margin-bottom:24px;gap:16px;">
+            <div>
+              <span class="eyebrow" style="color:var(--gold);font-size:10px;font-weight:700;letter-spacing:1.5px;">EXECUTIVE AUDIT &amp; FINANCIAL REPORT</span>
+              <h1 style="font-size:28px;font-weight:800;margin:6px 0;">Agency Financial Performance.</h1>
+              <p class="muted" style="font-size:13px;">Consolidated ledger of active allocations, media spend velocity, and campaign ROI.</p>
+            </div>
+            <div class="row" style="gap:10px;">
+              <button class="btn" data-action="export-report-csv" title="Download CSV ledger" style="display:inline-flex;align-items:center;gap:7px;">
+                ${icon('upload')} <span>Export CSV</span>
+              </button>
+              <button class="btn primary" data-action="print-report" title="Print executive briefing" style="display:inline-flex;align-items:center;gap:7px;">
+                ${icon('folder')} <span>Print / PDF</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="grid-cards" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(210px, 1fr));gap:16px;margin-bottom:28px;">
+            <div class="panel" style="padding:18px 20px;border-radius:14px;background:rgba(255,255,255,0.02);border:1px solid var(--line);">
+              <span style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Total Allocated Budget</span>
+              <div style="font-size:24px;font-weight:800;color:#fff;margin:8px 0 4px;font-family:monospace;">${totalAllocated.toLocaleString()}</div>
+              <small style="color:var(--gold);">Across all ${campaigns.length} campaigns</small>
+            </div>
+            <div class="panel" style="padding:18px 20px;border-radius:14px;background:rgba(255,255,255,0.02);border:1px solid var(--line);">
+              <span style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Total Spent to Date</span>
+              <div style="font-size:24px;font-weight:800;color:#ff9a32;margin:8px 0 4px;font-family:monospace;">${totalSpent.toLocaleString()}</div>
+              <small style="color:#24b47e;">${Math.round((totalSpent / (totalAllocated || 1)) * 100)}% capital deployed</small>
+            </div>
+            <div class="panel" style="padding:18px 20px;border-radius:14px;background:rgba(255,255,255,0.02);border:1px solid var(--line);">
+              <span style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Remaining Budget</span>
+              <div style="font-size:24px;font-weight:800;color:#24b47e;margin:8px 0 4px;font-family:monospace;">${remainingBudget.toLocaleString()}</div>
+              <small style="color:var(--muted);">Available balance</small>
+            </div>
+            <div class="panel" style="padding:18px 20px;border-radius:14px;background:rgba(255,255,255,0.02);border:1px solid var(--line);">
+              <span style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Active Campaigns</span>
+              <div style="font-size:24px;font-weight:800;color:#60a5fa;margin:8px 0 4px;">${activeCount} Running</div>
+              <small style="color:var(--muted);">In flight across channels</small>
+            </div>
+          </div>
+
+          <div class="panel" style="padding:22px;border-radius:16px;background:rgba(255,255,255,0.02);border:1px solid var(--line);overflow-x:auto;">
+            <h3 style="font-size:16px;font-weight:700;margin-bottom:14px;">Campaign Audit Ledger</h3>
+            <table class="report-table" style="width:100%;border-collapse:collapse;font-size:12.5px;text-align:left;">
+              <thead>
+                <tr style="border-bottom:1px solid var(--line);color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:0.5px;">
+                  <th style="padding:10px 12px;">Campaign</th>
+                  <th style="padding:10px 12px;">Client</th>
+                  <th style="padding:10px 12px;">Status</th>
+                  <th style="padding:10px 12px;">Timeline</th>
+                  <th style="padding:10px 12px;text-align:right;">Daily Cap</th>
+                  <th style="padding:10px 12px;text-align:right;">Total Budget</th>
+                  <th style="padding:10px 12px;text-align:right;">Spent</th>
+                  <th style="padding:10px 12px;text-align:right;">Remaining</th>
+                  <th style="padding:10px 12px;text-align:center;">Burn Rate</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${campaigns.map(c => {
+                  const b = Number(c.budget) || 100;
+                  const sp = Number(c.spent) || 0;
+                  const rem = Math.max(0, b - sp);
+                  const burnPct = Math.min(100, Math.round((sp / b) * 100));
+                  return `<tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+                    <td style="padding:12px;font-weight:700;color:#fff;">${esc(c.title)}</td>
+                    <td style="padding:12px;color:var(--muted);">${esc(clientName(c.clientId))}</td>
+                    <td style="padding:12px;">${badge(c.status)}</td>
+                    <td style="padding:12px;font-size:11px;color:var(--muted);">${c.startDate} to ${c.endDate}</td>
+                    <td style="padding:12px;text-align:right;font-family:monospace;">${(Number(c.dailyBudget) || 0).toLocaleString()}</td>
+                    <td style="padding:12px;text-align:right;font-family:monospace;font-weight:600;color:#fff;">${b.toLocaleString()}</td>
+                    <td style="padding:12px;text-align:right;font-family:monospace;color:#ff9a32;">${sp.toLocaleString()}</td>
+                    <td style="padding:12px;text-align:right;font-family:monospace;color:#24b47e;">${rem.toLocaleString()}</td>
+                    <td style="padding:12px;text-align:center;">
+                      <span style="font-size:11px;font-family:monospace;padding:2px 8px;border-radius:10px;background:rgba(255,154,50,0.12);color:var(--gold);font-weight:700;">${burnPct}%</span>
+                    </td>
+                  </tr>`;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>`;
+      }
+
+      function exportReportCSV() {
+        const campaigns = state.campaigns || [];
+        const header = ['Campaign Name', 'Client', 'Status', 'Start Date', 'End Date', 'Daily Budget ($)', 'Total Budget ($)', 'Spent ($)', 'Remaining ($)', 'Burn Rate'];
+        const rows = campaigns.map(c => {
+          const b = Number(c.budget) || 0;
+          const sp = Number(c.spent) || 0;
+          const rem = Math.max(0, b - sp);
+          const burn = Math.round((sp / (b || 1)) * 100) + '%';
+          return [
+            `"${(c.title || '').replace(/"/g, '""')}"`,
+            `"${clientName(c.clientId).replace(/"/g, '""')}"`,
+            c.status,
+            c.startDate,
+            c.endDate,
+            c.dailyBudget || 0,
+            b,
+            sp,
+            rem,
+            burn
+          ].join(',');
+        });
+        const csvContent = [header.join(','), ...rows].join('\r\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `creatoros_agency_report_${SAMPLE_MONTH}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        toast('Exported creatoros_agency_report_' + SAMPLE_MONTH + '.csv');
       }
 
       async function submitForm(event) {
@@ -3405,16 +3872,53 @@ if(typeof location !== "undefined" && location.protocol.indexOf("http") === 0){
             ui.popup = '';
             renderHeader();
             if (id === 'advertiser') {
-              toast('Already in Advertiser & Agency workspace');
+              toast('Already in Advertiser & Agency workspace', 'info');
               break;
             }
+            localStorage.setItem('creatoros_persona', id);
+            localStorage.setItem('onboardingCompleted', 'true');
             if (window.CreatorAuth) {
               window.CreatorAuth.switchPersona(id);
             } else {
               const routes = { content_creator: 'creator.html', product_builder: 'Product%20based.html', freelancer: 'Freelancer.html', advertiser: 'advertisor.html' };
-              localStorage.setItem('creatoros_persona', id);
               window.location.href = routes[id] || 'persona.html';
             }
+            break;
+          }
+          case 'new-audience': audienceForm(); break;
+          case 'edit-audience': audienceForm(id); break;
+          case 'delete-audience': confirmDelete('audience', id); break;
+          case 'export-report-csv': exportReportCSV(); break;
+          case 'print-report': window.print(); break;
+          case 'push-to-creatives': {
+            if (!ui.studioOutput) {
+              toast('Generate some copy or concepts first.', 'info');
+              break;
+            }
+            const categoryMap = {
+              'Campaign Ideas': 'Brand Assets',
+              'Ad Copy': 'Ad Copies',
+              'Social Captions': 'Reels',
+              'Video Concepts': 'Videos',
+              'Creative Briefs': 'Brand Assets'
+            };
+            const newCr = {
+              id: uid(),
+              title: (ui.studioDraft.idea || 'Creative Studio Concept').slice(0, 45),
+              category: categoryMap[ui.studioTab] || 'Ad Copies',
+              campaignId: state.campaigns[0]?.id || '',
+              art: 'tech',
+              fileName: 'studio_export_' + Date.now().toString(36) + '.txt',
+              fileType: 'text/plain',
+              fileSize: ui.studioOutput.length,
+              sample: true,
+              notes: ui.studioOutput,
+              createdAt: new Date().toISOString().split('T')[0]
+            };
+            state.creatives.unshift(newCr);
+            persist();
+            render();
+            toast('Pushed directly into Creatives repository!', 'success');
             break;
           }
           case 'retake-questionnaire': window.location.href = 'persona.html?switch=true&retake=true'; break;

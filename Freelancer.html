@@ -505,29 +505,36 @@
             }
 
             .chip-btn {
-                display: flex;
+                display: inline-flex;
                 align-items: center;
-                gap: 9px;
-                padding: 9px 14px;
-                border-radius: 13px;
-                background: rgba(255,255,255,.75);
-                border: 1px solid var(--line);
-                font-size: 13px;
+                gap: 8px;
+                padding: 7px 14px;
+                border-radius: 999px;
+                background: rgba(255,255,255,.8);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border: 1px solid rgba(112,69,245,.2);
+                font-size: 12.5px;
                 font-weight: 600;
-                transition: .25s
+                color: var(--text);
+                box-shadow: 0 2px 10px rgba(0,0,0,.06);
+                cursor: pointer;
+                transition: all .2s ease;
             }
 
             .chip-btn:hover {
                 border-color: rgba(112,69,245,.4);
-                transform: translateY(-1px)
+                box-shadow: 0 4px 14px rgba(112,69,245,.15);
+                transform: translateY(-1px);
             }
 
             .ws-dot {
-                width: 8px;
-                height: 8px;
+                width: 7px;
+                height: 7px;
                 border-radius: 50%;
-                background: linear-gradient(135deg,var(--primary),var(--violet));
-                box-shadow: 0 0 0 3px rgba(112,69,245,.15)
+                background: #24b47e;
+                box-shadow: 0 0 0 3px rgba(36, 180, 126, 0.25);
+                flex-shrink: 0;
             }
 
             .bell-btn {
@@ -3647,9 +3654,9 @@
                     </button>
                 </nav>
                 <button class="side-profile" data-action="side-profile" data-testid="sidebar-profile">
-                    <div class="avatar" id="sideAvatar">SP</div>
+                    <div class="avatar" id="sideAvatar">FL</div>
                     <div>
-                        <div class="sp-name" id="sideName">Shiva Prasad</div>
+                        <div class="sp-name" id="sideName">Freelancer Lead</div>
                         <div class="sp-role" id="sideRole">Freelancer</div>
                     </div>
                     <svg class="ic sp-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -3679,7 +3686,7 @@
                     <div class="top-right">
                         <button class="chip-btn" data-action="workspace-menu" data-testid="workspace-selector">
                             <span class="ws-dot"></span>
-                            <span class="ws-label" id="wsName">Freelancer Workspace</span>
+                            <span class="ws-label" id="wsName">Freelancer</span>
                             <svg class="ic" style="width:14px;height:14px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="6 9 12 15 18 9"/>
                             </svg>
@@ -3708,7 +3715,7 @@
                             <div class="hero-body">
                                 <span class="hero-greet">
                                     <span class="dot"></span>
-                                    <span id="heroGreet">Good morning, Shiva Prasad 👋</span>
+                                    <span id="heroGreet">Good morning, Freelancer</span>
                                 </span>
                                 <h1>
                                     Your freelance business.<br>
@@ -4471,11 +4478,11 @@
                     return {
                         v: 1,
                         profile: {
-                            name: 'Shiva Prasad',
+                            name: 'Freelancer Lead',
                             role: 'Freelancer',
-                            title: 'Full-Stack Developer & Security Researcher',
-                            email: 'shiva@creatoros.ai',
-                            initials: 'SP'
+                            title: 'Full-Stack Developer & Technical Consultant',
+                            email: 'freelancer@creatoros.ai',
+                            initials: 'FL'
                         },
                         prefs: {
                             motion: true,
@@ -4509,8 +4516,8 @@
                         }],
                         clients: [{
                             id: uid(),
-                            name: 'EduID Team',
-                            company: 'EduID',
+                            name: 'Enterprise Core Team',
+                            company: 'Enterprise Core',
                             email: 'hello@eduid.io',
                             phone: '+91 98450 11223',
                             status: 'Active',
@@ -4519,8 +4526,8 @@
                             notes: 'Ed-tech identity platform. Prefers Slack updates every Friday.'
                         }, {
                             id: uid(),
-                            name: 'SSMRV',
-                            company: 'SSMRV College',
+                            name: 'Alpha Systems',
+                            company: 'Alpha Systems College',
                             email: 'admin@ssmrv.edu.in',
                             phone: '+91 80 2245 7788',
                             status: 'Active',
@@ -4570,19 +4577,19 @@
                         }],
                         projects: [{
                             id: uid(),
-                            name: 'EduID — Dashboard Redesign',
+                            name: 'Enterprise Core — Dashboard Redesign',
                             clientId: null,
-                            client: 'EduID Team',
+                            client: 'Enterprise Core Team',
                             status: 'In Progress',
                             progress: 65,
                             deadline: D(16),
                             budget: 85000,
-                            desc: 'Full redesign of the EduID analytics dashboard — information architecture, dark-mode UI kit, and a React implementation with the in-house team.'
+                            desc: 'Full redesign of the Enterprise Core analytics dashboard — information architecture, dark-mode UI kit, and a React implementation with the in-house team.'
                         }, {
                             id: uid(),
                             name: 'Security Audit — College Portal',
                             clientId: null,
-                            client: 'SSMRV',
+                            client: 'Alpha Systems',
                             status: 'In Review',
                             progress: 80,
                             deadline: D(9),
@@ -4631,11 +4638,11 @@
                         }],
                         proposals: [{
                             id: uid(),
-                            title: 'EduID — Analytics Module',
+                            title: 'Enterprise Core — Analytics Module',
                             clientId: null,
-                            client: 'EduID Team',
+                            client: 'Enterprise Core Team',
                             service: 'Web Development',
-                            desc: 'Extend the EduID dashboard with a self-serve analytics module — cohort views, export and scheduling.',
+                            desc: 'Extend the Enterprise Core dashboard with a self-serve analytics module — cohort views, export and scheduling.',
                             scope: 'Discovery workshop and data audit\nAnalytics module UX + UI in Figma\nReact implementation with API wiring\nQA, documentation and handover',
                             deliverables: 'Analytics module (web)\nFigma source files\nTechnical documentation\n2 weeks of post-launch support',
                             timeline: '4–5 weeks',
@@ -4702,7 +4709,7 @@
                             id: uid(),
                             number: 'INV-2026-003',
                             clientId: null,
-                            client: 'EduID Team',
+                            client: 'Enterprise Core Team',
                             desc: 'UX research sprint',
                             qty: 1,
                             rate: 47000,
@@ -4738,7 +4745,7 @@
                             id: uid(),
                             number: 'INV-2026-009',
                             clientId: null,
-                            client: 'SSMRV',
+                            client: 'Alpha Systems',
                             desc: 'Security audit — phase 1',
                             qty: 1,
                             rate: 20000,
@@ -4750,7 +4757,7 @@
                             id: uid(),
                             number: 'INV-2026-011',
                             clientId: null,
-                            client: 'EduID Team',
+                            client: 'Enterprise Core Team',
                             desc: 'Dashboard redesign — milestone 2',
                             qty: 1,
                             rate: 24500,
@@ -4798,7 +4805,7 @@
                             id: uid(),
                             number: 'INV-2026-017',
                             clientId: null,
-                            client: 'SSMRV',
+                            client: 'Alpha Systems',
                             desc: 'Security audit — phase 2',
                             qty: 1,
                             rate: 40000,
@@ -4810,7 +4817,7 @@
                             id: uid(),
                             number: 'INV-2026-018',
                             clientId: null,
-                            client: 'EduID Team',
+                            client: 'Enterprise Core Team',
                             desc: 'Dashboard redesign — milestone 3',
                             qty: 1,
                             rate: 65000,
@@ -4833,11 +4840,11 @@
                         }],
                         events: [{
                             id: uid(),
-                            title: 'Client call — EduID walkthrough',
+                            title: 'Client call — Enterprise Core walkthrough',
                             date: todayISO(),
                             time: '11:00',
                             type: 'Meeting',
-                            desc: 'Walk the EduID team through the redesigned dashboard milestone 3.'
+                            desc: 'Walk the Enterprise Core team through the redesigned dashboard milestone 3.'
                         }, {
                             id: uid(),
                             title: 'Send invoice reminders',
@@ -4865,7 +4872,7 @@
                             date: D(7),
                             time: '12:00',
                             type: 'Deadline',
-                            desc: 'Deliver the SSMRV remediation report.'
+                            desc: 'Deliver the Alpha Systems remediation report.'
                         }, {
                             id: uid(),
                             title: 'Kaarya MVP scope review',
@@ -4877,7 +4884,7 @@
                         notifications: [{
                             id: uid(),
                             title: 'Invoice paid (demo)',
-                            body: 'INV-2026-018 from EduID Team — ' + inr(76700) + ' marked as paid in your demo records.',
+                            body: 'INV-2026-018 from Enterprise Core Team — ' + inr(76700) + ' marked as paid in your demo records.',
                             icon: 'card',
                             ts: D(0),
                             read: false
@@ -4918,7 +4925,7 @@
                         }, {
                             id: uid(),
                             icon: 'file',
-                            text: 'Sent proposal “EduID — Analytics Module”',
+                            text: 'Sent proposal “Enterprise Core — Analytics Module”',
                             at: D(6)
                         }, {
                             id: uid(),
@@ -5180,9 +5187,12 @@
                     if (VIEWS.indexOf(v) < 0)
                         v = 'freelancer';
                     current = v;
-                    $$('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.view === v));
-                    $$('.view').forEach(s => s.classList.toggle('active', s.id === 'view-' + v));
+                    const navEl = document.getElementById('navList') || document.querySelector('.side-nav');
+                    const prevScroll = navEl ? navEl.scrollTop : 0;
+                    $('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.view === v));
+                    $('.view').forEach(s => s.classList.toggle('active', s.id === 'view-' + v));
                     document.body.classList.remove('side-open');
+                    if (navEl) navEl.scrollTop = prevScroll;
                     window.scrollTo({
                         top: 0,
                         behavior: state.prefs.motion ? 'smooth' : 'auto'
@@ -5253,7 +5263,7 @@
                 }
                 function renderHero() {
                     const h = new Date().getHours();
-                    $('#heroGreet').textContent = (h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening') + ', ' + state.profile.name + ' 👋';
+                    $('#heroGreet').textContent = (h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening') + ', ' + state.profile.name;
                     const mp = monthPaid(0);
                     $('#fEarnings').textContent = inr(mp);
                     $('#fProjects').textContent = activeProjects().length;
@@ -5462,7 +5472,7 @@
                 /* ================= HOME ================= */
                 function renderHome() {
                     const h = new Date().getHours();
-                    $('#homeHello').textContent = 'Welcome back, ' + (state.profile.name.split(' ')[0]) + ' 👋';
+                    $('#homeHello').textContent = 'Welcome back, ' + (state.profile.name.split(' ')[0]);
                     const paid = state.invoices.filter(i => i.status === 'Paid').reduce( (s, i) => s + invTotal(i), 0);
                     const pend = state.invoices.filter(i => i.status !== 'Paid').reduce( (s, i) => s + invTotal(i), 0);
                     $('#homeStats').innerHTML = '<div class="scard"><div class="sc-ico" style="background:linear-gradient(135deg,#7045F5,#A56BFF)">' + ic('folder') + '</div><b>' + activeProjects().length + '</b><small>Active projects</small></div>' + '<div class="scard"><div class="sc-ico" style="background:linear-gradient(135deg,#3E6DF0,#7EA1FF)">' + ic('users') + '</div><b>' + state.clients.length + '</b><small>Clients</small></div>' + '<div class="scard"><div class="sc-ico" style="background:linear-gradient(135deg,#1FA98B,#3FD0AE)">' + ic('rupee') + '</div><b>' + inr(paid) + '</b><small>Lifetime paid (sample)</small></div>' + '<div class="scard"><div class="sc-ico" style="background:linear-gradient(135deg,#E09A28,#EBAE4A)">' + ic('clock') + '</div><b>' + inr(pend) + '</b><small>Pending payments</small></div>';
@@ -5708,7 +5718,7 @@
                         title: p ? 'Edit proposal' : 'Proposal builder',
                         sub: 'Craft the deal — preview before you send.',
                         wide: true,
-                        body: '<form id="entityForm" novalidate><div class="form-grid">' + '<div class="field full"><label>Proposal title <b>*</b></label><input name="title" value="' + esc(p ? p.title : '') + '" placeholder="e.g. EduID — Analytics Module" data-testid="proposal-title-input"><span class="ferr"></span></div>' + '<div class="field"><label>Client</label><select name="client">' + (cOpts || '<option>No clients yet</option>') + '</select></div>' + '<div class="field"><label>Service</label><select name="service">' + (sOpts || '<option>Custom work</option>') + '</select></div>' + '<div class="field full"><label>Project description</label><textarea name="desc">' + esc(p ? p.desc || '' : '') + '</textarea></div>' + '<div class="field"><label>Scope of work <small style="color:var(--muted)">(one per line)</small></label><textarea name="scope">' + esc(p ? p.scope || '' : '') + '</textarea></div>' + '<div class="field"><label>Deliverables <small style="color:var(--muted)">(one per line)</small></label><textarea name="deliverables">' + esc(p ? p.deliverables || '' : '') + '</textarea></div>' + '<div class="field"><label>Timeline</label><input name="timeline" value="' + esc(p ? p.timeline || '4 weeks' : '4 weeks') + '" placeholder="e.g. 4–5 weeks"></div>' + '<div class="field"><label>Pricing (₹) <b>*</b></label><input name="price" type="number" min="0" value="' + (p ? p.price : 50000) + '" data-testid="proposal-price-input"><span class="ferr"></span></div>' + '<div class="field full"><label>Terms &amp; conditions</label><textarea name="terms">' + esc(p ? p.terms || '' : '') + '</textarea></div></div></form>',
+                        body: '<form id="entityForm" novalidate><div class="form-grid">' + '<div class="field full"><label>Proposal title <b>*</b></label><input name="title" value="' + esc(p ? p.title : '') + '" placeholder="e.g. Enterprise Core — Analytics Module" data-testid="proposal-title-input"><span class="ferr"></span></div>' + '<div class="field"><label>Client</label><select name="client">' + (cOpts || '<option>No clients yet</option>') + '</select></div>' + '<div class="field"><label>Service</label><select name="service">' + (sOpts || '<option>Custom work</option>') + '</select></div>' + '<div class="field full"><label>Project description</label><textarea name="desc">' + esc(p ? p.desc || '' : '') + '</textarea></div>' + '<div class="field"><label>Scope of work <small style="color:var(--muted)">(one per line)</small></label><textarea name="scope">' + esc(p ? p.scope || '' : '') + '</textarea></div>' + '<div class="field"><label>Deliverables <small style="color:var(--muted)">(one per line)</small></label><textarea name="deliverables">' + esc(p ? p.deliverables || '' : '') + '</textarea></div>' + '<div class="field"><label>Timeline</label><input name="timeline" value="' + esc(p ? p.timeline || '4 weeks' : '4 weeks') + '" placeholder="e.g. 4–5 weeks"></div>' + '<div class="field"><label>Pricing (₹) <b>*</b></label><input name="price" type="number" min="0" value="' + (p ? p.price : 50000) + '" data-testid="proposal-price-input"><span class="ferr"></span></div>' + '<div class="field full"><label>Terms &amp; conditions</label><textarea name="terms">' + esc(p ? p.terms || '' : '') + '</textarea></div></div></form>',
                         foot: '<button class="btn btn-ghost" data-action="close-modal">Cancel</button><div class="grow"></div><button class="btn btn-dark" type="submit" form="entityForm" data-testid="save-proposal-draft-btn">Save draft</button><button class="btn btn-primary" type="submit" form="entityForm" data-action-save="1" data-testid="save-proposal-btn">Save &amp; close</button>',
                         submit: function(f) {
                             const title = f.title.value.trim();
@@ -6579,11 +6589,11 @@
                 function workspaceMenu() {
                     const personas = [
                         { key: 'content_creator', title: 'Content Creator', desc: 'Studio · Bucket · Calendar · Brand Voice', col: '#7045F5' },
-                        { key: 'product_builder', title: 'Product Creator (Beluga)', desc: 'Leads · Discovery · Market Intelligence', col: '#3B82F6' },
+                        { key: 'product_builder', title: 'Product Creator (Nimbus Shield)', desc: 'Leads · Discovery · Market Intelligence', col: '#3B82F6' },
                         { key: 'freelancer', title: 'Freelancer', desc: 'Clients · Invoices · Deliverables (Active)', col: '#25B982', active: true },
                         { key: 'advertiser', title: 'Advertiser & Agency', desc: 'Campaigns · Creatives · Spend & ROI', col: '#FF9A32' }
                     ];
-                    popover($('[data-action="workspace-menu"]'), '<div class="pop-head">Switch Workspace <span class="tag" style="background:rgba(37,185,130,0.15);color:#25B982;font-size:10px">1-Click Jump</span></div>' + personas.map(p => '<button class="pop-item" data-action="switch-persona-target" data-id="' + p.key + '" data-testid="workspace-option" style="padding:10px 14px;gap:12px"><span class="ws-dot" style="background:' + p.col + ';width:9px;height:9px"></span><span style="flex:1;text-align:left"><b style="display:block;font-size:13px;color:' + (p.active ? 'var(--primary)' : 'var(--text)') + '">' + p.title + '</b><small style="color:var(--muted);font-size:11px">' + p.desc + '</small></span>' + (p.active ? '<span style="color:#25B982;font-size:12px;font-weight:700">Active</span>' : '<span style="color:var(--muted);font-size:11px">Jump →</span>') + '</button>').join('') + '<div class="pop-sep"></div><button class="pop-item" data-action="retake-questionnaire" data-testid="switch-persona-btn" style="padding:8px 14px;color:var(--muted);font-size:11.5px"><span class="ws-dot" style="background:#a56bff"></span><span>⚙️ Reconfigure via questionnaire</span></button>');
+                    popover($('[data-action="workspace-menu"]'), '<div class="pop-head">Switch Workspace <span class="tag" style="background:rgba(37,185,130,0.15);color:#25B982;font-size:10px">1-Click Jump</span></div>' + personas.map(p => '<button class="pop-item" data-action="switch-persona-target" data-id="' + p.key + '" data-testid="workspace-option" style="padding:10px 14px;gap:12px"><span class="ws-dot" style="background:' + p.col + ';width:9px;height:9px"></span><span style="flex:1;text-align:left"><b style="display:block;font-size:13px;color:' + (p.active ? 'var(--primary)' : 'var(--text)') + '">' + p.title + '</b><small style="color:var(--muted);font-size:11px">' + p.desc + '</small></span>' + (p.active ? '<span style="color:#25B982;font-size:12px;font-weight:700">Active</span>' : '<span style="color:var(--muted);font-size:11px">Jump →</span>') + '</button>').join('') + '<div class="pop-sep"></div><button class="pop-item" data-action="retake-questionnaire" data-testid="switch-persona-btn" style="padding:8px 14px;color:var(--muted);font-size:11.5px"><span class="ws-dot" style="background:#a56bff"></span><span>Reconfigure via questionnaire</span></button>');
                 }
                 function headerProfileMenu() {
                     popover($('#topAvatar'), '<div class="pop-head">' + esc(state.profile.name) + '<span class="tag">' + esc(state.profile.role) + '</span></div>' + '<button class="pop-item" data-action="nav" data-id="settings" data-testid="menu-profile-settings">' + ic('user') + 'Profile &amp; settings</button>' + '<button class="pop-item" data-action="toggle-motion-menu">' + ic('sparkles') + 'Toggle animations</button>' + '<button class="pop-item" data-action="switch-persona" data-testid="menu-profile-switch">' + ic('sparkles') + 'Switch Persona</button>' + '<button class="pop-item" data-action="logout" data-testid="menu-profile-logout">' + ic('x') + 'Log out</button>' + '<button class="pop-item" data-action="reset-demo">' + ic('refresh') + 'Reset demo data</button>' + '<div class="pop-sep"></div><button class="pop-item" data-action="about">' + ic('info') + 'About CreatorOS</button>');
@@ -6769,7 +6779,7 @@
                         aiGreeting();
                 }
                 function aiGreeting() {
-                    aiAdd('bot', 'Hi ' + esc(state.profile.name.split(' ')[0]) + ' — I\'m <b>Nova</b>, your workspace assistant. I can draft proposals, chase payments and plan projects using your actual workspace data. Try a suggestion below 👇');
+                    aiAdd('bot', 'Hi ' + esc(state.profile.name.split(' ')[0]) + ' — I\'m <b>Nova</b>, your workspace assistant. I can draft proposals, chase payments and plan projects using your actual workspace data. Try a suggestion below');
                     $('#aiChips').innerHTML = AI_PROMPTS.map(p => '<button class="ai-chip" data-action="ai-chip" data-id="' + esc(p) + '" data-testid="ai-chip">' + esc(p) + '</button>').join('');
                 }
                 function aiAdd(who, html) {
@@ -6803,7 +6813,7 @@
                     if (/proposal|website project/.test(ql))
                         return 'Here\'s a draft outline for <b>' + esc(c0 ? c0.name : 'your client') + '</b>:<ul><li><b>Understanding</b> — their goal in one sentence</li><li><b>Approach</b> — discovery → design → build → launch</li><li><b>Investment</b> — ' + inr(state.services[0] ? state.services[0].price : 25000) + '+ based on your Web Development service</li><li><b>Timeline</b> — 4–6 weeks, milestone billing</li></ul>' + act('Open proposal builder', 'create-proposal') + ' ' + act('Use Proposal template', 'tpl-use-from-ai', 't1');
                     if (/reminder|payment|overdue/.test(ql))
-                        return p0 ? 'Here\'s a professional reminder for <b>' + esc(p0.number) + '</b> (' + inr(invTotal(p0)) + ', due ' + fmtD(p0.due) + '):<br><br><i>“Hi ' + esc(p0.client) + ', a friendly nudge — invoice ' + esc(p0.number) + ' for ' + inr(invTotal(p0)) + ' was due ' + fmtD(p0.due) + '. Could you take a look? If it\'s already scheduled, thank you — just reply with the date.”</i><br><br>' + act('Open invoices', 'nav', 'invoices') + ' ' + act('Use Payment Reminder template', 'tpl-use-from-ai', 't7') : 'You have no pending invoices — everything is paid. 🎉' + act('Create an invoice', 'create-invoice');
+                        return p0 ? 'Here\'s a professional reminder for <b>' + esc(p0.number) + '</b> (' + inr(invTotal(p0)) + ', due ' + fmtD(p0.due) + '):<br><br><i>“Hi ' + esc(p0.client) + ', a friendly nudge — invoice ' + esc(p0.number) + ' for ' + inr(invTotal(p0)) + ' was due ' + fmtD(p0.due) + '. Could you take a look? If it\'s already scheduled, thank you — just reply with the date.”</i><br><br>' + act('Open invoices', 'nav', 'invoices') + ' ' + act('Use Payment Reminder template', 'tpl-use-from-ai', 't7') : 'You have no pending invoices — everything is paid.' + act('Create an invoice', 'create-invoice');
                     if (/pric|rate|charge|cost/.test(ql))
                         return 'Based on your services and this market:<ul><li><b>React / Next.js app</b> — ' + inr(state.services[0] ? state.services[0].price : 25000) + '+ as a starting point; multiply by scope (screens × complexity)</li><li><b>UI/UX design</b> — ' + inr(state.services[1] ? state.services[1].price : 15000) + '+ per product surface</li><li><b>Audit work</b> — ' + inr(state.services[2] ? state.services[2].price : 20000) + '+ fixed-fee performs best</li></ul>Tip: quote options (Essential / Complete) — clients anchor on outcomes, not hours.';
                     if (/meet|call/.test(ql))
@@ -7309,6 +7319,8 @@
                             toast('Already in Freelancer Workspace', 'info');
                             return;
                         }
+                        localStorage.setItem('creatoros_persona', id);
+                        localStorage.setItem('onboardingCompleted', 'true');
                         if (window.CreatorAuth) {
                             window.CreatorAuth.switchPersona(id);
                         } else {
@@ -7318,7 +7330,6 @@
                                 freelancer: 'Freelancer.html',
                                 advertiser: 'advertisor.html'
                             };
-                            localStorage.setItem('creatoros_persona', id);
                             window.location.href = routes[id] || 'persona.html';
                         }
                     },
