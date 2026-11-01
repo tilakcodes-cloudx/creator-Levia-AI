@@ -541,6 +541,225 @@
       .badge { border: 1px solid #ccc !important; color: #333 !important; background: #f5f5f5 !important; }
     }
   
+  
+    /* ============ UIVERSE.IO WIFI LOADER BY MOBINKAKEI ============ */
+    #wifi-loader {
+      --background: #62abff;
+      --front-color: var(--accent, #d46615);
+      --back-color: rgba(212, 102, 21, 0.16);
+      --text-color: var(--text, #17152D);
+      width: 64px;
+      height: 64px;
+      border-radius: 50px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #wifi-loader svg {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #wifi-loader svg circle {
+      position: absolute;
+      fill: none;
+      stroke-width: 6px;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transform: rotate(-100deg);
+      transform-origin: center;
+    }
+
+    #wifi-loader svg circle.back {
+      stroke: var(--back-color);
+    }
+
+    #wifi-loader svg circle.front {
+      stroke: var(--front-color);
+    }
+
+    #wifi-loader svg.circle-outer {
+      height: 86px;
+      width: 86px;
+    }
+
+    #wifi-loader svg.circle-outer circle {
+      stroke-dasharray: 62.75 188.25;
+    }
+
+    #wifi-loader svg.circle-outer circle.back {
+      animation: circle-outer135 1.8s ease infinite 0.3s;
+    }
+
+    #wifi-loader svg.circle-outer circle.front {
+      animation: circle-outer135 1.8s ease infinite 0.15s;
+    }
+
+    #wifi-loader svg.circle-middle {
+      height: 60px;
+      width: 60px;
+    }
+
+    #wifi-loader svg.circle-middle circle {
+      stroke-dasharray: 42.5 127.5;
+    }
+
+    #wifi-loader svg.circle-middle circle.back {
+      animation: circle-middle6123 1.8s ease infinite 0.25s;
+    }
+
+    #wifi-loader svg.circle-middle circle.front {
+      animation: circle-middle6123 1.8s ease infinite 0.1s;
+    }
+
+    #wifi-loader svg.circle-inner {
+      height: 34px;
+      width: 34px;
+    }
+
+    #wifi-loader svg.circle-inner circle {
+      stroke-dasharray: 22 66;
+    }
+
+    #wifi-loader svg.circle-inner circle.back {
+      animation: circle-inner162 1.8s ease infinite 0.2s;
+    }
+
+    #wifi-loader svg.circle-inner circle.front {
+      animation: circle-inner162 1.8s ease infinite 0.05s;
+    }
+
+    #wifi-loader .text {
+      position: absolute;
+      bottom: -46px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      font-family: inherit;
+      color: var(--text-color);
+      white-space: nowrap;
+    }
+
+    #wifi-loader .text::before {
+      content: attr(data-text);
+    }
+
+    @keyframes circle-outer135 {
+      0% { stroke-dashoffset: 251; }
+      50% { stroke-dashoffset: 62.75; }
+      100% { stroke-dashoffset: -188.25; }
+    }
+
+    @keyframes circle-middle6123 {
+      0% { stroke-dashoffset: 170; }
+      50% { stroke-dashoffset: 42.5; }
+      100% { stroke-dashoffset: -127.5; }
+    }
+
+    @keyframes circle-inner162 {
+      0% { stroke-dashoffset: 88; }
+      50% { stroke-dashoffset: 22; }
+      100% { stroke-dashoffset: -66; }
+    }
+
+    /* ============ SKELETON SCREEN & TOP PROGRESS BAR ============ */
+    .top-loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      z-index: 1000000;
+      pointer-events: none;
+      background: rgba(212,102,21,.06);
+      overflow: hidden;
+      transition: opacity .4s ease;
+    }
+
+    .top-loader.loaded {
+      opacity: 0;
+    }
+
+    .top-loader-bar {
+      width: 40%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, #d46615 35%, #f59e0b 70%, #10b981 100%);
+      border-radius: 99px;
+      animation: topLoaderSlide 1.3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      box-shadow: 0 0 12px rgba(212,102,21,.6);
+    }
+
+    @keyframes topLoaderSlide {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(300%); }
+    }
+
+    .skeleton-screen-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: rgba(248, 246, 242, 0.95);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+      padding: 30px;
+    }
+
+    .skeleton-screen-overlay.loaded {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .skeleton-center-wrap {
+      margin-bottom: 44px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .skeleton-grid-preview {
+      width: 100%;
+      max-width: 1100px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      opacity: 0.65;
+    }
+
+    .skel-row, .skel-card, .skel-panel {
+      border-radius: 16px;
+      background: linear-gradient(100deg, rgba(212,102,21,.05) 30%, rgba(212,102,21,.16) 50%, rgba(212,102,21,.05) 70%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite ease-in-out;
+      border: 1px solid rgba(212,102,21,.08);
+    }
+
+    .skel-cards-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .skel-panels-row {
+      display: flex;
+      gap: 18px;
+    }
+
+    @media (max-width: 860px) {
+      .skel-cards-row { grid-template-columns: repeat(2, 1fr); }
+      .skel-panels-row { flex-direction: column; }
+    }
+
   </style>
   <script>
 if(window.self!==window.top && typeof location !== "undefined" && location.protocol.indexOf("http") === 0){
@@ -2380,6 +2599,47 @@ if(typeof location !== "undefined" && location.protocol.indexOf("http") === 0){
   </script>
 </head>
   <body>
+
+    <!-- Top Indeterminate Progress Loader -->
+    <div class="top-loader" id="topLoader">
+      <div class="top-loader-bar"></div>
+    </div>
+
+    <!-- Uiverse.io Wifi Loader & Skeleton Loading Screen -->
+    <div class="skeleton-screen-overlay" id="skeletonScreen">
+      <div class="skeleton-center-wrap">
+        <div id="wifi-loader">
+          <svg class="circle-outer" viewBox="0 0 86 86">
+            <circle class="back" cx="43" cy="43" r="40"></circle>
+            <circle class="front" cx="43" cy="43" r="40"></circle>
+            <circle class="new" cx="43" cy="43" r="40"></circle>
+          </svg>
+          <svg class="circle-middle" viewBox="0 0 60 60">
+            <circle class="back" cx="30" cy="30" r="27"></circle>
+            <circle class="front" cx="30" cy="30" r="27"></circle>
+          </svg>
+          <svg class="circle-inner" viewBox="0 0 34 34">
+            <circle class="back" cx="17" cy="17" r="14"></circle>
+            <circle class="front" cx="17" cy="17" r="14"></circle>
+          </svg>
+          <div class="text" data-text="Loading CreatorOS..."></div>
+        </div>
+      </div>
+      <div class="skeleton-grid-preview">
+        <div class="skel-row" style="height: 110px; border-radius: 20px;"></div>
+        <div class="skel-cards-row">
+          <div class="skel-card" style="height: 125px;"></div>
+          <div class="skel-card" style="height: 125px;"></div>
+          <div class="skel-card" style="height: 125px;"></div>
+          <div class="skel-card" style="height: 125px;"></div>
+        </div>
+        <div class="skel-panels-row">
+          <div class="skel-panel" style="height: 260px; flex: 1.5;"></div>
+          <div class="skel-panel" style="height: 260px; flex: 1;"></div>
+        </div>
+      </div>
+    </div>
+
     <div id="sidebar-root"></div>
     <button class="drawer-backdrop" data-action="close-drawer" aria-label="Close navigation" data-testid="close-navigation-overlay"></button>
     <div class="app">
@@ -4017,6 +4277,16 @@ if(typeof location !== "undefined" && location.protocol.indexOf("http") === 0){
       window.addEventListener('beforeunload', () => previews.forEach(url => URL.revokeObjectURL(url)));
       render();
       persist();
+      setTimeout(() => {
+        const skel = document.getElementById('skeletonScreen');
+        const topL = document.getElementById('topLoader');
+        if (skel) skel.classList.add('loaded');
+        if (topL) topL.classList.add('loaded');
+        setTimeout(() => {
+          if (skel) skel.style.display = 'none';
+          if (topL) topL.style.display = 'none';
+        }, 400);
+      }, 500);
     </script>
   <script>
 if(typeof location !== "undefined" && location.protocol.indexOf("http") === 0){
