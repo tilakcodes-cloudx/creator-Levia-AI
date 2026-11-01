@@ -422,10 +422,18 @@ input:checked + .toggle-slider:before {
   padding: 12px;
 }
 
-/* Persona Selector Dropdown */
+/* Persona Selector Dropdown & Stacking Isolation */
 .topbar {
   position: relative;
-  z-index: 100;
+  z-index: 1000;
+}
+.topbar-actions {
+  position: relative;
+  z-index: 1001;
+}
+.topbar-actions .relative {
+  position: relative;
+  z-index: 1002;
 }
 .persona {
   cursor: pointer;
@@ -437,7 +445,9 @@ input:checked + .toggle-slider:before {
   border-color: rgba(121, 87, 255, 0.4);
   box-shadow: 0 4px 14px rgba(121, 87, 255, 0.14);
 }
-.persona-popover {
+.persona-popover,
+.notification-popover,
+.top-profile-popover {
   position: absolute;
   right: 0;
   top: 45px;
@@ -649,7 +659,7 @@ input:checked + .toggle-slider:before {
       toast: "",
       toastTimer: null,
       user: null,
-      displayName: "Maya Chen",
+      displayName: "Content Creator",
       userEmail: "creator@creatoros.ai",
       bucket: starterBucket,
       events: [],
@@ -669,7 +679,7 @@ input:checked + .toggle-slider:before {
       chat: [
         {
           role: "assistant",
-          text: "Hi Maya — I’m your ORCA creative co-pilot. What are we making today?"
+          text: "Hi Creator — I’m your ORCA creative co-pilot. What are we making today?"
         }
       ],
       chatInput: "",
@@ -1074,7 +1084,7 @@ input:checked + .toggle-slider:before {
     }
 
     function renderTopbar() {
-      const initial = state.displayName ? state.displayName.charAt(0).toUpperCase() : 'M';
+      const initial = state.displayName ? state.displayName.charAt(0).toUpperCase() : 'C';
       return '<header class="topbar">'
         + '<div class="topbar-left">'
           + '<button class="icon-button mobile-menu" aria-label="Open navigation" onclick="window.CreatorApp.setMobileOpen(true)">'
@@ -2985,7 +2995,7 @@ input:checked + .toggle-slider:before {
           const authResult = await window.CreatorAuth.requireAuth({ expectedPersona: 'content_creator', requireOnboarding: true });
           if (!authResult) return;
           state.user = authResult.user;
-          state.displayName = (authResult.profile && authResult.profile.display_name) || (authResult.user.email ? authResult.user.email.split('@')[0] : 'Maya Chen');
+          state.displayName = (authResult.profile && authResult.profile.display_name) || (authResult.user.email ? authResult.user.email.split('@')[0] : 'Content Creator');
           state.userEmail = authResult.user.email || 'creator@creatoros.ai';
         } else {
           state.user = { id: 'test_user', email: 'test@creatoros.ai' };
