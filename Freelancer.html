@@ -596,21 +596,28 @@
 
             .pop {
                 position: absolute;
-                background: rgba(255,255,255,.92);
+                background: rgba(255,255,255,.94);
                 backdrop-filter: blur(24px) saturate(1.5);
+                -webkit-backdrop-filter: blur(24px) saturate(1.5);
                 border: 1px solid rgba(255,255,255,.7);
                 border-radius: 20px;
-                box-shadow: var(--sh-pop);
+                box-shadow: 0 20px 60px rgba(17,21,34,.35);
                 min-width: 240px;
-                max-width: 360px;
-                animation: popIn .28s cubic-bezier(.2,.9,.3,1.1);
-                overflow: hidden
+                max-width: min(360px, calc(100vw - 24px));
+                animation: popIn .24s cubic-bezier(.2,.9,.3,1.1);
+                overflow: hidden;
+                z-index: 999999 !important;
             }
 
-            .pop.dark {
-                background: rgba(17,21,34,.92);
-                border: 1px solid rgba(255,255,255,.1);
-                color: #fff
+            .pop-root {
+                position: fixed;
+                inset: 0;
+                z-index: 999998 !important;
+                display: none;
+            }
+
+            .pop-root.open {
+                display: block;
             }
 
             .pop-head {
@@ -3737,6 +3744,242 @@
                 .skel-panels-row { flex-direction: column; }
             }
 
+        
+            
+            /* ============ TEMPLATE MONETIZATION & DOC STYLES ============ */
+            .tpl-price-tag {
+                position: absolute;
+                top: 9px;
+                right: 9px;
+                font-size: 10px;
+                font-weight: 700;
+                padding: 3px 8px;
+                border-radius: 99px;
+                letter-spacing: .02em;
+                z-index: 2;
+            }
+            .tpl-price-tag.free {
+                background: rgba(37,185,130,.92);
+                color: #fff;
+                box-shadow: 0 2px 8px rgba(37,185,130,.3);
+            }
+            .tpl-price-tag.pro {
+                background: linear-gradient(135deg, #7045F5, #FF5B24);
+                color: #fff;
+                box-shadow: 0 2px 10px rgba(112,69,245,.4);
+            }
+            .tpl-price-tag.unlocked {
+                background: rgba(37,185,130,.95);
+                color: #fff;
+                box-shadow: 0 2px 8px rgba(37,185,130,.3);
+            }
+
+            .doc-meta-badge {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                flex-wrap: wrap;
+                background: rgba(112,69,245,.06);
+                border: 1px solid rgba(112,69,245,.14);
+                padding: 8px 12px;
+                border-radius: 10px;
+            }
+            .doc-seal {
+                font-size: 10px;
+                font-weight: 800;
+                padding: 3px 8px;
+                border-radius: 6px;
+                letter-spacing: .04em;
+                text-transform: uppercase;
+            }
+            .doc-seal.seal-active {
+                background: #25b982;
+                color: #fff;
+            }
+            .doc-seal.seal-locked {
+                background: #ff5b24;
+                color: #fff;
+            }
+            .doc-ref {
+                font-family: var(--font-mono);
+                font-size: 11px;
+                font-weight: 700;
+                color: var(--text);
+            }
+            .doc-license-type {
+                font-size: 11px;
+                color: var(--muted);
+                margin-left: auto;
+            }
+
+            .tpl-pro-lock-card {
+                margin: 20px 0;
+                padding: 16px 20px;
+                border-radius: 14px;
+                background: linear-gradient(135deg, rgba(112,69,245,.08), rgba(255,91,36,.08));
+                border: 1px solid rgba(112,69,245,.2);
+                display: flex;
+                align-items: center;
+                gap: 16px;
+            }
+            .tpl-pro-lock-icon {
+                width: 42px;
+                height: 42px;
+                border-radius: 12px;
+                background: linear-gradient(135deg, #7045F5, #FF5B24);
+                color: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex: none;
+            }
+            .tpl-pro-lock-info {
+                flex: 1;
+            }
+            .tpl-pro-lock-title {
+                font-size: 14px;
+                font-weight: 700;
+                color: var(--text);
+                margin-bottom: 2px;
+            }
+            .tpl-pro-lock-sub {
+                font-size: 12px;
+                color: var(--muted);
+                line-height: 1.4;
+            }
+
+            .checkout-box {
+                display: flex;
+                flex-direction: column;
+                gap: 14px;
+            }
+            .checkout-summary-row {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 14px;
+                background: rgba(112,69,245,.06);
+                border-radius: 12px;
+                border: 1px solid rgba(112,69,245,.12);
+            }
+            .checkout-features {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                padding: 10px 0;
+            }
+            .feat-item {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                font-size: 12.5px;
+                color: var(--text);
+            }
+            .feat-item svg {
+                color: #25b982;
+                width: 16px;
+                height: 16px;
+                flex: none;
+            }
+            .pay-methods {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+            .pay-method {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 10px 14px;
+                border-radius: 10px;
+                border: 1px solid var(--border);
+                background: var(--surface);
+                cursor: pointer;
+                transition: border-color .15s ease, background .15s ease;
+            }
+            .pay-method:hover {
+                border-color: var(--primary);
+            }
+            .pay-method.selected {
+                border-color: var(--primary);
+                background: rgba(112,69,245,.05);
+            }
+
+            /* ============ TEMPLATE PREVIEW COVERS ============ */
+            .tpl-cover {
+                width: 100%;
+                height: 148px;
+                border-radius: 14px;
+                overflow: hidden;
+                position: relative;
+                margin-bottom: 12px;
+                background: #111522;
+                box-shadow: 0 4px 14px rgba(23,21,45,.08);
+            }
+
+            .tpl-cover-img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: top center;
+                transition: transform .4s cubic-bezier(.2,.9,.3,1.1);
+                display: block;
+            }
+
+            .tcard:hover .tpl-cover-img {
+                transform: scale(1.05);
+            }
+
+            .tpl-badge-pill {
+                position: absolute;
+                top: 9px;
+                left: 9px;
+                background: rgba(17,21,34,.78);
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+                border: 1px solid rgba(255,255,255,.2);
+                color: #fff;
+                font-size: 10px;
+                font-weight: 700;
+                padding: 3px 8px;
+                border-radius: 99px;
+                letter-spacing: .02em;
+            }
+
+            .tpl-live-pill {
+                position: absolute;
+                bottom: 9px;
+                right: 9px;
+                background: rgba(37,185,130,.92);
+                backdrop-filter: blur(8px);
+                color: #fff;
+                font-size: 9.5px;
+                font-weight: 700;
+                padding: 2.5px 8px;
+                border-radius: 99px;
+                display: inline-flex;
+                align-items: center;
+                gap: 4px;
+                box-shadow: 0 4px 12px rgba(37,185,130,.35);
+            }
+
+            .tpl-live-pill::before {
+                content: "";
+                width: 4.5px;
+                height: 4.5px;
+                border-radius: 50%;
+                background: #fff;
+            }
+
+            .app-tile svg {
+                display: block;
+                transition: transform .2s ease;
+            }
+
+            .app-card:hover .app-tile svg {
+                transform: scale(1.1);
+            }
+
         </style>
     </head>
     <body>
@@ -3795,7 +4038,7 @@
             <!-- SIDEBAR -->
             <aside class="sidebar" id="sidebar">
                 <div class="side-logo">
-                    <div class="logo-orb">
+                    <div class="logo-orb" data-action="toggle-collapse" style="cursor:pointer" title="Toggle sidebar">
                         <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round">
                             <path d="M20.5 12.2a5.4 5.4 0 1 0 0 7.6"/>
                         </svg>
@@ -3811,21 +4054,21 @@
                 </div>
                 <nav class="side-nav" id="navList">
                     <div class="nav-group">Workspace</div>
-                    <button class="nav-item" data-view="home" data-testid="nav-home">
+                    <button class="nav-item" data-view="home" data-action="nav" data-id="home" data-testid="nav-home">
                         <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
                             <polyline points="9 22 9 12 15 12 15 22"/>
                         </svg>
                         <span class="nav-label">Home</span>
                     </button>
-                    <button class="nav-item" data-view="freelancer" data-testid="nav-freelancer">
+                    <button class="nav-item" data-view="freelancer" data-action="nav" data-id="freelancer" data-testid="nav-freelancer">
                         <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
                             <circle cx="12" cy="7" r="4"/>
                         </svg>
                         <span class="nav-label">Freelancer</span>
                     </button>
-                    <button class="nav-item" data-view="clients" data-testid="nav-clients">
+                    <button class="nav-item" data-view="clients" data-action="nav" data-id="clients" data-testid="nav-clients">
                         <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
                             <circle cx="9" cy="7" r="4"/>
@@ -3835,13 +4078,13 @@
                         <span class="nav-label">Clients</span>
                         <span class="nav-badge" id="navClientCount"></span>
                     </button>
-                    <button class="nav-item" data-view="projects" data-testid="nav-projects">
+                    <button class="nav-item" data-view="projects" data-action="nav" data-id="projects" data-testid="nav-projects">
                         <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
                         </svg>
                         <span class="nav-label">Projects</span>
                     </button>
-                    <button class="nav-item" data-view="proposals" data-testid="nav-proposals">
+                    <button class="nav-item" data-view="proposals" data-action="nav" data-id="proposals" data-testid="nav-proposals">
                         <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                             <polyline points="14 2 14 8 20 8"/>
@@ -3850,14 +4093,14 @@
                         </svg>
                         <span class="nav-label">Proposals</span>
                     </button>
-                    <button class="nav-item" data-view="invoices" data-testid="nav-invoices">
+                    <button class="nav-item" data-view="invoices" data-action="nav" data-id="invoices" data-testid="nav-invoices">
                         <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="1" y="4" width="22" height="16" rx="2"/>
                             <line x1="1" y1="10" x2="23" y2="10"/>
                         </svg>
                         <span class="nav-label">Invoices</span>
                     </button>
-                    <button class="nav-item" data-view="earnings" data-testid="nav-earnings">
+                    <button class="nav-item" data-view="earnings" data-action="nav" data-id="earnings" data-testid="nav-earnings">
                         <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="18" y1="20" x2="18" y2="10"/>
                             <line x1="12" y1="20" x2="12" y2="4"/>
@@ -3865,7 +4108,7 @@
                         </svg>
                         <span class="nav-label">Earnings</span>
                     </button>
-                    <button class="nav-item" data-view="calendar" data-testid="nav-calendar">
+                    <button class="nav-item" data-view="calendar" data-action="nav" data-id="calendar" data-testid="nav-calendar">
                         <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="3" y="4" width="18" height="18" rx="2"/>
                             <line x1="16" y1="2" x2="16" y2="6"/>
@@ -3875,7 +4118,7 @@
                         <span class="nav-label">Calendar</span>
                     </button>
                     <div class="nav-group">Manage</div>
-                    <button class="nav-item" data-view="templates" data-testid="nav-templates">
+                    <button class="nav-item" data-view="templates" data-action="nav" data-id="templates" data-testid="nav-templates">
                         <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="3" y="3" width="7" height="7" rx="1.5"/>
                             <rect x="14" y="3" width="7" height="7" rx="1.5"/>
@@ -3884,13 +4127,13 @@
                         </svg>
                         <span class="nav-label">Templates</span>
                     </button>
-                    <button class="nav-item" data-view="connections" data-testid="nav-connections">
+                    <button class="nav-item" data-view="connections" data-action="nav" data-id="connections" data-testid="nav-connections">
                         <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
                         </svg>
                         <span class="nav-label">Connections</span>
                     </button>
-                    <button class="nav-item" data-view="settings" data-testid="nav-settings">
+                    <button class="nav-item" data-view="settings" data-action="nav" data-id="settings" data-testid="nav-settings">
                         <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="4" y1="21" x2="4" y2="14"/>
                             <line x1="4" y1="10" x2="4" y2="3"/>
@@ -3904,7 +4147,7 @@
                         </svg>
                         <span class="nav-label">Settings</span>
                     </button>
-                    <button class="nav-item" data-view="help" data-testid="nav-help">
+                    <button class="nav-item" data-view="help" data-action="nav" data-id="help" data-testid="nav-help">
                         <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="10"/>
                             <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
@@ -3959,7 +4202,7 @@
                             <span class="bell-badge" id="bellBadge" style="display:none">0</span>
                         </button>
                         <button data-action="header-profile" data-testid="header-profile-btn" style="border-radius:13px">
-                            <div class="avatar topbar-avatar" id="topAvatar">SP</div>
+                            <div class="avatar topbar-avatar" id="topAvatar">FL</div>
                         </button>
                     </div>
                 </header>
@@ -4359,6 +4602,10 @@
                                     </svg>
                                     <input id="tplSearch" placeholder="Search templates" data-testid="template-search-input">
                                 </div>
+                                <button class="btn btn-primary" data-action="tpl-create" data-testid="create-template-btn" style="flex:none;gap:6px">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                                    Create Template
+                                </button>
                             </div>
                         </div>
                         <div class="chip-row" id="tplCats" style="margin-bottom:18px"></div>
@@ -4367,8 +4614,12 @@
                             <div class="panel-head">
                                 <div>
                                     <h3>Your saved documents</h3>
-                                    <span class="sub">Customised templates are stored here</span>
+                                    <span class="sub">Customised templates and custom drafts are stored here</span>
                                 </div>
+                                <button class="btn btn-ghost btn-sm" data-action="doc-new" style="margin-left:auto;gap:6px" data-testid="new-doc-btn">
+                                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                                    New Document
+                                </button>
                             </div>
                             <div class="rowlist" id="savedDocsList"></div>
                         </div>
@@ -5217,6 +5468,7 @@
                             figma: true,
                             github: true
                         },
+                        customTemplates: [],
                         favTemplates: [],
                         savedDocs: []
                     };
@@ -5242,6 +5494,14 @@
                         }
                     } catch (e) {}
                     state = base;
+                    if (!state.customTemplates) state.customTemplates = [];
+                    if (!state.purchasedTemplates) state.purchasedTemplates = [];
+                    if (state.profile && (state.profile.name === 'Shiva P' || state.profile.name.includes('Shiva') || state.profile.initials === 'SP')) {
+                        state.profile.name = 'Freelancer Lead';
+                        state.profile.initials = 'FL';
+                        state.profile.email = 'freelancer@creatoros.ai';
+                        state.profile.role = 'Freelancer';
+                    }
                     save();
                 }
                 function resetDemo() {
@@ -5368,13 +5628,30 @@
                     closePop();
                     const root = $('#popRoot');
                     root.innerHTML = '<div class="pop ' + (cls || '') + '">' + html + '</div>';
+                    root.classList.add('open');
                     const p = root.firstElementChild;
                     const r = anchor.getBoundingClientRect();
-                    let left = alignLeft ? r.left : Math.min(r.right - p.offsetWidth, r.left);
-                    left = Math.max(12, Math.min(left, innerWidth - p.offsetWidth - 12));
-                    p.style.left = left + 'px';
-                    p.style.top = Math.min(r.bottom + 10, innerHeight - p.offsetHeight - 12) + 'px';
-                    root.classList.add('open');
+                    const pWidth = p.offsetWidth || 280;
+                    const pHeight = p.offsetHeight || 320;
+                    
+                    // Auto-align: right-align for buttons on right half of screen so it NEVER overflows off-screen
+                    const isLeft = (alignLeft === true) || (alignLeft === undefined && r.left < innerWidth / 2);
+                    
+                    if (isLeft) {
+                        let left = Math.max(12, Math.min(r.left, innerWidth - pWidth - 12));
+                        p.style.left = left + 'px';
+                        p.style.right = 'auto';
+                    } else {
+                        let right = Math.max(12, Math.min(innerWidth - r.right, innerWidth - pWidth - 12));
+                        p.style.right = right + 'px';
+                        p.style.left = 'auto';
+                    }
+                    
+                    let top = r.bottom + 10;
+                    if (top + pHeight > innerHeight - 12) {
+                        top = Math.max(12, innerHeight - pHeight - 12);
+                    }
+                    p.style.top = top + 'px';
                 }
                 function closePop() {
                     $('#popRoot').classList.remove('open');
@@ -5490,28 +5767,8 @@
                         help: [renderHelp, 'rows']
                     };
                     const entry = map[v];
-                    if (!entry)
-                        return;
-                    const section = $('#view-' + v);
-                    const targets = $$('[data-skel]', section);
-                    if (state.prefs.motion) {
-                        section.querySelectorAll('.view-body').forEach(b => b.classList.add('skel-ing'));
-                        targets.forEach(t => {
-                            if (!t.dataset.orig)
-                                t.dataset.orig = t.innerHTML;
-                            t.innerHTML = skeletonHTML(entry[1]);
-                        }
-                        );
-                        setTimeout( () => {
-                            targets.forEach(t => {
-                                t.innerHTML = t.dataset.orig || ''
-                            }
-                            );
-                            entry[0]();
-                        }
-                        , 230);
-                    } else
-                        entry[0]();
+                    if (!entry) return;
+                    entry[0]();
                 }
 
                 /* ================= DASHBOARD ================= */
@@ -6045,7 +6302,7 @@
                         title: 'Proposal preview',
                         sub: p.title,
                         wide: true,
-                        body: '<div class="doc-sheet">' + proposalDoc(p) + '</div>',
+                        body: (t.img ? '<div style="margin-bottom:16px;border-radius:14px;overflow:hidden;max-height:220px;position:relative;box-shadow:0 6px 20px rgba(0,0,0,0.12)"><img src="' + t.img + '" alt="' + esc(t.t) + '" style="width:100%;height:220px;object-fit:cover;display:block" /><div style="position:absolute;bottom:10px;left:10px;background:rgba(17,21,34,0.88);backdrop-filter:blur(8px);color:#fff;padding:4px 12px;border-radius:99px;font-size:11px;font-weight:700">' + esc(t.app || 'Web App') + '</div></div>' : '') + '<div class="doc-sheet">' + proposalDoc(p) + '</div>',
                         foot: '<button class="btn btn-ghost" data-action="copy-proposal" data-id="' + p.id + '" data-testid="copy-proposal-btn">' + ic('copy') + 'Copy</button><button class="btn btn-ghost" data-action="print-proposal" data-id="' + p.id + '" data-testid="print-proposal-btn">' + ic('printer') + 'Print / PDF</button><div class="grow"></div>' + (p.status === 'Draft' ? '<button class="btn btn-dark" data-action="send-proposal" data-id="' + p.id + '" data-testid="send-proposal-btn">' + ic('send') + 'Mark as sent</button>' : '') + '<button class="btn btn-primary" data-action="close-modal">Done</button>'
                     });
                 }
@@ -6376,174 +6633,793 @@
                 }
 
                 /* ================= TEMPLATES ================= */
-                const TPL_CATS = ['All', 'Business Templates', 'Financial Templates', 'Creative Templates', 'Freelancer Productivity'];
-                const TEMPLATES = [{
-                    id: 't1',
-                    t: 'Professional Proposal',
-                    cat: 'Business Templates',
-                    ic: 'file',
-                    c: 'violet',
-                    d: 'A persuasive one-page proposal structure that wins retainers and projects.',
-                    x: '## 1. Understanding\n{{client_name}} needs {{summary_of_need}} — and speed matters.\n## 2. Proposed approach\n- Discovery call and success metrics\n- Solution design and milestones\n- Delivery, QA and handover\n## 3. Investment\n₹{{price}} · {{timeline}} · milestone billing\n## 4. Why me\n- {{years}} years shipping similar work\n- Portfolio: {{portfolio_link}}\n## 5. Next step\nApprove this proposal and I will start {{start_date}}.'
-                }, {
-                    id: 't2',
-                    t: 'Freelance Agreement',
-                    cat: 'Business Templates',
-                    ic: 'briefcase',
-                    c: 'blue',
-                    d: 'A fair, plain-language contract covering scope, payment and IP.',
-                    x: '## Parties\n{{freelancer_name}} (“Freelancer”) and {{client_name}} (“Client”).\n## Scope\n{{scope_summary}}. Out-of-scope work is quoted separately.\n## Fees & payment\n₹{{price}} net {{payment_terms}}. Late payments accrue 1.5% monthly.\n## Revisions\nTwo rounds included; further rounds billed at ₹{{rate}}/hr.\n## IP\nFull IP transfers to Client on final payment.\n## Termination\nEither party may end with 14 days written notice.'
-                }, {
-                    id: 't3',
-                    t: 'Project Scope Document',
-                    cat: 'Business Templates',
-                    ic: 'folder',
-                    c: 'teal',
-                    d: 'Lock the scope before kickoff — deliverables, exclusions and assumptions.',
-                    x: '## Objective\n{{objective}}\n## In scope\n- {{item_1}}\n- {{item_2}}\n- {{item_3}}\n## Out of scope\n{{exclusions}}\n## Assumptions\n{{assumptions}}\n## Timeline & milestones\nKickoff {{date}} · Milestone 1 {{date2}} · Launch {{date3}}'
-                }, {
-                    id: 't4',
-                    t: 'Service Agreement',
-                    cat: 'Business Templates',
-                    ic: 'shield',
-                    c: 'violet',
-                    d: 'Retainer-ready agreement for ongoing services and SLAs.',
-                    x: '## Services\n{{service_description}}\n## Service levels\nResponse within {{hours}} business hours; weekly status every {{day}}.\n## Fees\n₹{{monthly_fee}}/month, invoiced in advance.\n## Changes\nScope changes require a signed change note.\n## Confidentiality\nBoth parties keep commercial information private for 2 years.'
-                }, {
-                    id: 't5',
-                    t: 'Client Onboarding Form',
-                    cat: 'Business Templates',
-                    ic: 'users',
-                    c: 'rose',
-                    d: 'Collect everything you need to start great client work.',
-                    x: '## Company\n- Company: {{company}}\n- Primary contact: {{contact_name}} ({{contact_email}})\n## Brand\n- Brand assets link: {{assets_url}}\n- Tone: {{tone_words}}\n## Access\n- Tools: {{tools}}\n- Where do you store files? {{storage}}\n## Goals\nWhat does success look like in 90 days? {{success_definition}}'
-                }, {
-                    id: 't6',
-                    t: 'GST Invoice Template',
-                    cat: 'Financial Templates',
-                    ic: 'card',
-                    c: 'teal',
-                    d: 'Indian GST-compliant invoice layout with HSN and tax breakdown.',
-                    x: '## Tax Invoice\nInvoice No: {{invoice_no}} · Date: {{date}}\nFrom: {{freelancer_name}} · GSTIN: {{gstin}}\nTo: {{client_name}} · GSTIN: {{client_gstin}}\n## Line items\n| {{description}} | {{qty}} | ₹{{rate}} |\n## Totals\nSubtotal ₹{{subtotal}} · CGST {{cgst}} · SGST {{sgst}} · Total ₹{{total}}\n## Payment\nA/C {{account}} · IFSC {{ifsc}} · UPI {{upi_id}}'
-                }, {
-                    id: 't7',
-                    t: 'Payment Reminder',
-                    cat: 'Financial Templates',
-                    ic: 'clock',
-                    c: 'amber',
-                    d: 'A friendly nudge that gets overdue invoices paid fast.',
-                    x: '## Friendly reminder\nHi {{client_name}},\nInvoice {{invoice_no}} for ₹{{amount}} was due on {{due_date}} — could you take a look?\n## Details\n- Amount: ₹{{amount}}\n- Due: {{due_date}}\n- Link: {{payment_link}}\nIf it is already scheduled, thank you — just reply with the date.\n\n{{your_name}}'
-                }, {
-                    id: 't8',
-                    t: 'Quotation Template',
-                    cat: 'Financial Templates',
-                    ic: 'file',
-                    c: 'violet',
-                    d: 'Itemised quote with options so clients can pick their budget.',
-                    x: '## Quotation for {{project_name}}\nPrepared for {{client_name}} · {{date}}\n## Option A — Essential\n- {{item_1}}: ₹{{price_1}}\n- {{item_2}}: ₹{{price_2}}\nTotal: ₹{{total_a}} · {{timeline_a}}\n## Option B — Complete\nEverything in A, plus {{extras}}\nTotal: ₹{{total_b}} · {{timeline_b}}\nValid for 15 days.'
-                }, {
-                    id: 't9',
-                    t: 'Expense Tracker',
-                    cat: 'Financial Templates',
-                    ic: 'chart',
-                    c: 'blue',
-                    d: 'Monthly freelancer expense sheet with categories and totals.',
-                    x: '## {{month}} expenses\n| Date | Item | Category | Amount |\n| {{date}} | {{item}} | Software | ₹{{amount}} |\n| {{date}} | {{item}} | Hardware | ₹{{amount}} |\n## Summary\nSoftware ₹{{s}} · Hardware ₹{{h}} · Travel ₹{{t}}\nTotal: ₹{{total}}\nTax-deductible estimate: ₹{{deductible}}'
-                }, {
-                    id: 't10',
-                    t: 'Portfolio Layout',
-                    cat: 'Creative Templates',
-                    ic: 'grid',
-                    c: 'violet',
-                    d: 'A case-study-first portfolio structure that sells outcomes.',
-                    x: '## Hero\n{{tagline}} — I help {{audience}} achieve {{outcome}}.\n## Featured case studies (3)\n1. {{project_1}}: {{result_1}}\n2. {{project_2}}: {{result_2}}\n3. {{project_3}}: {{result_3}}\n## Services\n{{service_1}} · {{service_2}} · {{service_3}}\n## CTA\nBook a {{call_length}} intro call → {{booking_link}}'
-                }, {
-                    id: 't11',
-                    t: 'Case Study',
-                    cat: 'Creative Templates',
-                    ic: 'file',
-                    c: 'teal',
-                    d: 'Problem → approach → result storytelling for client wins.',
-                    x: '## {{client_name}}: {{headline_result}}\n## The problem\n{{problem}}\n## The approach\n- {{step_1}}\n- {{step_2}}\n- {{step_3}}\n## The results\n- {{metric_1}}\n- {{metric_2}}\nQuote: “{{client_quote}}” — {{client_name_role}}'
-                }, {
-                    id: 't12',
-                    t: 'Project Presentation',
-                    cat: 'Creative Templates',
-                    ic: 'briefcase',
-                    c: 'blue',
-                    d: 'Slide-by-slide narrative for kickoffs, reviews and handovers.',
-                    x: '## Slide 1 — Title\n{{project_name}} · {{date}}\n## Slide 2 — Context\nWhy now: {{context}}\n## Slides 3–5 — The work\n- What we built: {{built}}\n- How it performs: {{performance}}\n## Slide 6 — Numbers\n{{metric_1}} · {{metric_2}} · {{metric_3}}\n## Slide 7 — Next steps\n{{next_steps}}'
-                }, {
-                    id: 't13',
-                    t: 'Client Brief',
-                    cat: 'Creative Templates',
-                    ic: 'pen',
-                    c: 'rose',
-                    d: 'Capture the brief behind the brief — goals, users and constraints.',
-                    x: '## Project\n{{project_name}} for {{client_name}}\n## Objective\n{{objective}}\n## Audience\n{{audience}}\n## Success metrics\n{{metrics}}\n## Constraints\nBudget {{budget}} · Deadline {{deadline}} · Must-haves: {{must_haves}}'
-                }, {
-                    id: 't14',
-                    t: 'Project Planner',
-                    cat: 'Freelancer Productivity',
-                    ic: 'folder',
-                    c: 'violet',
-                    d: 'Turn any project into a week-by-week execution plan.',
-                    x: '## {{project_name}} plan\n## Week 1 — Discovery\n- Kickoff, access, audit\n## Week 2–3 — Design/Build\n- {{workstream_1}}\n- {{workstream_2}}\n## Week 4 — Ship\n- QA, launch checklist, handover\n## Risks\n{{risk_1}} — mitigation: {{mitigation}}'
-                }, {
-                    id: 't15',
-                    t: 'Daily Task Planner',
-                    cat: 'Freelancer Productivity',
-                    ic: 'check',
-                    c: 'teal',
-                    d: 'A daily sheet that protects deep work and client time.',
-                    x: '## {{date}} — Top 3\n1. {{task_1}}\n2. {{task_2}}\n3. {{task_3}}\n## Time blocks\n- 09:00–12:00 Deep work: {{focus}}\n- 13:00–15:00 Client work: {{client_tasks}}\n- 16:00–17:00 Admin & replies\n## End of day\nTomorrow’s first task: {{first_task}}'
-                }, {
-                    id: 't16',
-                    t: 'Weekly Work Tracker',
-                    cat: 'Freelancer Productivity',
-                    ic: 'chart',
-                    c: 'blue',
-                    d: 'Track hours, billables and wins across the week.',
-                    x: '## Week of {{date}}\n| Day | Client | Work | Hours |\n| Mon | {{client}} | {{work}} | {{h}} |\n## Billable total\n{{hours}} h → ₹{{amount}}\n## Wins & learnings\n{{win}} · {{learning}}'
-                }, {
-                    id: 't17',
-                    t: 'Client Meeting Notes',
-                    cat: 'Freelancer Productivity',
-                    ic: 'users',
-                    c: 'amber',
-                    d: 'Structured notes that turn meetings into agreed actions.',
-                    x: '## Meeting — {{client_name}} · {{date}}\n## Attendees\n{{attendees}}\n## Decisions\n- {{decision_1}}\n## Actions\n| Action | Owner | Due |\n| {{action}} | {{owner}} | {{due}} |\n## Next meeting\n{{next_date}} — {{agenda}}'
-                }, {
-                    id: 't18',
-                    t: 'Scope Change Note',
-                    cat: 'Freelancer Productivity',
-                    ic: 'edit',
-                    c: 'rose',
-                    d: 'Handle “one small change” requests professionally and profitably.',
-                    x: '## Change note #{{no}} — {{project_name}}\n## Requested change\n{{change_description}}\n## Impact\nAdds ₹{{cost}} and {{days}} days.\n## Approval\nReply “approved” to proceed; work continues on sign-off.'
-                }];
-                let tplCat = 'All'
-                  , tplQuery = '';
+                const TPL_CATS = ['All', '★ Commercial Pro', '✓ Free Templates', 'Business Templates', 'Financial Templates', 'Creative Templates', 'Freelancer Productivity'];
+                const TEMPLATES = [
+  {
+    id: 't1',
+    tier: 'pro',
+    price: 1499,
+    license: 'Commercial Pro',
+    app: 'SaaS Proposal & Retainer Portal',
+    img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80',
+    t: 'Professional Proposal',
+    cat: 'Business Templates',
+    ic: 'file',
+    c: 'violet',
+    d: 'Executive cloud architecture & full-stack modernization proposal with milestone schedule and ROI analysis.',
+    x: `EXECUTIVE PROPOSAL: CLOUD PLATFORM MODERNIZATION
+Prepared For: Apex Innovations Inc.
+Attn: Rajiv Mehra, VP Technology & Digital Operations
+Prepared By: Freelancer Lead, Principal Technical Architect
+Date of Issuance: 02 November 2024 · Ref: PR-2024-884
+
+## 1. Executive Summary & Problem Diagnosis
+Apex Innovations currently operates a multi-service Node.js cluster deployed on legacy container instances. Over the last two quarters, peak traffic spikes (14,000 req/min) resulted in latency degradation (p99 > 1,450ms) and elevated infrastructure overhead ($4,800/mo).
+
+This proposal outlines a phased migration to Next.js 15 SSR, Edge Caching, and Supabase PostgreSQL with read-replicas. This architecture guarantees p99 response times under 120ms while reducing infrastructure spend by an estimated 38%.
+
+## 2. Proposed Architecture & Scope of Deliverables
+- Milestone 1: Technical Discovery & Architecture Blueprint (Weeks 1–2)
+  • End-to-end database schema audit and indexing optimization
+  • Dockerized local staging harness and API contract definitions
+  • Auth0/Supabase unified session gateway migration plan
+- Milestone 2: Core Platform Replatforming & Edge APIs (Weeks 3–4)
+  • Server-rendered Next.js application shell with Tailwind UI tokens
+  • Real-time telemetry pipeline utilizing WebSocket gateways
+  • Automated integration testing suite (Playwright & Jest, 90%+ branch coverage)
+- Milestone 3: CI/CD Pipeline, Security Audit & Cutover (Weeks 5–6)
+  • Automated GitHub Actions workflow with zero-downtime blue/green deployment
+  • SOC-2 aligned credential hardening and rate-limiting middleware
+  • Production cutover execution, load testing (50k virtual users), and 30-day post-launch warranty
+
+## 3. Commercial Terms & Investment Schedule
+- Milestone 1 Disbursement: ₹55,000 (Upon contract signing and discovery sign-off)
+- Milestone 2 Disbursement: ₹75,000 (Upon delivery of core staging platform)
+- Milestone 3 Disbursement: ₹55,000 (Upon verified production cutover)
+- Total Project Investment: ₹1,85,000.00 (Inclusive of all milestone deliverables)
+
+## 4. Acceptance & Sign-off
+Apex Innovations Inc. hereby approves the scope, deliverables, and commercial schedule described herein.
+
+Authorized Signature: Rajiv Mehra (VP Technology, Apex Innovations)
+Technical Lead Signature: Freelancer Lead (CreatorOS)`
+  },
+  {
+    id: 't2',
+    tier: 'pro',
+    price: 2499,
+    license: 'Commercial Pro',
+    app: 'LegalTech Contract & IP Suite',
+    img: 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=600&q=80',
+    t: 'Master Services Agreement (MSA)',
+    cat: 'Business Templates',
+    ic: 'file-text',
+    c: 'indigo',
+    d: 'Legally-vetted Master Services Agreement with IP assignment, confidentiality, payment milestones, and liability terms.',
+    x: `MASTER SERVICES AGREEMENT (MSA) & IP ASSIGNMENT
+Contract Identifier: MSA-2024-CR-019
+Effective Date: 02 November 2024
+Governing Jurisdiction: Bangalore, Karnataka, India
+
+## 1. Parties & Purpose
+This Master Services Agreement (“Agreement”) is executed between:
+- Consultant: Freelancer Lead (“Contractor”), operating under CreatorOS Engineering.
+- Client: Nexus Health Systems India Pvt Ltd (“Client”), located at Indiranagar, Bangalore.
+
+Contractor agrees to provide custom software engineering and systems architecture services as set forth in subsequent Statements of Work (SOW).
+
+## 2. Intellectual Property Rights & Work Made for Hire
+- IP Assignment: Upon receipt of full and final payment for any respective milestone, Contractor transfers and assigns to Client all rights, title, and intellectual property in custom source code, documentation, and interface designs created specifically for Client.
+- Pre-existing Tools: Contractor retains ownership of pre-existing developer tooling, utility scripts, and open-source frameworks utilized during implementation, granting Client a perpetual, royalty-free, worldwide license to utilize them within the delivered software.
+
+## 3. Invoicing, Terms & Default
+- Invoices are delivered electronically upon milestone completion and carry Net-15 payment terms.
+- Overdue payments accrue interest at 1.5% per month or the legal statutory maximum.
+- Contractor reserves the right to pause repository access or deployment operations if an invoice remains unpaid past 30 calendar days.
+
+## 4. Confidentiality & Non-Disclosure
+Both parties agree that technical specifications, customer datasets, source code, and commercial negotiations shall remain strictly confidential for a period of three (3) years from disclosure.
+
+## 5. Warranties & Limitation of Liability
+- Contractor warrants that all code delivered is original and free of malicious software.
+- 30-Day Defect Warranty: Any critical bugs identified within 30 days of production deployment shall be remedied at zero additional charge.
+- Contractor's aggregate liability under any theory of law is strictly capped at the total fees paid by Client under the applicable SOW.
+
+## 6. Execution
+Signed and agreed by the authorized signatories:
+For Nexus Health Systems Pvt Ltd: Dr. Arvind Swaminathan, Managing Director
+For Contractor: Freelancer Lead, CreatorOS Engineering`
+  },
+  {
+    id: 't3',
+    tier: 'pro',
+    price: 1899,
+    license: 'Commercial Pro',
+    app: 'Product Architecture & Roadmap Hub',
+    img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80',
+    t: 'Project Scope Document (SOW)',
+    cat: 'Business Templates',
+    ic: 'check-square',
+    c: 'blue',
+    d: 'Detailed technical Statement of Work defining functional requirements, deliverables, boundaries, and acceptance criteria.',
+    x: `STATEMENT OF WORK (SOW): ENTERPRISE TELEMETRY ENGINE
+Project Code: SOW-ORBIT-2024-04
+Client: Orbit Cloud Labs Pvt Ltd
+Project Lead: Freelancer Lead
+Target Completion: 15 December 2024
+
+## 1. Project Objectives & Success Criteria
+Develop an ultra-low latency real-time telemetry dashboard capable of ingesting and visualizing 100,000 network log events per second with sub-200ms glass-to-glass latency.
+
+## 2. In-Scope Functional Specifications
+- WebSocket Ingestion Pipeline: High-throughput Go/Node microservice receiving structured telemetry beacons.
+- Dashboard User Interface: Responsive Next.js dashboard featuring WebGL-accelerated time-series charts.
+- Granular Role-Based Access: Admin, Engineer, and Read-Only Auditor permissions enforced at the database row level.
+- Multi-Tenant Export Engine: One-click export of compliance audit reports in encrypted PDF and CSV formats.
+- Observability & Tracing: Distributed OpenTelemetry instrumentation with Prometheus alerts.
+
+## 3. Explicit Exclusions (Out-of-Scope)
+- Native mobile client applications (iOS Swift / Android Kotlin) — responsive web app will serve mobile viewports.
+- Historical data warehousing for logs generated prior to 01 January 2023.
+- Hardware-level appliance diagnostics or proprietary serial-bus protocols.
+
+## 4. Delivery Milestones & Verification
+- Milestone 1 (Day 14): Ingestion pipeline benchmarking (verified 100k events/sec in staging).
+- Milestone 2 (Day 28): Interactive dashboard UI with real-time streaming and filtering.
+- Milestone 3 (Day 42): Security hardening, load certification, and production rollout.
+
+Approved by Orbit Cloud Labs: Meera Sundaram, VP Engineering`
+  },
+  {
+    id: 't4',
+    tier: 'pro',
+    price: 1999,
+    license: 'Commercial Pro',
+    app: 'Client Services & SLA Management',
+    img: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=600&q=80',
+    t: 'Service Agreement & SLA',
+    cat: 'Business Templates',
+    ic: 'shield',
+    c: 'emerald',
+    d: 'Monthly engineering retainer agreement with guaranteed uptime SLAs, response times, and preventative maintenance.',
+    x: `MONTHLY TECHNICAL RETAINER & SLA CONTRACT
+Reference: SLA-KITE-2024-R1
+Client: Kite Logistics Technologies Ltd
+Service Provider: Freelancer Lead, CreatorOS
+Effective Period: November 2024 – October 2025 (12 Months Renewable)
+
+## 1. Retainer Scope & Allocation
+Contractor allocates 40 hours per calendar month for continuous technical maintenance, performance optimization, and priority feature enhancements for Kite Logistics’ transport routing system.
+
+## 2. Service Level Agreement (SLA) & Incident Response
+- Severity 1 (Critical Outage - Platform Inoperable): Guaranteed response within 1 hour; active resolution engagement until service restoration.
+- Severity 2 (Major Defect - Core Flow Degraded): Guaranteed response within 4 business hours.
+- Severity 3 (Minor Bug / UI Glitch): Addressed in the following weekly deployment cycle.
+- System Availability Target: 99.9% uptime across production hosting instances.
+
+## 3. Routine Preventative Maintenance
+- Bi-weekly dependency vulnerability audits (npm audit, Snyk security scanning).
+- Monthly PostgreSQL indexing tune-up and slow-query log analysis.
+- Automated off-site encrypted database snapshot verification every Sunday at 02:00 IST.
+
+## 4. Commercial Retainer Fee
+- Monthly Retainer: ₹75,000.00 / month (Paid upfront on the 1st of each calendar month).
+- Unused hours do not carry over to subsequent months unless mutually agreed in writing.
+- Additional hours requested beyond 40 hours are billed at a preferential rate of ₹2,200/hour.
+
+Authorized Signatory for Kite Logistics: Rohan Deshmukh, Chief Operating Officer`
+  },
+  {
+    id: 't5',
+    tier: 'free',
+    price: 0,
+    license: 'Standard Free',
+    app: 'Interactive Intake & Survey App',
+    img: 'https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=600&q=80',
+    t: 'Client Onboarding Form',
+    cat: 'Business Templates',
+    ic: 'user-plus',
+    c: 'teal',
+    d: 'Structured kickoff questionnaire to gather technical requirements, credentials, stakeholder contacts, and brand assets.',
+    x: `TECHNICAL CLIENT ONBOARDING & KICKOFF BRIEF
+Document ID: ONBOARD-2024-ZENITH
+Client Organization: Zenith AI Labs
+Primary Stakeholder: Devika Sharma, Head of Product (devika@zenithlabs.ai)
+Technical Lead: Kunal Kapoor, Principal Architect (kunal@zenithlabs.ai)
+
+## 1. Workspace & Systems Access Checklist
+- [x] GitHub Organization Invitation (Read/Write access to repository: zenith-web-v2)
+- [x] AWS Staging IAM Credentials (Least-privilege policy for ECS and S3 deployment)
+- [x] Supabase Cloud Project Access (Admin role configured for staging and production)
+- [x] Figma Design Workspace (Invited to "Zenith Design System 2024" canvas)
+- [x] Dedicated Slack Connect Channel (#zenith-creatoros-delivery)
+
+## 2. Brand Guidelines & Design Tokens
+- Primary Brand Hex: #6366F1 (Electric Indigo)
+- Secondary Accent Hex: #10B981 (Emerald Mint)
+- Typography System: Bricolage Grotesque (Headings), Inter / Plus Jakarta Sans (Body)
+- Cloud Storage for High-Resolution Vector Assets: https://drive.google.com/zenith-assets-2024
+
+## 3. Development Cadence & Communication Standards
+- Weekly Standup: Tuesdays & Thursdays at 11:30 AM IST (Google Meet)
+- Milestone Staging Deployment: Every Friday by 18:00 IST for team review
+- Emergency Escalation Contact: dev-escalations@creatoros.ai (+91 98450 11223)`
+  },
+  {
+    id: 't6',
+    tier: 'pro',
+    price: 999,
+    license: 'Commercial Pro',
+    app: 'Fintech Tax & Invoicing Ledger',
+    img: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80',
+    t: 'GST Invoice Template',
+    cat: 'Financial Templates',
+    ic: 'receipt',
+    c: 'amber',
+    d: 'Compliant Indian GST Tax Invoice with SAC codes, multi-state IGST/CGST breakdowns, reverse charge, and bank details.',
+    x: `TAX INVOICE (GST COMPLIANT)
+Invoice Number: INV-2024-104
+Invoice Date: 02 November 2024
+Due Date: 17 November 2024 (Net-15)
+Place of Supply: Maharashtra (State Code 27)
+
+## Supplier Details
+- Legal Entity: Freelancer Lead · CreatorOS Technologies
+- Address: 402 Indiranagar 100ft Road, Bangalore, Karnataka 560038
+- GSTIN: 29AAAAA0000A1Z5 · State: Karnataka (Code 29)
+- Email: billing@creatoros.ai · PAN: AAAAA0000A
+
+## Billed To (Recipient)
+- Client: Hyperion Software Solutions Pvt Ltd
+- Address: 12th Floor, Cyber City, Bandra-Kurla Complex, Mumbai 400051
+- GSTIN: 27BBBBB1111B2Z8 · State: Maharashtra (Code 27)
+
+## Itemized Services
+1. Cloud Microservices Re-Architecture & Performance Audit
+   - SAC Code: 998314 (Information Technology Consulting Services)
+   - Unit Qty: 1 Job · Rate: ₹1,20,000.00
+   - Taxable Value: ₹1,20,000.00
+
+## Tax Computation
+- Subtotal (Taxable Value): ₹1,20,000.00
+- Integrated GST (IGST @ 18%): ₹21,600.00
+- Total Invoice Amount: ₹1,41,600.00
+- Amount in Words: One Lakh Forty-One Thousand Six Hundred Rupees Only
+
+## Settlement & Banking Instructions
+- Beneficiary: Freelancer Lead
+- Bank: HDFC Bank · Branch: Indiranagar, Bangalore
+- Account Number: 50200088923412 · IFSC: HDFC0001234
+- UPI VPA: payments@creatoros.ai`
+  },
+  {
+    id: 't7',
+    tier: 'free',
+    price: 0,
+    license: 'Standard Free',
+    app: 'Automated Billing & Dunning Dashboard',
+    img: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=600&q=80',
+    t: 'Payment Reminder',
+    cat: 'Financial Templates',
+    ic: 'bell',
+    c: 'rose',
+    d: 'Professional accounts receivable follow-up note with complete invoice figures, milestone breakdown, and payment link.',
+    x: `AURA DIGITAL MEDIA · ACCOUNTS PAYABLE
+Attn: Vivek Nair, VP Finance & Operations
+Invoice Reference: #INV-2024-082 (Cloud Modernization Phase II)
+Date: 02 November 2024
+
+Follow-up Regarding Invoice #INV-2024-082 (Due 27 October 2024)
+
+Dear Vivek,
+
+We hope your quarter is off to an excellent start.
+
+Our financial reconciliation system shows that Invoice #INV-2024-082, issued on 12th October 2024 for ₹48,500.00, reached its 15-day payment milestone on 27th October 2024 and remains outstanding.
+
+## Invoice Summary & Milestone Context
+- Invoice Number: INV-2024-082
+- Milestone: Phase II Next.js Production Gateway & Auth Integration
+- Taxable Amount: ₹41,101.69
+- GST (18%): ₹7,398.31
+- Total Outstanding Balance: ₹48,500.00
+- Agreed Payment Terms: Net-15 (Matured on 27 October 2024)
+
+## Direct Settlement Details
+- Beneficiary Account: Freelancer Lead (CreatorOS Engineering)
+- Bank: HDFC Bank Ltd · Account: 50200088923412
+- IFSC Code: HDFC0001234
+- UPI VPA ID: payments@creatoros.ai
+- Fast Online Payment Link: https://creatoros.ai/pay/inv-2024-082
+
+If this disbursement has already been processed by your accounts payable team today, please reply with the NEFT transaction reference (UTR) so our finance ledger can clear the item immediately.
+
+Warm regards,
+Freelancer Lead
+Principal Technical Consultant · CreatorOS`
+  },
+  {
+    id: 't8',
+    tier: 'pro',
+    price: 1299,
+    license: 'Commercial Pro',
+    app: 'Enterprise CPQ Estimator Studio',
+    img: 'https://images.unsplash.com/photo-1554224154-26032ffc0d07?auto=format&fit=crop&w=600&q=80',
+    t: 'Tiered Quotation & CPQ',
+    cat: 'Financial Templates',
+    ic: 'tag',
+    c: 'orange',
+    d: 'Tiered project quotation presenting Good / Better / Best packages with transparent feature comparison matrix.',
+    x: `PROJECT COMMERCIAL QUOTATION (TIERED CPQ)
+Prepared For: Stratos BioTech Pvt Ltd
+Project: Clinical Trials Telemetry & Patient Portal
+Valid Through: 30 November 2024 · Quote ID: QT-2024-089
+
+## Package Option 1: Core MVP (Launch Foundation)
+- Next.js web application with authenticated doctor portal
+- HIPAA-aligned encrypted data storage via PostgreSQL
+- Standard CSV data export and email notifications
+- 15 days post-launch technical warranty
+- Investment: ₹1,25,000.00 · Delivery: 4 Weeks
+
+## Package Option 2: Enterprise Pro (Recommended)
+- All features in Core MVP
+- Real-time patient vital sign streaming (WebSockets + Redis)
+- Role-based granular permissions (Doctor, Nurse, Clinical Monitor, Auditor)
+- Automated PDF compliance audit report generator
+- 45 days post-launch technical warranty and 24/7 priority SLA
+- Investment: ₹2,10,000.00 · Delivery: 7 Weeks
+
+## Package Option 3: Full Ecosystem (Turnkey Scale)
+- All features in Enterprise Pro
+- Dedicated cross-platform mobile application (React Native for iOS and Android)
+- Automated CI/CD pipeline on AWS Fargate with multi-region redundancy
+- Full SOC-2 Type II audit readiness documentation package
+- 90 days white-glove warranty and 20 hours monthly retainer
+- Investment: ₹3,40,000.00 · Delivery: 11 Weeks
+
+Terms: 40% upfront deposit on contract signature; balance divided across verified milestones.`
+  },
+  {
+    id: 't9',
+    tier: 'free',
+    price: 0,
+    license: 'Standard Free',
+    app: 'Cashflow & Burn Rate Analytics',
+    img: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=600&q=80',
+    t: 'Expense & Burn Tracker',
+    cat: 'Financial Templates',
+    ic: 'pie-chart',
+    c: 'red',
+    d: 'Monthly freelance operational expense ledger tracking SaaS subscriptions, cloud servers, and billable overhead.',
+    x: `MONTHLY OPERATING EXPENSE & INFRASTRUCTURE LEDGER
+Period: October 2024 · Contractor: Freelancer Lead
+Currency: INR (₹) / USD ($ converted at ₹83.50/USD)
+
+## Cloud Hosting & Database Infrastructure
+- AWS Production Cluster (EC2 t4g, RDS PostgreSQL, S3 Backup): $180.00 (₹15,030.00)
+- Vercel Enterprise Pro (Frontend Edge Network): $40.00 (₹3,340.00)
+- Supabase Dedicated Edge Instance: $25.00 (₹2,087.50)
+- Subtotal Infrastructure: ₹20,457.50
+
+## Engineering Tooling & Software Licenses
+- GitHub Enterprise & Copilot Business: $39.00 (₹3,256.50)
+- Figma Organization Seat: $45.00 (₹3,757.50)
+- OpenAI API Telemetry Tokens: $48.20 (₹4,024.70)
+- Google Workspace (Business Standard): ₹1,680.00
+- Subtotal Software: ₹12,718.70
+
+## Summary Metrics
+- Total Operating Overhead: ₹33,176.20
+- Gross October Billings: ₹2,45,000.00
+- Net Profit Margin: 86.46%
+- Cloud Infrastructure Cost per Active Project: ₹5,114.00`
+  },
+  {
+    id: 't10',
+    tier: 'pro',
+    price: 1499,
+    license: 'Commercial Pro',
+    app: 'Minimalist Portfolio & Showcase App',
+    img: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=600&q=80',
+    t: 'Portfolio Layout & Blueprint',
+    cat: 'Creative Templates',
+    ic: 'layout',
+    c: 'purple',
+    d: 'Conversion-engineered senior developer portfolio architecture with narrative case studies and social proof.',
+    x: `SENIOR SOFTWARE CONSULTANT PORTFOLIO BLUEPRINT
+Architectural Wireframe & Content Strategy
+
+## 1. Hero Viewport (Above the Fold)
+- Super-Headline: “Principal Cloud & Full-Stack Architect”
+- Headline: “I turn complex monolithic backends into ultra-responsive, edge-first web platforms.”
+- Proof Points: 10+ Years Building High-Throughput Systems · ₹4.8Cr Delivered in Client Value · 99.99% Uptime Track Record
+- Primary CTA: [ Book Technical Architecture Audit — 45 Min ]
+- Secondary CTA: [ Inspect Recent Case Studies ⌵ ]
+
+## 2. Featured Engineering Case Studies
+- Case 1: Apex Innovations — Modernizing monolith to Next.js 15 (Latency slashed 68%, ₹18L annual cloud savings).
+- Case 2: Orbit Cloud Labs — 100k events/sec real-time telemetry pipeline in Go & Redis.
+- Case 3: Nexus Health Systems — HIPAA-compliant electronic medical records portal with zero security infractions.
+
+## 3. Technology Stack & Core Competencies
+- Frontend Architecture: Next.js 15, React 19, TypeScript, Tailwind CSS, GSAP, Radix UI.
+- Backend & Distributed Systems: Node.js, Go, PostgreSQL, Supabase, Redis, Kafka.
+- Cloud & DevOps: AWS (ECS, Lambda, CloudFront), Docker, Terraform, GitHub Actions.
+
+## 4. Testimonials & Client Endorsements
+“Freelancer Lead delivered our entire cloud architecture ahead of schedule. The platform handles millions of requests without breaking a sweat.” — Rajiv Mehra, VP Tech, Apex Innovations`
+  },
+  {
+    id: 't11',
+    tier: 'pro',
+    price: 1699,
+    license: 'Commercial Pro',
+    app: 'UX Research & Systems Design App',
+    img: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=600&q=80',
+    t: 'UX & Engineering Case Study',
+    cat: 'Creative Templates',
+    ic: 'award',
+    c: 'fuchsia',
+    d: 'High-stakes client case study template showing the diagnostic journey, architectural decisions, and measurable ROI.',
+    x: `CASE STUDY: HOW AURA DIGITAL REDUCED CHECKOUT DROP-OFF BY 62%
+Client: Aura Digital Media Pvt Ltd
+Discipline: UX Architecture, Next.js Re-Platforming, Performance Engineering
+Delivery Timeline: 6 Weeks · Published: October 2024
+
+## 1. The Challenge & Initial Metrics
+Aura Digital operates an e-commerce subscription hub serving 180,000 monthly active users. Prior to engagement, the client faced:
+- Mobile checkout load times exceeding 4.2 seconds on 4G networks.
+- 41.8% drop-off rate between product page and payment confirmation.
+- 22 daily customer support tickets citing payment gateway timeout errors.
+
+## 2. Technical Diagnostic & Hypotheses
+Through synthetic monitoring and user session recordings, we identified:
+- 1.8MB unoptimized JavaScript bundle loaded before First Contentful Paint.
+- Render-blocking third-party analytics trackers executing synchronously.
+- Multiple redundant API round-trips during cart calculation.
+
+## 3. Solution Engineering & Implementation
+- Re-architected checkout to Next.js Server Components with optimistic UI updates.
+- Implemented edge-cached pricing calculation eliminating 3 database round-trips.
+- Integrated automated Razorpay/Stripe headless payment flow with smart retries.
+
+## 4. Verified Business Impact
+- Core Web Vitals LCP improved from 4.2s to 820ms (Passing Google CWV).
+- Checkout abandonment plummeted from 41.8% to 15.6% (62.6% relative improvement).
+- Direct revenue lift: +₹38.4 Lakhs in incremental gross merchandise value in 60 days.`
+  },
+  {
+    id: 't12',
+    tier: 'pro',
+    price: 1799,
+    license: 'Commercial Pro',
+    app: 'Pitch Deck & Keynote Web Platform',
+    img: 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=600&q=80',
+    t: 'Pitch Deck & Presentation',
+    cat: 'Creative Templates',
+    ic: 'monitor',
+    c: 'pink',
+    d: '10-slide keynote narrative framework for pitching high-ticket engineering transformations to C-suite executives.',
+    x: `EXECUTIVE PITCH DECK STRUCTURE: MODERNIZING ENTERPRISE PLATFORMS
+Presenter: Freelancer Lead, Principal Consultant
+Target Audience: Board of Directors / Chief Technology Officers
+
+## Slide 1: Cover & Positioning
+- Title: Re-Architecting for Infinite Scale
+- Subtitle: How modern edge infrastructure turns technology from a cost center into a growth engine.
+
+## Slide 2: The Macro Shift
+- Why traditional monolithic web architectures are failing modern mobile users.
+- The cost of 1-second latency delays: 7% conversion degradation across enterprise apps.
+
+## Slide 3: The Problem We Solve Today
+- Unpredictable server costs, fragile release cycles, and critical developer bottlenecks.
+
+## Slide 4: Proposed Solution: The Modern Modular Stack
+- Next.js 15 + Supabase Edge Computing + Distributed Cloud Caching.
+
+## Slide 5: Real-World Case Study (Apex Innovations)
+- 68% latency drop, 38% hosting cost savings, zero downtime over 180 days.
+
+## Slide 6: Phased Roadmap & Risk Mitigation
+- Phase 1: Zero-risk shadow staging harness.
+- Phase 2: Canary releases with automated rollback triggers.
+- Phase 3: Complete production cutover.
+
+## Slide 7: Commercial Investment & Guaranteed ROI
+- Fixed-price delivery schedule with milestone-based sign-offs.
+
+## Slide 8: Next Steps
+- Approval of Phase 1 Discovery SOW · Kickoff scheduled for next Monday.`
+  },
+  {
+    id: 't13',
+    tier: 'pro',
+    price: 1199,
+    license: 'Commercial Pro',
+    app: 'Agile Discovery & Sprint Canvas',
+    img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=600&q=80',
+    t: 'Agile Discovery Brief',
+    cat: 'Creative Templates',
+    ic: 'compass',
+    c: 'sky',
+    d: 'Sprint 0 technical discovery canvas aligning product goals, non-functional requirements, and architectural guardrails.',
+    x: `SPRINT ZERO TECHNICAL DISCOVERY CANVAS
+Project: Helios Decentralized Energy Platform
+Prepared For: Helios Technologies India
+Technical Architect: Freelancer Lead · Date: November 2024
+
+## 1. Product Vision & Target Audience
+Helios allows microgrid solar operators to trade surplus energy units peer-to-peer. The primary users are commercial facility managers and independent renewable energy producers.
+
+## 2. Non-Functional Technical Requirements (NFRs)
+- Latency: Peer order matching must execute within < 50ms.
+- Throughput: Architecture must support 5,000 concurrent trade requests during peak daylight hours.
+- Security: End-to-end cryptographic signature verification on all transaction payloads (ED25519).
+- Compliance: Full data residency compliance within Indian data center regions (AWS ap-south-1).
+
+## 3. Architecture Guardrails & Chosen Stack
+- Language & Framework: TypeScript, Next.js App Router, Tailwind CSS.
+- Persistence Layer: PostgreSQL with TimescaleDB extension for time-series smart meter telemetry.
+- Caching & Message Queue: Redis Cluster for in-memory order book matching.
+
+## 4. Immediate Sprint 1 Deliverables
+- Complete database schema definition with Prisma ORM migrations.
+- Mock telemetry generator producing 1,000 simulated energy meters.`
+  },
+  {
+    id: 't14',
+    tier: 'pro',
+    price: 1299,
+    license: 'Commercial Pro',
+    app: 'Kanban & Milestone Planning Web App',
+    img: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80',
+    t: 'Milestone Roadmap & Plan',
+    cat: 'Freelancer Productivity',
+    ic: 'calendar',
+    c: 'cyan',
+    d: 'Multi-week engineering roadmap with dependencies, delivery gates, testing cycles, and cutover protocols.',
+    x: `6-WEEK TECHNICAL DELIVERY ROADMAP & MILESTONES
+Project: Enterprise Cloud Transformation
+Engineering Lead: Freelancer Lead · Client: Apex Innovations
+
+## Week 1: Environment Setup, Audit & Schema Architecture
+- Repository initialization with ESLint, Prettier, and Husky pre-commit hooks.
+- PostgreSQL schema modeling with foreign key constraints and index strategy.
+- Milestone Gate 1: Client architecture review and schema approval.
+
+## Weeks 2–3: Core Feature Implementation & API Integrations
+- Authentication gateway (OAuth2 / Magic Link with session cookies).
+- REST and WebSocket telemetry endpoints.
+- UI Component system implementation according to approved Figma tokens.
+- Milestone Gate 2: Staging deployment demo and initial integration sign-off.
+
+## Week 4: Automated Testing & Performance Optimization
+- End-to-end test suite execution with Playwright.
+- Database query plan analysis (EXPLAIN ANALYZE) on high-frequency queries.
+- Milestone Gate 3: Test coverage report (>85%) and load-testing pass.
+
+## Weeks 5–6: Production Cutover, Security Hardening & Handover
+- Blue/green production deployment execution with automated rollback.
+- DNS cutover with zero downtime.
+- Comprehensive technical documentation and team training session.`
+  },
+  {
+    id: 't15',
+    tier: 'free',
+    price: 0,
+    license: 'Standard Free',
+    app: 'Focus Timer & Daily Execution Board',
+    img: 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=600&q=80',
+    t: 'Daily Execution Protocol',
+    cat: 'Freelancer Productivity',
+    ic: 'clock',
+    c: 'blue',
+    d: 'High-output daily time-blocking protocol designed for deep work, asynchronous client management, and zero distractions.',
+    x: `FREELANCER DAILY HIGH-OUTPUT PROTOCOL
+Date: 02 November 2024 · Status: Active Focus
+
+## The 3 Non-Negotiable Rocks (Must Ship Today)
+1. Complete Next.js server actions refactor for Apex Innovations (PR #42).
+2. Issue GST Tax Invoice #INV-2024-104 to Hyperion Software and verify delivery.
+3. Conduct 45-minute architectural review call with Zenith AI team (11:30 AM).
+
+## Time-Blocked Execution Schedule
+- 08:30 – 09:00: Asynchronous triage (GitHub notifications, Slack priority channels).
+- 09:00 – 12:00: Deep Work Block 1 (Apex Innovations core engine refactoring).
+- 12:00 – 13:00: Client Steering Standup & Architecture Sync.
+- 13:00 – 14:00: Lunch & offline mental reset.
+- 14:00 – 17:00: Deep Work Block 2 (Playwright automated test suite writing).
+- 17:00 – 18:00: Invoicing, ledger reconciliation, and daily git push summary.
+
+Daily Principle: “Ship one meaningful code improvement every morning before opening email.”`
+  },
+  {
+    id: 't16',
+    tier: 'free',
+    price: 0,
+    license: 'Standard Free',
+    app: 'Timesheet & Billable Hours Portal',
+    img: 'https://images.unsplash.com/photo-1506784365847-bbad939e9335?auto=format&fit=crop&w=600&q=80',
+    t: 'Weekly Billable Timesheet',
+    cat: 'Freelancer Productivity',
+    ic: 'clipboard',
+    c: 'indigo',
+    d: 'Itemized weekly consulting timesheet tracking billable hours, project milestones, and real-time revenue earnings.',
+    x: `WEEKLY CONSULTING TIMESHEET & BILLABLE REVENUE
+Week Commencing: 28 October 2024 – 01 November 2024
+Engineer: Freelancer Lead · Hourly Consulting Rate: ₹3,500.00 / hour
+
+## Daily Activity Log
+- Monday: Apex Innovations · PR #40 Database indexing & Redis setup (7.5 Hours)
+- Tuesday: Aura Digital · Checkout API latency optimization (6.0 Hours)
+- Wednesday: Apex Innovations · Next.js 15 App router migration (8.0 Hours)
+- Thursday: Zenith AI · Staging environment deployment & Docker config (6.5 Hours)
+- Friday: Internal & Maintenance · Automated test suites & security updates (7.0 Hours)
+
+## Weekly Financial Reconciliation
+- Total Billable Hours Worked: 35.0 Hours
+- Billable Revenue Earned: ₹1,22,500.00
+- Approved by Clients: 100% Verified
+- Invoices Dispatched: INV-2024-103, INV-2024-104`
+  },
+  {
+    id: 't17',
+    tier: 'free',
+    price: 0,
+    license: 'Standard Free',
+    app: 'Meeting Transcripts & Action Items Hub',
+    img: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=600&q=80',
+    t: 'Client Meeting Minutes',
+    cat: 'Freelancer Productivity',
+    ic: 'message-circle',
+    c: 'violet',
+    d: 'Action-oriented meeting minutes template with recorded decisions, risk items, and explicit stakeholder action items.',
+    x: `CLIENT STEERING COMMITTEE: MEETING MINUTES
+Project: Apex Innovations Cloud Modernization
+Date: 01 November 2024 · 11:30 – 12:15 IST · Google Meet
+Attendees: Rajiv Mehra (VP Tech, Apex), Priya Nair (Product Manager), Freelancer Lead (Architect)
+
+## 1. Key Architectural Decisions Recorded
+- Decision 1: Approved immediate cutover from Auth0 to native Supabase SSR authentication to reduce third-party latency by 140ms.
+- Decision 2: Retained existing AWS S3 asset bucket; configured CloudFront CDN distribution in front of media assets.
+- Decision 3: Scheduled production deployment for Saturday, 16 November at 02:00 AM IST to minimize customer impact.
+
+## 2. Outstanding Action Items & Owners
+- [ ] Freelancer Lead: Deliver staging preview URL for new checkout flow (Due: Monday 04 Nov).
+- [ ] Rajiv Mehra: Provide production AWS IAM credentials with restricted permissions (Due: Tuesday 05 Nov).
+- [ ] Priya Nair: Finalize legal copy for Terms of Service and Privacy Policy (Due: Wednesday 06 Nov).
+
+Next Steering Call: Tuesday, 05 November 2024 at 11:30 AM IST.`
+  },
+  {
+    id: 't18',
+    tier: 'pro',
+    price: 1499,
+    license: 'Commercial Pro',
+    app: 'Change Request & Scope Approvals App',
+    img: 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=600&q=80',
+    t: 'Formal Scope Change Order',
+    cat: 'Freelancer Productivity',
+    ic: 'file-plus',
+    c: 'purple',
+    d: 'Contract amendment for client scope expansions detailing cost impact, timeline adjustments, and sign-offs.',
+    x: `FORMAL CHANGE ORDER NOTICE (CONTRACT AMENDMENT)
+Change Order Number: CO-2024-03
+Referenced Master Agreement: MSA-2024-CR-019 / SOW-APEX-04
+Client: Apex Innovations Inc.
+Date of Request: 02 November 2024
+
+## 1. Description of Scope Expansion
+Client requests the addition of Stripe International Multi-Currency Payment Processing and Automated GST e-Invoicing integration, which was not included in the original Statement of Work dated 15 October 2024.
+
+## 2. Technical Specifications of Requested Work
+- Integration of Stripe webhook listener with idempotency keys.
+- Real-time currency conversion rates via Open Exchange Rates API.
+- Automated generation of GST-compliant PDF receipts attached to transactional customer emails.
+
+## 3. Commercial & Timeline Impact
+- Additional Engineering Effort: 16 Hours
+- Financial Cost Impact: ₹35,000.00 (Due upon deployment of Change Order to staging)
+- Schedule Impact: Extends final production cutover date by five (5) business days (New Target: 21 November 2024).
+
+## 4. Formal Signatures & Authorization
+Apex Innovations Inc. hereby approves the additional investment and timeline modification:
+Authorized Signature: Rajiv Mehra, VP Technology (Apex Innovations)
+Consultant Signature: Freelancer Lead (CreatorOS Engineering)`
+  }
+];
+                let tplCat = 'All';
+                let tplQuery = '';
                 function renderTemplatesView() {
+                    if (!state.customTemplates) state.customTemplates = [];
+                    const allTemplates = (state.customTemplates || []).concat(TEMPLATES);
+
                     $('#tplCats').innerHTML = TPL_CATS.map(c => {
-                        const n = c === 'All' ? TEMPLATES.length : TEMPLATES.filter(t => t.cat === c).length;
+                        let n = 0;
+                        if (c === 'All') n = allTemplates.length;
+                        else if (c === '★ Commercial Pro') n = allTemplates.filter(t => t.tier === 'pro').length;
+                        else if (c === '✓ Free Templates') n = allTemplates.filter(t => t.tier === 'free').length;
+                        else n = allTemplates.filter(t => t.cat === c).length;
                         return '<button class="fchip ' + (tplCat === c ? 'active' : '') + '" data-action="tpl-cat" data-id="' + esc(c) + '" data-testid="tpl-cat">' + c + ' <span style="opacity:.6;font-family:var(--font-mono);font-size:10px">' + n + '</span></button>';
-                    }
-                    ).join('');
-                    const q = tplQuery.toLowerCase();
-                    const list = TEMPLATES.filter(t => (tplCat === 'All' || t.cat === tplCat) && (!q || (t.t + ' ' + t.d + ' ' + t.cat).toLowerCase().includes(q)));
-                    $('#tplGrid').innerHTML = list.map( (t, i) => {
+                    }).join('');
+
+                    const q = (tplQuery || '').toLowerCase();
+                    const list = allTemplates.filter(t => {
+                        if (tplCat === '★ Commercial Pro' && t.tier !== 'pro') return false;
+                        if (tplCat === '✓ Free Templates' && t.tier !== 'free') return false;
+                        if (tplCat !== 'All' && tplCat !== '★ Commercial Pro' && tplCat !== '✓ Free Templates' && t.cat !== tplCat) return false;
+                        if (q && !(t.t + ' ' + (t.d || '') + ' ' + (t.cat || '') + ' ' + (t.app || '')).toLowerCase().includes(q)) return false;
+                        return true;
+                    });
+
+                    $('#tplGrid').innerHTML = list.map((t, i) => {
                         const fav = state.favTemplates.indexOf(t.id) >= 0;
-                        return '<div class="tcard" style="animation-delay:' + (i * 40) + 'ms" data-testid="template-card">' + '<span class="tag tpl-cat">' + esc(t.cat.replace(' Templates', '')) + '</span>' + '<div class="tpl-ico" style="background:linear-gradient(135deg,#7045F5,#A56BFF)">' + ic(t.ic) + '</div>' + '<h4>' + esc(t.t) + '</h4><p>' + esc(t.d) + '</p>' + '<div class="tpl-acts"><button class="btn btn-ghost btn-sm" data-action="tpl-preview" data-id="' + t.id + '" data-testid="preview-template-btn">' + ic('eye') + 'Preview</button><button class="btn btn-primary btn-sm" data-action="tpl-use" data-id="' + t.id + '" data-testid="use-template-btn">' + ic('zap') + 'Use Template</button></div>' + '<button class="icon-btn fav-btn ' + (fav ? 'on' : '') + '" data-action="tpl-fav" data-id="' + t.id + '" data-testid="fav-template-btn" title="Favourite">' + ic('star') + '</button></div>';
-                    }
-                    ).join('') || emptyHTML('grid', 'No templates found', 'Try another search or category.');
+                        const isCustom = !!t.isCustom;
+                        const isUnlocked = isCustom || t.tier !== 'pro' || (state.purchasedTemplates && state.purchasedTemplates.includes(t.id));
+                        
+                        const pricePill = isCustom
+                            ? '<span class="tpl-price-tag unlocked" style="background:#7045F5">Custom</span>'
+                            : (t.tier === 'free'
+                                ? '<span class="tpl-price-tag free">Free License</span>'
+                                : (isUnlocked
+                                    ? '<span class="tpl-price-tag unlocked">✓ Unlocked Pro</span>'
+                                    : '<span class="tpl-price-tag pro">⚡ Pro · ₹' + (t.price || 1499).toLocaleString('en-IN') + '</span>'));
+
+                        let actBtns = '';
+                        if (isCustom) {
+                            actBtns = '<button class="btn btn-ghost btn-sm" data-action="tpl-preview" data-id="' + t.id + '">' + ic('eye') + 'Preview</button>'
+                                + '<button class="btn btn-ghost btn-sm" data-action="tpl-edit" data-id="' + t.id + '" title="Edit">' + ic('edit') + 'Edit</button>'
+                                + '<button class="btn btn-ghost btn-sm danger" data-action="tpl-del" data-id="' + t.id + '" title="Delete">' + ic('trash') + '</button>'
+                                + '<button class="btn btn-primary btn-sm" data-action="tpl-use" data-id="' + t.id + '">' + ic('zap') + 'Use</button>';
+                        } else if (isUnlocked) {
+                            actBtns = '<button class="btn btn-ghost btn-sm" data-action="tpl-preview" data-id="' + t.id + '" data-testid="preview-template-btn">' + ic('eye') + 'Preview</button>'
+                                + '<button class="btn btn-ghost btn-sm" data-action="tpl-export" data-id="' + t.id + '" title="Export Markdown">' + ic('download') + '</button>'
+                                + '<button class="btn btn-primary btn-sm" data-action="tpl-use" data-id="' + t.id + '" data-testid="use-template-btn">' + ic('zap') + 'Use Template</button>';
+                        } else {
+                            actBtns = '<button class="btn btn-ghost btn-sm" data-action="tpl-preview" data-id="' + t.id + '" data-testid="preview-template-btn">' + ic('eye') + 'Preview</button>'
+                                + '<button class="btn btn-primary btn-sm" data-action="buy-template" data-id="' + t.id + '" data-testid="buy-template-btn">' + ic('zap') + 'Unlock Pro · ₹' + (t.price || 1499).toLocaleString('en-IN') + '</button>';
+                        }
+
+                        return '<div class="tcard" style="animation-delay:' + (i * 35) + 'ms" data-testid="template-card">'
+                            + '<div class="tpl-cover">'
+                                + '<img src="' + (t.img || 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80') + '" alt="' + esc(t.t) + '" class="tpl-cover-img" loading="lazy" onerror="this.src=\'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80\'" />'
+                                + '<span class="tpl-badge-pill">' + esc((t.cat || 'Custom').replace(' Templates', '')) + '</span>'
+                                + '<span class="tpl-live-pill">' + esc(t.app || 'Web App') + '</span>'
+                                + pricePill
+                            + '</div>'
+                            + '<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">'
+                                + '<div class="tpl-ico" style="background:linear-gradient(135deg,#7045F5,#A56BFF);width:32px;height:32px;border-radius:9px;flex:none">' + ic(t.ic || 'file') + '</div>'
+                                + '<h4 style="font-size:15px;margin:0;flex:1">' + esc(t.t) + '</h4>'
+                                + '<button class="icon-btn fav-btn ' + (fav ? 'on' : '') + '" data-action="tpl-fav" data-id="' + t.id + '" data-testid="fav-template-btn" title="Favourite">' + ic('star') + '</button>'
+                            + '</div>'
+                            + '<p style="font-size:12.5px;color:var(--muted);line-height:1.45;margin-bottom:14px;min-height:36px">' + esc(t.d || 'Custom client-ready template with variable tags and markdown formatting.') + '</p>'
+                            + '<div class="tpl-acts">'
+                                + actBtns
+                            + '</div>'
+                        + '</div>';
+                    }).join('') || emptyHTML('grid', 'No templates found', 'Try another search or create your own custom template.');
+                    
                     renderSavedDocs();
                 }
                 function renderSavedDocs() {
                     const el = $('#savedDocsList');
-                    if (!el)
-                        return;
-                    el.innerHTML = state.savedDocs.length ? state.savedDocs.map(d => '<div class="rowitem" data-testid="saved-doc-row"><span class="dot-type" style="background:var(--success)"></span><div><b>' + esc(d.title) + '</b><small>' + esc(d.cat) + ' · saved ' + fmtD(d.date) + '</small></div><div style="margin-left:auto;display:flex;gap:2px"><button class="icon-btn" data-action="doc-open" data-id="' + d.id + '" title="Open">' + ic('eye') + '</button><button class="icon-btn" data-action="doc-copy" data-id="' + d.id + '" title="Copy">' + ic('copy') + '</button><button class="icon-btn danger" data-action="doc-del" data-id="' + d.id + '" title="Delete">' + ic('trash') + '</button></div></div>').join('') : '<div class="empty">' + ic('file') + '<b>No saved documents yet</b><p>Use a template and your edited copy will live here.</p></div>';
+                    if (!el) return;
+                    if (!state.savedDocs) state.savedDocs = [];
+                    el.innerHTML = state.savedDocs.length ? state.savedDocs.map(d => 
+                        '<div class="rowitem" data-testid="saved-doc-row">'
+                            + '<span class="dot-type" style="background:var(--success)"></span>'
+                            + '<div><b>' + esc(d.title) + '</b><small>' + esc(d.cat || 'Saved Document') + ' · saved ' + fmtD(d.date) + '</small></div>'
+                            + '<div style="margin-left:auto;display:flex;gap:4px">'
+                                + '<button class="icon-btn" data-action="doc-open" data-id="' + d.id + '" title="View Document">' + ic('eye') + '</button>'
+                                + '<button class="icon-btn" data-action="doc-edit" data-id="' + d.id + '" title="Edit Document">' + ic('edit') + '</button>'
+                                + '<button class="icon-btn" data-action="doc-copy" data-id="' + d.id + '" title="Copy Content">' + ic('copy') + '</button>'
+                                + '<button class="icon-btn" data-action="doc-export" data-id="' + d.id + '" title="Download .MD">' + ic('download') + '</button>'
+                                + '<button class="icon-btn danger" data-action="doc-del" data-id="' + d.id + '" title="Delete Document">' + ic('trash') + '</button>'
+                            + '</div>'
+                        + '</div>'
+                    ).join('') : '<div class="empty">' + ic('file') + '<b>No saved documents yet</b><p>Use any template or click "New Document" to save customized drafts here.</p></div>';
                 }
                 function tplHtml(c) {
                     return String(c || '').split('\n').map(l => {
@@ -6558,27 +7434,275 @@
                     }
                     ).join('');
                 }
-                function tplPreview(id) {
-                    const t = TEMPLATES.find(x => x.id === id);
-                    if (!t)
-                        return;
+                function getTemplateById(id) {
+                    if (state.customTemplates) {
+                        const ct = state.customTemplates.find(x => x.id === id);
+                        if (ct) return ct;
+                    }
+                    return TEMPLATES.find(x => x.id === id);
+                }
+
+                function tplCreate() {
                     openModal({
-                        title: 'Template preview',
-                        sub: t.t + ' · built-in sample template',
+                        title: 'Create Custom Template',
+                        sub: 'Define a reusable business or creative template for your clients',
                         wide: true,
-                        body: '<div class="doc-sheet"><div class="doc-head"><div><div class="doc-brand">' + esc(t.t) + '</div><div style="font-size:12px;color:#74718A;margin-top:4px">' + esc(t.cat) + ' · CreatorOS AI built-in sample</div></div><div class="doc-meta">Sample template<br>Replace {{placeholders}}<br>with your details</div></div>' + tplHtml(t.x) + '</div>',
-                        foot: '<button class="btn btn-ghost" data-action="tpl-copy" data-id="' + t.id + '" data-testid="copy-template-btn">' + ic('copy') + 'Copy content</button><div class="grow"></div><button class="btn btn-primary" data-action="tpl-use" data-id="' + t.id + '" data-testid="use-template-preview-btn">' + ic('zap') + 'Use Template</button>'
+                        body: '<form id="tplCreateForm" novalidate>'
+                            + '<div class="form-row">'
+                                + '<div class="field" style="flex:2"><label>Template Title</label><input name="title" placeholder="e.g. Full-Stack Modernization Scope of Work" required></div>'
+                                + '<div class="field" style="flex:1"><label>Category</label><select name="cat">'
+                                    + '<option value="Business Templates">Business Templates</option>'
+                                    + '<option value="Financial Templates">Financial Templates</option>'
+                                    + '<option value="Creative Templates">Creative Templates</option>'
+                                    + '<option value="Freelancer Productivity">Freelancer Productivity</option>'
+                                + '</select></div>'
+                            + '</div>'
+                            + '<div class="form-row">'
+                                + '<div class="field" style="flex:1"><label>License Tier</label><select name="tier">'
+                                    + '<option value="free">Free Standard License</option>'
+                                    + '<option value="pro">Commercial Pro License</option>'
+                                + '</select></div>'
+                                + '<div class="field" style="flex:1"><label>Price (₹ INR, for Pro)</label><input type="number" name="price" value="1499"></div>'
+                                + '<div class="field" style="flex:1.5"><label>Application Tag</label><input name="app" placeholder="e.g. Cloud Architecture Hub"></div>'
+                            + '</div>'
+                            + '<div class="field"><label>Description</label><input name="desc" placeholder="One-line summary of what this document delivers..."></div>'
+                            + '<div class="field"><label>Document Markdown Content</label><textarea name="body" style="min-height:280px;font-family:var(--font-mono);font-size:12px;line-height:1.7" placeholder="# Executive Summary&#10;&#10;Deliverable details, milestones, and payment schedule..."></textarea></div>'
+                        + '</form>',
+                        foot: '<button class="btn btn-ghost" data-action="close-modal">Cancel</button><div class="grow"></div><button class="btn btn-primary" type="submit" form="tplCreateForm">' + ic('download') + 'Create & Save Template</button>',
+                        submit: function(f) {
+                            const title = f.title.value.trim();
+                            if (!title) { toast('Please provide a template title.', 'warning'); return; }
+                            const t = {
+                                id: 'ct_' + Date.now().toString(36),
+                                isCustom: true,
+                                t: title,
+                                cat: f.cat.value,
+                                tier: f.tier.value,
+                                price: parseInt(f.price.value, 10) || 0,
+                                license: f.tier.value === 'pro' ? 'Commercial Pro License' : 'Standard Free License',
+                                app: f.app.value.trim() || 'Custom Document',
+                                d: f.desc.value.trim() || 'Custom client-ready template with variable tags and markdown formatting.',
+                                ic: 'file-text',
+                                img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80',
+                                x: f.body.value.trim() || ('# ' + title + '\n\nCreated by Freelancer Lead on ' + todayISO())
+                            };
+                            if (!state.customTemplates) state.customTemplates = [];
+                            state.customTemplates.unshift(t);
+                            save();
+                            logAct('file', 'Created custom template “' + t.t + '”');
+                            toast('🎉 Custom template created successfully!', 'success');
+                            closeModal();
+                            renderTemplatesView();
+                        }
                     });
                 }
-                function tplUse(id) {
-                    const t = TEMPLATES.find(x => x.id === id);
-                    if (!t)
+
+                function tplEdit(id) {
+                    const t = getTemplateById(id);
+                    if (!t) return;
+                    openModal({
+                        title: 'Edit Template',
+                        sub: t.t + ' — update template variables and specifications',
+                        wide: true,
+                        body: '<form id="tplEditForm" novalidate>'
+                            + '<div class="form-row">'
+                                + '<div class="field" style="flex:2"><label>Template Title</label><input name="title" value="' + esc(t.t) + '" required></div>'
+                                + '<div class="field" style="flex:1"><label>Category</label><select name="cat">'
+                                    + '<option value="Business Templates"' + (t.cat === 'Business Templates' ? ' selected' : '') + '>Business Templates</option>'
+                                    + '<option value="Financial Templates"' + (t.cat === 'Financial Templates' ? ' selected' : '') + '>Financial Templates</option>'
+                                    + '<option value="Creative Templates"' + (t.cat === 'Creative Templates' ? ' selected' : '') + '>Creative Templates</option>'
+                                    + '<option value="Freelancer Productivity"' + (t.cat === 'Freelancer Productivity' ? ' selected' : '') + '>Freelancer Productivity</option>'
+                                + '</select></div>'
+                            + '</div>'
+                            + '<div class="form-row">'
+                                + '<div class="field" style="flex:1"><label>License Tier</label><select name="tier">'
+                                    + '<option value="free"' + (t.tier === 'free' ? ' selected' : '') + '>Free Standard License</option>'
+                                    + '<option value="pro"' + (t.tier === 'pro' ? ' selected' : '') + '>Commercial Pro License</option>'
+                                + '</select></div>'
+                                + '<div class="field" style="flex:1"><label>Price (₹ INR)</label><input type="number" name="price" value="' + (t.price || 0) + '"></div>'
+                                + '<div class="field" style="flex:1.5"><label>Application Tag</label><input name="app" value="' + esc(t.app || '') + '"></div>'
+                            + '</div>'
+                            + '<div class="field"><label>Description</label><input name="desc" value="' + esc(t.d || '') + '"></div>'
+                            + '<div class="field"><label>Document Markdown Content</label><textarea name="body" style="min-height:300px;font-family:var(--font-mono);font-size:12px;line-height:1.7">' + esc(t.x) + '</textarea></div>'
+                        + '</form>',
+                        foot: '<button class="btn btn-ghost" data-action="close-modal">Cancel</button><div class="grow"></div><button class="btn btn-primary" type="submit" form="tplEditForm">' + ic('download') + 'Save Changes</button>',
+                        submit: function(f) {
+                            t.t = f.title.value.trim() || t.t;
+                            t.cat = f.cat.value;
+                            t.tier = f.tier.value;
+                            t.price = parseInt(f.price.value, 10) || 0;
+                            t.license = t.tier === 'pro' ? 'Commercial Pro License' : 'Standard Free License';
+                            t.app = f.app.value.trim() || t.app;
+                            t.d = f.desc.value.trim() || t.d;
+                            t.x = f.body.value;
+                            save();
+                            logAct('edit', 'Updated template “' + t.t + '”');
+                            toast('Template updated successfully', 'success');
+                            closeModal();
+                            renderTemplatesView();
+                        }
+                    });
+                }
+
+                function tplDelete(id) {
+                    const idx = (state.customTemplates || []).findIndex(x => x.id === id);
+                    if (idx < 0) return;
+                    confirmModal({
+                        title: 'Delete custom template?',
+                        body: 'This will remove “' + esc(state.customTemplates[idx].t) + '” from your templates library.',
+                        confirmText: 'Delete Template',
+                        onConfirm: function() {
+                            const title = state.customTemplates[idx].t;
+                            state.customTemplates.splice(idx, 1);
+                            save();
+                            logAct('trash', 'Deleted custom template “' + title + '”');
+                            toast('Template deleted', 'info');
+                            renderTemplatesView();
+                        }
+                    });
+                }
+
+                function docEdit(id) {
+                    const d = (state.savedDocs || []).find(x => x.id === id);
+                    if (!d) return;
+                    openModal({
+                        title: 'Edit Saved Document',
+                        sub: d.title + ' — update and save changes',
+                        wide: true,
+                        body: '<form id="docEditForm" novalidate>'
+                            + '<div class="field"><label>Document Title</label><input name="title" value="' + esc(d.title) + '" required></div>'
+                            + '<div class="field"><label>Content</label><textarea name="body" style="min-height:320px;font-family:var(--font-mono);font-size:12px;line-height:1.7">' + esc(d.body) + '</textarea></div>'
+                        + '</form>',
+                        foot: '<button class="btn btn-ghost" data-action="close-modal">Cancel</button><div class="grow"></div><button class="btn btn-primary" type="submit" form="docEditForm">' + ic('download') + 'Update Document</button>',
+                        submit: function(f) {
+                            d.title = f.title.value.trim() || d.title;
+                            d.body = f.body.value;
+                            d.date = todayISO();
+                            save();
+                            toast('Document updated successfully', 'success');
+                            closeModal();
+                            renderSavedDocs();
+                        }
+                    });
+                }
+
+                function tplExport(id) {
+                    const t = getTemplateById(id);
+                    if (!t) return;
+                    const blob = new Blob([t.x], { type: 'text/markdown;charset=utf-8' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = (t.t.toLowerCase().replace(/[^a-z0-9]+/g, '-') || 'template') + '.md';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    toast('Downloaded ' + a.download, 'success');
+                }
+
+                function docExport(id) {
+                    const d = (state.savedDocs || []).find(x => x.id === id);
+                    if (!d) return;
+                    const blob = new Blob([d.body], { type: 'text/markdown;charset=utf-8' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = (d.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') || 'document') + '.md';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    toast('Downloaded ' + a.download, 'success');
+                }
+
+                function tplPreview(id) {
+                    const t = getTemplateById(id);
+                    if (!t) return;
+                    const isCustom = !!t.isCustom;
+                    const isUnlocked = isCustom || t.tier !== 'pro' || (state.purchasedTemplates && state.purchasedTemplates.includes(t.id));
+                    const docStamp = '<div class="doc-meta-badge">'
+                        + '<div class="doc-seal ' + (isUnlocked ? 'seal-active' : 'seal-locked') + '">' + (isUnlocked ? '✓ VERIFIED COMMERCIAL LICENSE' : '🔒 COMMERCIAL PRO PREVIEW') + '</div>'
+                        + '<div class="doc-ref">DOC-ID: #' + t.id.toUpperCase() + '-2024-STD</div>'
+                        + '<div class="doc-license-type">' + esc(t.license || (t.tier === 'pro' ? 'Commercial Pro License' : 'Standard Free License')) + '</div>'
+                    + '</div>';
+
+                    const lockBanner = isUnlocked ? '' : '<div class="tpl-pro-lock-card">'
+                        + '<div class="tpl-pro-lock-icon">' + ic('zap') + '</div>'
+                        + '<div class="tpl-pro-lock-info">'
+                            + '<div class="tpl-pro-lock-title">Commercial Freelancer License Required</div>'
+                            + '<div class="tpl-pro-lock-sub">Includes full IP transfer schedule, indemnification terms, editable source in Document Builder, and unlimited client distribution rights.</div>'
+                        + '</div>'
+                        + '<button class="btn btn-primary" data-action="buy-template" data-id="' + t.id + '">' + ic('zap') + 'Unlock License · ₹' + (t.price || 1499).toLocaleString('en-IN') + '</button>'
+                    + '</div>';
+
+                    const footBtns = isUnlocked
+                        ? '<button class="btn btn-ghost" data-action="tpl-copy" data-id="' + t.id + '" data-testid="copy-template-btn">' + ic('copy') + 'Copy Content</button>'
+                            + '<button class="btn btn-ghost" data-action="tpl-export" data-id="' + t.id + '">' + ic('download') + 'Download .MD</button>'
+                            + (isCustom ? '<button class="btn btn-ghost" data-action="tpl-edit" data-id="' + t.id + '">' + ic('edit') + 'Edit</button>' : '')
+                            + '<div class="grow"></div><button class="btn btn-primary" data-action="tpl-use" data-id="' + t.id + '" data-testid="use-template-preview-btn">' + ic('zap') + 'Use in Document Builder</button>'
+                        : '<button class="btn btn-ghost" data-action="tpl-copy-sample" data-id="' + t.id + '" data-testid="copy-sample-btn">' + ic('copy') + 'Copy Excerpt</button><div class="grow"></div><button class="btn btn-primary" data-action="buy-template" data-id="' + t.id + '" data-testid="buy-license-btn">' + ic('zap') + '⚡ Unlock Pro License (₹' + (t.price || 1499).toLocaleString('en-IN') + ')</button>';
+
+                    openModal({
+                        title: 'Template preview',
+                        sub: t.t + ' · ' + (isUnlocked ? 'Commercial License Active' : 'Pro Preview Mode'),
+                        wide: true,
+                        body: '<div class="doc-sheet"><div class="doc-head"><div><div class="doc-brand">' + esc(t.t) + '</div><div style="font-size:12px;color:#74718A;margin-top:4px">' + esc(t.cat) + ' · ' + esc(t.app || 'Web App') + '</div></div>' + docStamp + '</div>' + lockBanner + tplHtml(t.x) + '</div>',
+                        foot: footBtns
+                    });
+                }
+
+                function buyTemplate(id) {
+                    const t = getTemplateById(id);
+                    if (!t) return;
+                    if (!state.purchasedTemplates) state.purchasedTemplates = [];
+                    if (state.purchasedTemplates.includes(t.id)) {
+                        toast('You already own this commercial license.', 'info');
+                        tplPreview(t.id);
                         return;
+                    }
+                    openModal({
+                        title: 'Unlock Commercial Pro License',
+                        sub: t.t + ' · Single-Freelancer Commercial Royalty-Free Rights',
+                        wide: false,
+                        body: '<div class="checkout-box">'
+                            + '<div class="checkout-summary-row">'
+                                + '<div>'
+                                    + '<div style="font-weight:700;font-size:15px;color:var(--text)">' + esc(t.t) + '</div>'
+                                    + '<div style="font-size:12px;color:var(--muted);margin-top:2px">' + esc(t.app || 'Web App') + ' · Lifetime Commercial License</div>'
+                                + '</div>'
+                                + '<div style="font-size:22px;font-weight:800;color:var(--primary);font-family:var(--font-mono)">₹' + (t.price || 1499).toLocaleString('en-IN') + '</div>'
+                            + '</div>'
+                            + '<div class="checkout-features">'
+                                + '<div class="feat-item">' + ic('check') + ' Full IP assignment & indemnity legal clauses</div>'
+                                + '<div class="feat-item">' + ic('check') + ' Multi-client commercial redistribution rights</div>'
+                                + '<div class="feat-item">' + ic('check') + ' Editable source in Document Builder & PDF export</div>'
+                            + '</div>'
+                            + '<div style="font-size:11.5px;font-weight:700;margin:16px 0 8px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)">Select Instant Payment Method</div>'
+                            + '<div class="pay-methods">'
+                                + '<label class="pay-method selected"><input type="radio" name="payOpt" checked /> <span><b>UPI / QR Code</b><small style="display:block;color:var(--muted);font-size:11px">GPay, PhonePe, Paytm, BHIM</small></span></label>'
+                                + '<label class="pay-method"><input type="radio" name="payOpt" /> <span><b>Credit / Debit Card</b><small style="display:block;color:var(--muted);font-size:11px">Visa, MasterCard, RuPay</small></span></label>'
+                                + '<label class="pay-method"><input type="radio" name="payOpt" /> <span><b>NetBanking</b><small style="display:block;color:var(--muted);font-size:11px">HDFC, ICICI, SBI, Axis</small></span></label>'
+                            + '</div>'
+                        + '</div>',
+                        foot: '<button class="btn btn-ghost" data-action="close-modal">Cancel</button><div class="grow"></div><button class="btn btn-primary" data-action="confirm-buy-tpl" data-id="' + t.id + '">' + ic('zap') + 'Pay ₹' + (t.price || 1499).toLocaleString('en-IN') + ' & Unlock Now</button>'
+                    });
+                }
+
+                function tplUse(id) {
+                    const t = getTemplateById(id);
+                    if (!t) return;
+                    const isCustom = !!t.isCustom;
+                    const isUnlocked = isCustom || t.tier !== 'pro' || (state.purchasedTemplates && state.purchasedTemplates.includes(t.id));
+                    if (!isUnlocked) {
+                        buyTemplate(t.id);
+                        return;
+                    }
                     openModal({
                         title: 'Use template',
-                        sub: t.t + ' — edit and save your own copy',
+                        sub: t.t + ' — customize and save to your documents',
                         wide: true,
-                        body: '<form id="entityForm" novalidate><div class="field"><label>Document title</label><input name="title" value="' + esc(t.t) + '" data-testid="doc-title-input"></div><div class="field"><label>Content <small style="color:var(--muted)">— replace the {{placeholders}}</small></label><textarea name="body" style="min-height:300px;font-family:var(--font-mono);font-size:12px;line-height:1.7">' + esc(t.x) + '</textarea></div></form>',
+                        body: '<form id="entityForm" novalidate><div class="field"><label>Document title</label><input name="title" value="' + esc(t.t) + '" data-testid="doc-title-input"></div><div class="field"><label>Document Content <small style="color:var(--muted)">— review deliverables, variables, and milestone schedule</small></label><textarea name="body" style="min-height:340px;font-family:var(--font-mono);font-size:12px;line-height:1.7">' + esc(t.x) + '</textarea></div></form>',
                         foot: '<button class="btn btn-ghost" data-action="tpl-copy" data-id="' + t.id + '">' + ic('copy') + 'Copy original</button><div class="grow"></div><button class="btn btn-primary" type="submit" form="entityForm" data-testid="save-doc-btn">' + ic('download') + 'Save to my documents</button>',
                         submit: function(f) {
                             const d = {
@@ -6588,6 +7712,7 @@
                                 body: f.body.value,
                                 date: todayISO()
                             };
+                            if (!state.savedDocs) state.savedDocs = [];
                             state.savedDocs.unshift(d);
                             save();
                             logAct('file', 'Saved “' + d.title + '” from templates');
@@ -6597,8 +7722,37 @@
                         }
                     });
                 }
-
                 /* ================= CONNECTIONS ================= */
+                
+                /* ============ CONNECTION APP ICONS ============ */
+                const APP_ICONS = {
+                    gmail: '<svg viewBox="0 0 24 24" width="23" height="23" fill="none"><path d="M2 6l10 7 10-7v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" fill="#fff" opacity="0.95"/><path d="M22 6L12 13 2 6l2-2 8 5.6L20 4l2 2z" fill="#f87171"/></svg>',
+                    gcal: '<svg viewBox="0 0 24 24" width="23" height="23" fill="none"><rect x="3" y="4" width="18" height="17" rx="3" fill="#fff"/><path d="M3 8h18" stroke="#4285F4" stroke-width="2.5"/><text x="12" y="17" font-size="9" font-weight="800" text-anchor="middle" fill="#4285F4" font-family="sans-serif">31</text></svg>',
+                    slack: '<svg viewBox="0 0 24 24" width="23" height="23" fill="none"><path d="M5.5 10.5a2 2 0 100-4 2 2 0 000 4zM5.5 12a2 2 0 012 2v5a2 2 0 11-4 0v-5a2 2 0 012-2z" fill="#36C5F0"/><path d="M10.5 5.5a2 2 0 10-4 0 2 2 0 004 0zM12 5.5a2 2 0 012-2h5a2 2 0 110 4h-5a2 2 0 01-2-2z" fill="#2EB67D"/><path d="M18.5 13.5a2 2 0 100 4 2 2 0 000-4zM18.5 12a2 2 0 01-2-2v-5a2 2 0 114 0v5a2 2 0 01-2 2z" fill="#ECB22E"/><path d="M13.5 18.5a2 2 0 104 0 2 2 0 00-4 0zM12 18.5a2 2 0 01-2 2h-5a2 2 0 110-4h5a2 2 0 012 2z" fill="#E01E5A"/></svg>',
+                    teams: '<svg viewBox="0 0 24 24" width="23" height="23" fill="#fff"><path d="M16 8.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zm3 1h-6a2 2 0 00-2 2v3.5h10V11.5a2 2 0 00-2-2z"/><circle cx="8.5" cy="11.5" r="3" fill="#fff"/><path d="M3 16a2.5 2.5 0 012.5-2.5h6A2.5 2.5 0 0114 16v3H3v-3z" fill="#fff"/><rect x="2" y="8" width="8" height="8" rx="2" fill="#4B53BC"/><text x="6" y="14" font-size="6.5" font-weight="900" text-anchor="middle" fill="#fff" font-family="sans-serif">T</text></svg>',
+                    trello: '<svg viewBox="0 0 24 24" width="23" height="23" fill="none"><rect x="3" y="3" width="18" height="18" rx="3.5" fill="#fff" opacity="0.95"/><rect x="5.5" y="6" width="5" height="10" rx="1.5" fill="#0079BF"/><rect x="13.5" y="6" width="5" height="6.5" rx="1.5" fill="#0079BF"/></svg>',
+                    notion: '<svg viewBox="0 0 24 24" width="23" height="23" fill="#fff"><path d="M4 4.5l11.5-2 4.5 3v13.5l-12 2L4 18V4.5zm11.5 1.5L6.5 7.5v8.5l9-1.5V6zm-6 2.5h2v6.5h-2V8.5z"/></svg>',
+                    asana: '<svg viewBox="0 0 24 24" width="23" height="23" fill="#fff"><circle cx="12" cy="7.5" r="3.5"/><circle cx="7" cy="16" r="3.5"/><circle cx="17" cy="16" r="3.5"/></svg>',
+                    jira: '<svg viewBox="0 0 24 24" width="23" height="23" fill="#fff"><path d="M11.5 3L3 11.5l4.2 4.2 8.5-8.5L11.5 3z" opacity="0.7"/><path d="M12.5 8L7 13.5l4.2 4.2 5.5-5.5L12.5 8z" opacity="0.85"/><path d="M16.7 12.2L12.5 16.4 16.7 20.6 21 16.4l-4.3-4.2z"/></svg>',
+                    figma: '<svg viewBox="0 0 24 24" width="23" height="23" fill="none"><path d="M8 3.5h4v4H8a2 2 0 110-4z" fill="#F24E1E"/><path d="M12 3.5h4a2 2 0 110 4h-4v-4z" fill="#FF7262"/><path d="M12 7.5h4a2 2 0 110 4h-4v-4z" fill="#1ABCFE"/><path d="M8 7.5h4v4H8a2 2 0 110-4z" fill="#A259FF"/><path d="M8 11.5h4v2a2 2 0 11-4 0v-2z" fill="#0ACF83"/></svg>',
+                    github: '<svg viewBox="0 0 24 24" width="23" height="23" fill="#fff"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"/></svg>',
+                    gitlab: '<svg viewBox="0 0 24 24" width="23" height="23" fill="#fff"><path d="M12 21.5L2 14.2l3.8-11.7L9 11.5h6l3.2-9 3.8 11.7-10 7.3z"/></svg>',
+                    behance: '<svg viewBox="0 0 24 24" width="23" height="23" fill="#fff"><path d="M8.5 11.5c1.2 0 2-.6 2-1.7 0-1-.8-1.5-1.8-1.5H4.5v3.2h4zm.3 4.2c1.4 0 2.2-.7 2.2-1.9 0-1.2-.9-1.8-2.2-1.8H4.5v3.7h4.3zM2 6h6.8c2.4 0 4.2 1.2 4.2 3.2 0 1.2-.6 2.2-1.7 2.7 1.4.5 2.2 1.7 2.2 3.2 0 2.4-1.9 3.9-4.7 3.9H2V6zm14.5 1.5h4v1.5h-4V7.5zm3.8 6.5c-.2-1.2-1.2-2-2.5-2-1.5 0-2.6 1.1-2.7 2.8h5.2zm-5.2 1.6c.1 1.4 1.2 2.3 2.6 2.3 1.1 0 2-.5 2.4-1.4h2.2c-.6 2-2.3 3.3-4.6 3.3-2.9 0-5.1-2.1-5.1-5.1s2.2-5.1 5.1-5.1c3 0 5 2.2 4.9 5.3v1h-7.5z"/></svg>',
+                    upwork: '<svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6v6a3 3 0 006 0V6"/><path d="M13 10.5v8"/><path d="M13 14.5a3.5 3.5 0 107 0 3.5 3.5 0 00-7 0z"/></svg>',
+                    fiverr: '<svg viewBox="0 0 24 24" width="23" height="23" fill="#fff"><path d="M16.5 6.5h2v3h-2v1.5h2v3h-2v4h-3.5v-4h-1.5v-3h1.5v-2a3 3 0 013-3v.5zm-8 4.5h3.5v8.5H8.5V11zm0-4.5h3.5V9H8.5V6.5z"/></svg>',
+                    flcom: '<svg viewBox="0 0 24 24" width="23" height="23" fill="#fff"><path d="M3.5 6.5L12 3l8.5 3.5L12 14 3.5 6.5zm0 5.5L12 16l8.5-4-8.5 8.5L3.5 12z"/></svg>',
+                    linkedin: '<svg viewBox="0 0 24 24" width="23" height="23" fill="#fff"><path d="M6.5 8.5v11H3v-11h3.5zM4.75 3.5A2.25 2.25 0 114.7 8a2.25 2.25 0 01.05-4.5zM21 19.5h-3.5v-5.5c0-1.3-.02-3-1.83-3-1.83 0-2.11 1.43-2.11 2.9v5.6H10v-11h3.4v1.5h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.26 2.37 4.26 5.45v5.9z"/></svg>',
+                    razorpay: '<svg viewBox="0 0 24 24" width="23" height="23" fill="#fff"><path d="M14.5 3L6 14.5h5L7.5 21 18 9.5h-5.5L14.5 3z"/></svg>',
+                    paypal: '<svg viewBox="0 0 24 24" width="23" height="23" fill="#fff"><path d="M7 4h7.5c2.5 0 4.5 1.5 4 4.5-.4 2.8-2.5 4.5-5 4.5H10l-1 7H5L7 4z"/><path d="M9.5 8h6.5c2 0 3.5 1.2 3 3.5-.4 2.2-2 3.5-4 3.5H12l-.9 6H8l1.5-13z" opacity="0.75"/></svg>',
+                    stripe: '<svg viewBox="0 0 24 24" width="23" height="23" fill="#fff"><path d="M13.9 8.2c-.7-.3-1.6-.5-2.5-.5-1.4 0-2.3.7-2.3 1.8 0 1.4 1.9 1.7 3.5 2.2 2.2.7 3.2 1.6 3.2 3.3 0 2.3-1.9 3.5-4.4 3.5-1.3 0-2.5-.3-3.3-.7l.5-2.2c.8.4 1.9.7 2.8.7 1.5 0 2.3-.6 2.3-1.8 0-1.4-1.8-1.7-3.4-2.2-2.1-.7-3.2-1.6-3.2-3.2 0-2.2 1.8-3.4 4.2-3.4 1.1 0 2.2.2 2.9.5l-.5 2.3z"/></svg>',
+                    gdrive: '<svg viewBox="0 0 24 24" width="23" height="23" fill="none"><path d="M8.5 4.5L15.5 4.5 21.5 15 14.5 15z" fill="#FFC107"/><path d="M2.5 15l3.5-6 7 12H6z" fill="#0066DA"/><path d="M8.5 15l6 6H21.5l-6-6z" fill="#00AC47"/><path d="M9 15h6l-3-5z" fill="#EA4335"/></svg>',
+                    dropbox: '<svg viewBox="0 0 24 24" width="23" height="23" fill="#fff"><path d="M7 4.5L2 8l5 3.5 5-3.5-5-3.5zm10 0L12 8l5 3.5 5-3.5-5-3.5zM2 15l5 3.5 5-3.5-5-3.5-5 3.5zm15-3.5l-5 3.5 5 3.5 5-3.5-5-3.5zM12 16.5l-5 3.5 1.5 1 3.5-2.3 3.5 2.3 1.5-1-5-3.5z"/></svg>'
+                };
+
+                function appIconSvg(id) {
+                    return APP_ICONS[id] || '<span style="font-weight:700;font-size:12px">' + (id || '').slice(0, 2).toUpperCase() + '</span>';
+                }
+
                 const APPS = [{
                     id: 'gmail',
                     n: 'Gmail',
@@ -6774,7 +7928,7 @@
                         const list = APPS.filter(a => a.cat === cat);
                         return '<div class="conn-cat"><div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><h3 style="font-size:15.5px;font-family:var(--font-display)">' + cat + '</h3><span class="tag">' + list.length + ' apps</span></div><div class="conn-grid">' + list.map( (a, i) => {
                             const on = !!state.connections[a.id];
-                            return '<div class="app-card" style="animation-delay:' + (i * 40) + 'ms" data-testid="connection-card-' + a.id + '"><div class="app-tile" style="background:' + a.col + '">' + a.ini + '</div><div style="cursor:pointer" data-action="conn-info" data-id="' + a.id + '"><b>' + a.n + '</b><small style="display:flex;align-items:center;gap:5px;margin-top:3px"><span class="st-dot" style="background:' + (on ? 'var(--success)' : 'rgba(116,113,138,.5)') + '"></span>' + (on ? 'Demo Connected' : 'Not Connected') + '</small></div><div class="app-acts"><button class="btn btn-sm ' + (on ? 'btn-ghost' : 'btn-primary') + '" data-action="conn-toggle" data-id="' + a.id + '" data-testid="conn-toggle-btn">' + (on ? 'Disconnect' : 'Connect') + '</button><button class="icon-btn" data-action="conn-info" data-id="' + a.id + '" data-testid="conn-info-btn" title="Details">' + ic('info') + '</button></div></div>';
+                            return '<div class="app-card" style="animation-delay:' + (i * 40) + 'ms" data-testid="connection-card-' + a.id + '"><div class="app-tile" style="background:' + a.col + '">' + (APP_ICONS[a.id] || a.ini) + '</div><div style="cursor:pointer" data-action="conn-info" data-id="' + a.id + '"><b>' + a.n + '</b><small style="display:flex;align-items:center;gap:5px;margin-top:3px"><span class="st-dot" style="background:' + (on ? 'var(--success)' : 'rgba(116,113,138,.5)') + '"></span>' + (on ? 'Demo Connected' : 'Not Connected') + '</small></div><div class="app-acts"><button class="btn btn-sm ' + (on ? 'btn-ghost' : 'btn-primary') + '" data-action="conn-toggle" data-id="' + a.id + '" data-testid="conn-toggle-btn">' + (on ? 'Disconnect' : 'Connect') + '</button><button class="icon-btn" data-action="conn-info" data-id="' + a.id + '" data-testid="conn-info-btn" title="Details">' + ic('info') + '</button></div></div>';
                         }
                         ).join('') + '</div></div>';
                     }
@@ -7431,6 +8585,35 @@
                         renderTemplatesView();
                     }
                     ,
+                    'buy-template': id => {
+                        closeModal();
+                        setTimeout(() => buyTemplate(id), 60);
+                    },
+                    'confirm-buy-tpl': id => {
+                        const t = TEMPLATES.find(x => x.id === id);
+                        if (!t) return;
+                        if (!state.purchasedTemplates) state.purchasedTemplates = [];
+                        if (!state.purchasedTemplates.includes(t.id)) {
+                            state.purchasedTemplates.push(t.id);
+                            save();
+                            logAct('zap', 'Purchased commercial license for “' + t.t + '” (₹' + t.price + ')');
+                        }
+                        closeModal();
+                        toast('🎉 Successfully unlocked ' + t.t + '! Commercial license active.', 'success');
+                        renderTemplatesView();
+                        setTimeout(() => tplPreview(t.id), 120);
+                    },
+                    'tpl-copy-sample': id => {
+                        const t = TEMPLATES.find(x => x.id === id);
+                        if (t) copyText(t.x.slice(0, 320) + '\n\n[Full document source unlocked under Commercial License]', 'Sample excerpt copied');
+                    },
+                    'tpl-create': () => tplCreate(),
+                    'tpl-edit': id => tplEdit(id),
+                    'tpl-del': id => tplDelete(id),
+                    'tpl-export': id => tplExport(id),
+                    'doc-new': () => tplCreate(),
+                    'doc-edit': id => docEdit(id),
+                    'doc-export': id => docExport(id),
                     'tpl-preview': id => tplPreview(id),
                     'tpl-use': id => {
                         closeModal();
@@ -7644,6 +8827,14 @@
 
                 /* ================= GLOBAL EVENTS ================= */
                 document.addEventListener('click', function(e) {
+                    const navBtn = e.target.closest('.nav-item, [data-view]');
+                    if (navBtn) {
+                        const v = navBtn.dataset.view || navBtn.dataset.id;
+                        if (v) {
+                            go(v);
+                            return;
+                        }
+                    }
                     const t = e.target.closest('[data-action]');
                     if (t && ACTIONS[t.dataset.action]) {
                         ACTIONS[t.dataset.action](t.dataset.id, t, e);
@@ -7752,7 +8943,7 @@
                     setTimeout( () => {
                         if (!state.prefs.motion)
                             return;
-                        toast('Welcome to CreatorOS AI — everything here is sample demo data', 'info');
+                        toast('Welcome to CreatorOS Freelancer Workspace', 'info');
                     }
                     , 900);
                 }
