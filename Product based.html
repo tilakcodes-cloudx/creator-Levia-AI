@@ -1267,81 +1267,6 @@
             letter-spacing: 0.05em;
         }
 
-        /* Interactive Bengaluru Spotlight Badge (Clean, Non-glowing) - Positioned cleanly above map legend */
-        .map-bengaluru-badge {
-            position: absolute;
-            bottom: 160px;
-            left: 14px;
-            z-index: 450;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 8px 14px;
-            background: rgba(9, 9, 15, 0.88);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(139, 77, 255, 0.32);
-            border-radius: 999px;
-            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.75);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .map-bengaluru-badge:hover {
-            border-color: rgba(185, 139, 255, 0.65);
-            transform: translateY(-2px);
-        }
-
-        .map-bengaluru-badge .badge-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #10B981;
-            position: relative;
-        }
-
-        .map-bengaluru-badge .badge-content {
-            display: flex;
-            flex-direction: column;
-            gap: 1px;
-        }
-
-        .map-bengaluru-badge .badge-title {
-            font: 600 12.5px var(--font-head);
-            color: #F5F2FF;
-            letter-spacing: 0.3px;
-        }
-
-        .map-bengaluru-badge .badge-sub {
-            font: 400 10px var(--font-mono);
-            color: #A39DB7;
-            letter-spacing: 0.2px;
-        }
-
-        .map-bengaluru-badge .badge-focus-btn {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            padding: 5px 12px;
-            border-radius: 999px;
-            font: 600 11px var(--font-head);
-            color: #fff;
-            background: linear-gradient(135deg, #8B4DFF, #5A2ED0);
-            border: 1px solid rgba(185, 139, 255, 0.4);
-            box-shadow: 0 0 12px rgba(139, 77, 255, 0.4);
-            cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .map-bengaluru-badge .badge-focus-btn:hover {
-            background: linear-gradient(135deg, #9D66FF, #6B3CE0);
-            box-shadow: 0 0 18px rgba(139, 77, 255, 0.7);
-            transform: scale(1.05);
-        }
-
-        .map-bengaluru-badge .badge-focus-btn svg {
-            width: 12px;
-            height: 12px;
-        }
 
         /* Marker & Popup Animations */
         .mk {
@@ -8162,7 +8087,7 @@ Head of Partnerships, CreatorOS AI`;
             else if (name === 'followups') { $('#view-followups').classList.add('is-active'); renderFollowups() }
             setTimeout(() => mapMod.map?.invalidateSize(), 90);
         }
-        $$('#mainTabs .tab').forEach(t => t.addEventListener('click', () => { t.dataset.tab === 'commands' ? openPalette() : switchTab(t.dataset.tab) }));
+        $$('#mainTabs .tab').forEach(t => t.addEventListener('click', () => switchTab(t.dataset.tab)));
         document.addEventListener('click', e => {
             const b = e.target.closest('[data-view]'); if (!b) return; e.stopPropagation();
             b.dataset.view === 'beluga' ? switchTab('overview') : openModule(b.dataset.view)
@@ -8278,7 +8203,6 @@ Head of Partnerships, CreatorOS AI`;
         (function init() {
             /* restore persisted UI state */
             $('#regionSelect').value = state.region;
-            $('#focusBlrBtn')?.addEventListener('click', () => mapMod.focusBengaluru());
             mapMod.syncToggles();
             renderNotifs();
             /* skeleton loading effect on first paint */
