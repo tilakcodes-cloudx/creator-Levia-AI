@@ -1,0 +1,786 @@
+/* ==========================================================================
+   Cosmic Night Login Page - Modern Anti-Slop Stylesheet
+   Matches template aesthetic: Starry sky, sleek dark glass, custom rounded inputs
+   ========================================================================== */
+
+:root {
+  --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  
+  /* Color Palette */
+  --bg-dark: #070911;
+  --bg-gradient-top: #0a0d18;
+  --bg-gradient-bottom: #05060b;
+  
+  --card-bg: rgba(14, 18, 29, 0.45);
+  --card-border: rgba(255, 255, 255, 0.07);
+  --card-glow: rgba(56, 189, 248, 0.05);
+
+  --input-bg: rgba(21, 25, 38, 0.72);
+  --input-border: rgba(255, 255, 255, 0.12);
+  --input-border-focus: rgba(255, 255, 255, 0.38);
+  --input-focus-glow: rgba(255, 255, 255, 0.08);
+  --input-placeholder: rgba(255, 255, 255, 0.34);
+  
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.65);
+  --text-muted: rgba(255, 255, 255, 0.45);
+  
+  --btn-primary-bg: #232737;
+  --btn-primary-bg-hover: #2b3044;
+  --btn-primary-border: rgba(255, 255, 255, 0.14);
+  --btn-primary-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  
+  --social-btn-bg: rgba(27, 31, 44, 0.75);
+  --social-btn-bg-hover: rgba(40, 46, 65, 0.95);
+  --social-btn-border: rgba(255, 255, 255, 0.1);
+  --social-btn-border-hover: rgba(255, 255, 255, 0.28);
+  
+  --radius-card: 28px;
+  --radius-input: 16px;
+  --radius-button: 16px;
+  --radius-social: 14px;
+  
+  --transition-fast: 160ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-smooth: 280ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* CSS Reset & Baseline */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  background-color: var(--bg-dark);
+  font-family: var(--font-family);
+  color: var(--text-primary);
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  position: relative;
+  background: radial-gradient(circle at 50% 10%, #0d1222 0%, #070912 60%, #040509 100%);
+}
+
+/* Interactive Starfield Canvas (Full viewport background) */
+#starfield {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Ambient Cosmic Dust / Nebula Glow */
+.cosmic-glow {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.35;
+}
+
+.cosmic-glow-top {
+  top: -150px;
+  right: -100px;
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.35), transparent 70%);
+}
+
+.cosmic-glow-bottom {
+  bottom: -150px;
+  left: -80px;
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.22), transparent 70%);
+}
+
+/* Main Layout Wrapper */
+.page-container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 440px;
+  padding: 24px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Glassmorphism Card Container */
+.login-card {
+  width: 100%;
+  background: var(--card-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-card);
+  padding: 44px 34px 40px;
+  box-shadow: 
+    0 20px 50px -10px rgba(0, 0, 0, 0.7),
+    0 0 40px -10px var(--card-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
+}
+
+/* Card Header */
+.card-header {
+  margin-bottom: 34px;
+}
+
+.title-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+}
+
+.page-title {
+  font-size: 2.35rem;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  color: var(--text-primary);
+  line-height: 1.15;
+  text-shadow: 0 2px 14px rgba(255, 255, 255, 0.12);
+  user-select: none;
+}
+
+/* Shooting Star Streak (matching screenshot position) */
+.shooting-star-streak {
+  position: absolute;
+  top: 42px;
+  right: 68px;
+  width: 54px;
+  height: 2px;
+  transform: rotate(50deg);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.4) 40%, transparent);
+  border-radius: 999px;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+  opacity: 0.85;
+  pointer-events: none;
+  animation: streakGlimmer 4.5s ease-in-out infinite;
+}
+
+.shooting-star-streak::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -1px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 8px #ffffff, 0 0 14px rgba(255, 255, 255, 0.9);
+}
+
+@keyframes streakGlimmer {
+  0%, 100% {
+    opacity: 0.75;
+    transform: rotate(50deg) scale(0.98);
+  }
+  50% {
+    opacity: 1;
+    transform: rotate(50deg) scale(1.05);
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 1));
+  }
+}
+
+/* Form Groups & Inputs */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 9px;
+  letter-spacing: -0.01em;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.form-input {
+  width: 100%;
+  height: 52px;
+  background-color: var(--input-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--input-border);
+  border-radius: var(--radius-input);
+  padding: 0 18px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
+}
+
+.form-input::placeholder {
+  color: var(--input-placeholder);
+  font-weight: 400;
+}
+
+.form-input:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.form-input:focus {
+  border-color: var(--input-border-focus);
+  background-color: rgba(25, 30, 46, 0.85);
+  box-shadow: 
+    0 0 0 3px var(--input-focus-glow),
+    0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+.password-input {
+  padding-right: 50px;
+}
+
+/* Error message state */
+.field-error {
+  font-size: 0.78rem;
+  color: #f87171;
+  margin-top: 5px;
+  min-height: 16px;
+  display: block;
+  opacity: 0;
+  transform: translateY(-2px);
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+.field-error.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.form-input.has-error {
+  border-color: rgba(239, 68, 68, 0.65);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+
+/* Password Toggle Eye Button */
+.password-toggle-btn {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.6);
+  padding: 6px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.password-toggle-btn:hover {
+  color: #ffffff;
+  transform: translateY(-50%) scale(1.08);
+}
+
+.password-toggle-btn:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.eye-icon {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+/* Form Options: Remember Me & Forgot Password */
+.form-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: -2px;
+  margin-bottom: 24px;
+}
+
+.remember-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.custom-checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.checkbox-visual {
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  border: 1.5px solid rgba(255, 255, 255, 0.32);
+  background: rgba(255, 255, 255, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.checkmark-icon {
+  width: 11px;
+  height: 11px;
+  color: #070911;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all var(--transition-fast);
+}
+
+.custom-checkbox:hover + .checkbox-visual {
+  border-color: rgba(255, 255, 255, 0.55);
+}
+
+.custom-checkbox:checked + .checkbox-visual {
+  background-color: #ffffff;
+  border-color: #ffffff;
+}
+
+.custom-checkbox:checked + .checkbox-visual .checkmark-icon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.custom-checkbox:focus-visible + .checkbox-visual {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+.remember-text {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  transition: color var(--transition-fast);
+}
+
+.remember-label:hover .remember-text {
+  color: var(--text-primary);
+}
+
+.forgot-link {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--transition-fast);
+}
+
+.forgot-link:hover {
+  color: var(--text-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Primary Submit Button */
+.submit-btn {
+  position: relative;
+  width: 100%;
+  height: 52px;
+  background: var(--btn-primary-bg);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, transparent 100%);
+  border: 1px solid var(--btn-primary-border);
+  border-radius: var(--radius-button);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    var(--btn-primary-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  transition: transform var(--transition-fast), background-color var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+  overflow: hidden;
+}
+
+.submit-btn:hover {
+  background-color: var(--btn-primary-bg-hover);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1.5px);
+  box-shadow: 
+    0 10px 28px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.submit-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Button Loading Spinner */
+.btn-loader {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  display: none;
+}
+
+.submit-btn.loading .btn-text {
+  opacity: 0;
+}
+
+.submit-btn.loading .btn-loader {
+  display: block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Card Footer */
+.card-footer {
+  margin-top: 22px;
+  text-align: center;
+}
+
+.signup-prompt {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.signup-link {
+  color: var(--text-primary);
+  font-weight: 700;
+  text-decoration: none;
+  margin-left: 3px;
+  transition: opacity var(--transition-fast);
+}
+
+.signup-link:hover {
+  opacity: 0.85;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Subtle Divider Line */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12) 15%, rgba(255, 255, 255, 0.12) 85%, transparent);
+  margin: 22px 0 24px;
+}
+
+/* Social Login Provider Row */
+.social-login-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.social-btn {
+  flex: 1;
+  height: 52px;
+  max-width: 58px;
+  background-color: var(--social-btn-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--social-btn-border);
+  border-radius: var(--radius-social);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  cursor: pointer;
+  box-shadow: 
+    0 4px 14px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: transform var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.social-btn:hover {
+  background-color: var(--social-btn-bg-hover);
+  border-color: var(--social-btn-border-hover);
+  transform: translateY(-2.5px);
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.social-btn:active {
+  transform: translateY(0.5px);
+}
+
+.social-icon {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+/* Toast Feedback Notification */
+.toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(30px);
+  background: rgba(22, 27, 42, 0.94);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  padding: 12px 22px;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 250ms ease, transform 250ms ease;
+  z-index: 100;
+  max-width: 90vw;
+  text-align: center;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ==========================================================================
+   Small Floating Astronaut Explorer Companion
+   ========================================================================== */
+.astronaut-viewport {
+  position: fixed;
+  top: 15%;
+  left: calc(50% - 370px);
+  z-index: 4;
+  pointer-events: auto;
+  animation: astroZeroGFloat 6.5s ease-in-out infinite;
+}
+
+.astronaut-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  outline: none;
+}
+
+.astronaut-figure {
+  position: relative;
+  filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.55));
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.astronaut-card:hover .astronaut-figure {
+  transform: scale(1.08) rotate(-4deg);
+}
+
+.astronaut-card:active .astronaut-figure {
+  transform: scale(0.96) rotate(6deg);
+}
+
+/* Thruster flicker */
+.astronaut-thruster {
+  animation: thrusterPulse 1.8s ease-in-out infinite alternate;
+}
+
+@keyframes thrusterPulse {
+  0% {
+    opacity: 0.45;
+    rx: 7px;
+  }
+  100% {
+    opacity: 0.95;
+    rx: 11px;
+    filter: drop-shadow(0 0 6px #38bdf8);
+  }
+}
+
+/* Waving arm */
+.astronaut-waving-arm {
+  transform-origin: 35px 52px;
+  transition: transform 0.3s ease;
+}
+
+.astronaut-card:hover .astronaut-waving-arm {
+  animation: astroArmWave 0.7s ease-in-out infinite alternate;
+}
+
+@keyframes astroArmWave {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-16deg);
+  }
+}
+
+/* Floating orbiting star */
+.astronaut-mini-star {
+  position: absolute;
+  top: 12px;
+  left: -8px;
+  font-size: 14px;
+  color: #fde047;
+  filter: drop-shadow(0 0 6px #facc15);
+  animation: astroOrbitStar 4s ease-in-out infinite alternate;
+  pointer-events: none;
+  user-select: none;
+}
+
+@keyframes astroOrbitStar {
+  0% {
+    transform: translateY(0) scale(0.85);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-10px) translateX(4px) scale(1.15);
+    opacity: 1;
+  }
+}
+
+/* Astronaut speech bubble */
+.astronaut-speech {
+  position: absolute;
+  bottom: 104%;
+  white-space: nowrap;
+  background: rgba(18, 23, 38, 0.92);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 999px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transform: translateY(6px) scale(0.95);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  margin-bottom: 8px;
+}
+
+.astronaut-speech::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgba(18, 23, 38, 0.92) transparent transparent transparent;
+}
+
+.astronaut-card:hover .astronaut-speech,
+.astronaut-card.show-speech .astronaut-speech {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+@keyframes astroZeroGFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-18px) rotate(5deg);
+  }
+}
+
+/* Medium screens - shift astronaut to upper left cleanly */
+@media (max-width: 960px) {
+  .astronaut-viewport {
+    top: 24px;
+    left: 28px;
+    transform-origin: top left;
+    transform: scale(0.82);
+  }
+}
+
+/* ==========================================================================
+   Mobile & Responsive Adaptations
+   ========================================================================== */
+@media (max-width: 480px) {
+  body {
+    align-items: flex-start;
+  }
+
+  .astronaut-viewport {
+    top: 14px;
+    right: 14px;
+    left: auto;
+    transform-origin: top right;
+    transform: scale(0.68);
+  }
+  
+  .page-container {
+    padding: 16px 14px;
+    max-width: 100%;
+    margin-top: 24px;
+  }
+
+  .login-card {
+    padding: 34px 20px 30px;
+    border-radius: 24px;
+    background: rgba(14, 18, 29, 0.6);
+  }
+
+  .page-title {
+    font-size: 2.1rem;
+  }
+
+  .shooting-star-streak {
+    top: 36px;
+    right: 38px;
+    width: 46px;
+  }
+
+  .form-input {
+    height: 50px;
+  }
+
+  .submit-btn {
+    height: 50px;
+  }
+
+  .social-login-group {
+    gap: 8px;
+  }
+
+  .social-btn {
+    height: 48px;
+    border-radius: 12px;
+  }
+}
+

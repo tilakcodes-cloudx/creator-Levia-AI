@@ -1,0 +1,2702 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      // Safe development stubs for React Refresh
+      window.$RefreshReg$ = window.$RefreshReg$ || function () {};
+      window.$RefreshSig$ = window.$RefreshSig$ || function () { return function (type) { return type; }; };
+
+      // Guard sendBeacon against environments where beacons are unsupported (e.g. file://)
+      if (typeof navigator !== "undefined" && typeof navigator.sendBeacon === "function") {
+        var origSendBeacon = navigator.sendBeacon;
+        navigator.sendBeacon = function () {
+          if (location.protocol === "file:") return false;
+          try {
+            return origSendBeacon.apply(this, arguments);
+          } catch (e) {
+            return false;
+          }
+        };
+      }
+
+    </script>
+
+    <script type="module">
+      // Only attempt to load Vite HMR client when served over HTTP/HTTPS
+      if (location.protocol === "http:" || location.protocol === "https:") {
+        import("/@vite/client").catch(function () {});
+      }
+    </script>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="CreatorOS AI onboarding" />
+    <title>CreatorOS AI · Setup</title>
+    <style>
+      :root {
+        --accent: #a9e76f;
+        --accent-strong: #c5fa8a;
+        --bg: #000;
+        --surface: rgba(255, 255, 255, 0.045);
+        --surface-raised: rgba(255, 255, 255, 0.07);
+        --line: rgba(255, 255, 255, 0.08);
+        --line-strong: rgba(255, 255, 255, 0.16);
+        --text: #f5f5f0;
+        --muted: #90908c;
+        --quiet: #666662;
+        --error: #f5a7a7;
+        --sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      }
+
+      * { box-sizing: border-box; }
+      html { min-width: 320px; background: var(--bg); overflow-x: hidden; }
+      body {
+        min-width: 320px;
+        min-height: 100vh;
+        min-height: 100dvh;
+        margin: 0;
+        color: var(--text);
+        background: var(--bg);
+        font-family: var(--sans);
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+      button, input, textarea { font: inherit; }
+      button { color: inherit; }
+      button:focus-visible, input:focus-visible, textarea:focus-visible, summary:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+      }
+      .ambient {
+        position: fixed;
+        z-index: 0;
+        top: -22rem;
+        left: 50%;
+        width: 52rem;
+        height: 34rem;
+        pointer-events: none;
+        transform: translateX(-50%);
+        background: radial-gradient(ellipse, rgba(169, 231, 111, .095) 0%, rgba(169, 231, 111, .025) 34%, transparent 70%);
+        filter: blur(18px);
+        animation: breathe 10s ease-in-out infinite alternate;
+      }
+      .shell { position: relative; z-index: 1; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; }
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: min(100% - 48px, 1160px);
+        min-height: 82px;
+        margin: 0 auto;
+        border-bottom: 1px solid rgba(255,255,255,.05);
+      }
+      .brand { display: inline-flex; align-items: center; gap: 11px; color: var(--text); }
+      .brand-mark { display: block; width: 25px; height: 25px; }
+      .brand-name { font-size: 14px; font-weight: 620; letter-spacing: -.02em; }
+      .step-meta { display: flex; align-items: center; gap: 20px; }
+      .step-label { color: var(--muted); font-size: 12px; letter-spacing: .02em; }
+      .progress-track { width: 136px; height: 3px; overflow: hidden; border-radius: 99px; background: rgba(255,255,255,.11); }
+      .progress-value { width: 25%; height: 100%; border-radius: inherit; background: var(--accent); box-shadow: 0 0 13px rgba(169,231,111,.65); transition: width 500ms cubic-bezier(.22,1,.36,1); }
+      .main { flex: 1 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; width: min(100% - 48px, 1160px); margin: 0 auto; padding: clamp(24px, 4.5vh, 60px) 0 clamp(32px, 5.5vh, 76px); box-sizing: border-box; }
+      .view { width: 100%; animation: view-in 420ms cubic-bezier(.22,1,.36,1) both; }
+      .view.is-leaving { animation: view-out 220ms ease both; }
+      .eyebrow { margin: 0 0 21px; color: var(--accent); font-size: 11px; font-weight: 650; letter-spacing: .14em; text-transform: uppercase; }
+      h1 { max-width: 670px; margin: 0; color: var(--text); font-size: clamp(37px, 7vw, 68px); font-weight: 540; letter-spacing: -.07em; line-height: .98; }
+      h2 { margin: 0; color: var(--text); font-size: clamp(28px, 5vw, 42px); font-weight: 540; letter-spacing: -.055em; line-height: 1.03; }
+      .lede { max-width: 510px; margin: 22px 0 0; color: var(--muted); font-size: 16px; line-height: 1.65; }
+      .privacy-list { display: grid; gap: 0; margin: 50px 0 0; border-top: 1px solid var(--line); }
+      .privacy-row { display: grid; grid-template-columns: 155px 1fr; gap: 22px; padding: 21px 0; border-bottom: 1px solid var(--line); animation: rise-in 500ms both; }
+      .privacy-row:nth-child(2) { animation-delay: 70ms; }
+      .privacy-row:nth-child(3) { animation-delay: 140ms; }
+      .privacy-row:nth-child(4) { animation-delay: 210ms; }
+      .privacy-label { color: var(--text); font-size: 13px; font-weight: 600; }
+      .privacy-copy { color: var(--muted); font-size: 14px; line-height: 1.55; }
+      details { margin-top: 26px; border-bottom: 1px solid var(--line); }
+      summary { display: flex; align-items: center; justify-content: space-between; min-height: 52px; color: var(--muted); cursor: pointer; list-style: none; font-size: 13px; }
+      summary::-webkit-details-marker { display: none; }
+      summary::after { content: "+"; color: var(--quiet); font-size: 18px; font-weight: 300; transition: transform 220ms ease; }
+      details[open] summary::after { transform: rotate(45deg); }
+      .policy-draft { margin: 0 0 21px; padding: 16px; border: 1px solid var(--line); border-radius: 8px; color: var(--quiet); background: rgba(255,255,255,.025); font-size: 12px; line-height: 1.6; }
+      .draft-tag, .preview-tag { display: inline-flex; align-items: center; min-height: 24px; padding: 0 8px; border: 1px solid rgba(169,231,111,.28); border-radius: 99px; color: var(--accent); background: rgba(169,231,111,.07); font-size: 10px; font-weight: 650; letter-spacing: .03em; }
+      .draft-tag { margin-bottom: 9px; color: #c8c8c1; border-color: var(--line-strong); background: rgba(255,255,255,.04); }
+      .actions { display: flex; align-items: center; gap: 12px; margin-top: 42px; }
+      .button { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 46px; padding: 0 19px; border: 1px solid transparent; border-radius: 7px; cursor: pointer; font-size: 13px; font-weight: 650; transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease, box-shadow 180ms ease; }
+      .button:hover:not(:disabled) { transform: translateY(-2px); }
+      .button:active:not(:disabled) { transform: translateY(0); }
+      .button-primary { color: #071000; background: var(--accent); box-shadow: 0 8px 27px rgba(169,231,111,.1); }
+      .button-primary:hover:not(:disabled) { background: var(--accent-strong); box-shadow: 0 10px 30px rgba(169,231,111,.2); }
+      .button-secondary { color: var(--muted); border-color: var(--line); background: rgba(255,255,255,.025); }
+      .button-secondary:hover:not(:disabled) { color: var(--text); border-color: var(--line-strong); background: rgba(255,255,255,.06); }
+      .button-quiet { padding: 0 8px; color: var(--muted); background: transparent; }
+      .button:disabled { cursor: not-allowed; opacity: .34; transform: none; }
+      .button svg { width: 15px; height: 15px; }
+      .centered { width: 100%; max-width: 620px; margin: 0 auto; }
+      .persona-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 42px; }
+      .persona-card { position: relative; display: block; min-height: 159px; padding: 24px; overflow: hidden; border: 1px solid var(--line); border-radius: 10px; color: var(--text); text-align: left; background: linear-gradient(145deg, rgba(255,255,255,.065), rgba(255,255,255,.025)); cursor: pointer; transition: transform 200ms ease, border-color 200ms ease, background 200ms ease, box-shadow 200ms ease; }
+      .persona-card::after { position: absolute; right: -20px; bottom: -55px; width: 120px; height: 120px; border-radius: 50%; content: ""; background: rgba(169,231,111,.07); filter: blur(20px); transition: opacity 200ms ease; opacity: 0; }
+      .persona-card:hover { transform: translateY(-3px); border-color: rgba(169,231,111,.44); background: linear-gradient(145deg, rgba(169,231,111,.1), rgba(255,255,255,.035)); box-shadow: 0 12px 35px rgba(0,0,0,.35); }
+      .persona-card:hover::after { opacity: 1; }
+      .persona-icon { display: grid; place-items: center; width: 34px; height: 34px; margin-bottom: 26px; border: 1px solid var(--line-strong); border-radius: 8px; color: var(--accent); background: rgba(255,255,255,.035); }
+      .persona-icon svg { width: 17px; height: 17px; }
+      .persona-title { display: block; font-size: 14px; font-weight: 650; letter-spacing: -.01em; }
+      .persona-description { display: block; margin-top: 7px; color: var(--muted); font-size: 12px; line-height: 1.45; }
+      .question-head { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 39px; }
+      .question-count { flex: 0 0 auto; color: var(--quiet); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+      .question-title { max-width: 560px; }
+      .field-note { margin: 14px 0 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+      .field-note.optional::after { content: " · optional"; color: var(--quiet); }
+      .chip-grid { display: flex; flex-wrap: wrap; gap: 9px; }
+      .chip { min-height: 44px; padding: 0 15px; border: 1px solid var(--line); border-radius: 99px; color: var(--muted); background: rgba(255,255,255,.025); cursor: pointer; font-size: 13px; transition: transform 180ms ease, color 180ms ease, border-color 180ms ease, background 180ms ease; }
+      .chip:hover { color: var(--text); border-color: var(--line-strong); transform: translateY(-1px); }
+      .chip.is-selected { color: #071000; border-color: var(--accent); background: var(--accent); animation: chip-pop 260ms cubic-bezier(.22,1,.36,1); }
+      .chip.is-selected::before { display: inline-block; width: 0; margin-right: 0; content: "✓"; overflow: hidden; animation: check-in 240ms ease forwards; }
+      .text-field, .text-area { width: 100%; border: 1px solid var(--line); border-radius: 8px; color: var(--text); background: rgba(255,255,255,.045); transition: border-color 180ms ease, background 180ms ease, box-shadow 180ms ease; }
+      .text-field { height: 52px; padding: 0 15px; }
+      .text-area { min-height: 118px; padding: 15px; resize: vertical; }
+      .text-field:hover, .text-area:hover { border-color: var(--line-strong); }
+      .text-field:focus, .text-area:focus { border-color: rgba(169,231,111,.65); background: rgba(255,255,255,.065); box-shadow: 0 0 0 3px rgba(169,231,111,.07); outline: none; }
+      .input-wrap { position: relative; }
+      .char-count { position: absolute; right: 13px; bottom: 12px; color: var(--quiet); font-size: 10px; }
+      .inline-error { min-height: 20px; margin-top: 12px; color: var(--error); font-size: 12px; }
+      .question-actions { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-top: 49px; }
+      .review-list { display: grid; gap: 0; margin-top: 38px; border-top: 1px solid var(--line); }
+      .review-row { display: grid; grid-template-columns: 180px 1fr; gap: 18px; padding: 17px 0; border-bottom: 1px solid var(--line); }
+      .review-key { color: var(--quiet); font-size: 12px; }
+      .review-value { color: var(--text); font-size: 13px; line-height: 1.5; overflow-wrap: anywhere; }
+      .review-value.empty { color: var(--quiet); }
+      .review-foot { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 30px; }
+      .review-foot .preview-tag { flex: 1 1 auto; }
+      .saving { display: grid; place-items: center; min-height: 250px; text-align: center; }
+      .brain { position: relative; width: 58px; height: 58px; margin: 0 auto 28px; }
+      .brain-ring { position: absolute; inset: 0; border: 1px solid rgba(169,231,111,.25); border-top-color: var(--accent); border-radius: 50%; animation: spin 1.1s linear infinite; }
+      .brain-core { position: absolute; inset: 16px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 27px rgba(169,231,111,.45); animation: core-pulse 1.5s ease-in-out infinite; }
+      .saving-copy { color: var(--muted); font-size: 13px; }
+      .success-mark { display: grid; place-items: center; width: 69px; height: 69px; margin-bottom: 28px; border: 1px solid rgba(169,231,111,.5); border-radius: 50%; color: var(--accent); background: rgba(169,231,111,.08); animation: success-pop 500ms cubic-bezier(.22,1,.36,1) both; }
+      .success-mark svg { width: 29px; height: 29px; stroke-dasharray: 42; stroke-dashoffset: 42; animation: draw-check 600ms 180ms ease forwards; }
+      .decline-copy { max-width: 480px; margin-top: 22px; color: var(--muted); font-size: 16px; line-height: 1.65; }
+      .decline-actions { display: flex; gap: 12px; margin-top: 38px; }
+      .hidden { display: none !important; }
+
+      @keyframes breathe { from { opacity: .65; transform: translateX(-50%) scale(.92); } to { opacity: 1; transform: translateX(-50%) scale(1.08); } }
+      @keyframes view-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+      @keyframes view-out { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-8px); } }
+      @keyframes rise-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+      @keyframes chip-pop { 0% { transform: scale(.94); } 65% { transform: scale(1.04); } 100% { transform: scale(1); } }
+      @keyframes check-in { from { width: 0; margin-right: 0; } to { width: 14px; margin-right: 5px; } }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      @keyframes core-pulse { 0%, 100% { transform: scale(.75); opacity: .72; } 50% { transform: scale(1); opacity: 1; } }
+      @keyframes success-pop { from { opacity: 0; transform: scale(.65); } to { opacity: 1; transform: scale(1); } }
+      @keyframes draw-check { to { stroke-dashoffset: 0; } }
+      @media (max-width: 620px) {
+        .topbar { width: min(100% - 32px, 1160px); min-height: 69px; }
+        .step-meta { gap: 11px; }
+        .progress-track { width: 76px; }
+        .main { width: min(100% - 32px, 1160px); padding: 24px 0 44px; }
+        .privacy-list { margin-top: 38px; }
+        .privacy-row { grid-template-columns: 1fr; gap: 7px; padding: 17px 0; }
+        .actions { flex-wrap: wrap; margin-top: 32px; }
+        .actions .button-primary { flex: 1 1 100%; order: -1; }
+        .persona-grid { grid-template-columns: 1fr; margin-top: 32px; }
+        .persona-card { min-height: 126px; padding: 20px; }
+        .persona-icon { margin-bottom: 18px; }
+        .question-head { align-items: flex-start; flex-direction: column; gap: 9px; margin-bottom: 30px; }
+        .question-actions { margin-top: 38px; }
+        .review-row { grid-template-columns: 1fr; gap: 6px; }
+        .review-foot { align-items: stretch; flex-direction: column; }
+        .review-foot .button-primary { width: 100%; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      }
+
+      /* CreatorOS reference theme: indigo glass, violet energy, soft orbital light. */
+      :root {
+        --accent: #aa75ff;
+        --accent-strong: #c79aff;
+        --bg: #080816;
+        --surface: rgba(113, 76, 206, .105);
+        --surface-raised: rgba(145, 103, 255, .16);
+        --line: rgba(182, 156, 255, .16);
+        --line-strong: rgba(188, 153, 255, .34);
+        --text: #f7f5ff;
+        --muted: #b0adca;
+        --quiet: #716d8c;
+        --error: #ffb7d4;
+      }
+      body {
+        background:
+          radial-gradient(ellipse 33% 42% at 4% 7%, rgba(112, 42, 255, .28), transparent 72%),
+          radial-gradient(ellipse 35% 47% at 96% 31%, rgba(90, 38, 255, .2), transparent 72%),
+          radial-gradient(ellipse 32% 30% at 45% 111%, rgba(88, 42, 207, .18), transparent 73%),
+          var(--bg);
+      }
+      .ambient {
+        top: -22rem;
+        left: 53%;
+        width: 61rem;
+        height: 45rem;
+        background:
+          radial-gradient(ellipse at 32% 52%, rgba(184, 107, 255, .26), transparent 45%),
+          radial-gradient(ellipse at 78% 32%, rgba(74, 58, 255, .2), transparent 56%);
+        filter: blur(24px);
+      }
+      .shell::before, .shell::after {
+        position: fixed;
+        z-index: -1;
+        pointer-events: none;
+        content: "";
+        border-radius: 50%;
+        filter: blur(1px);
+      }
+      .shell::before {
+        top: -14rem;
+        left: -12rem;
+        width: 26rem;
+        height: 32rem;
+        border: 1px solid rgba(179, 101, 255, .22);
+        background: radial-gradient(circle at 58% 55%, rgba(112, 62, 255, .3), rgba(45, 26, 129, .08) 58%, transparent 70%);
+        box-shadow: 0 0 120px rgba(100, 50, 255, .25);
+      }
+      .shell::after {
+        right: -10rem;
+        bottom: -10rem;
+        width: 25rem;
+        height: 25rem;
+        border: 1px solid rgba(183, 116, 255, .22);
+        background: radial-gradient(circle at 35% 35%, rgba(104, 61, 255, .34), rgba(20, 18, 75, .08) 62%, transparent 72%);
+        box-shadow: 0 0 140px rgba(122, 51, 255, .28);
+      }
+      .topbar { border-bottom-color: rgba(177, 145, 255, .12); }
+      .brand-mark { color: var(--accent); filter: drop-shadow(0 0 8px rgba(170, 117, 255, .48)); }
+      .progress-track { background: rgba(180, 160, 255, .16); }
+      .progress-value { background: linear-gradient(90deg, #9159ff, #cf9bff); box-shadow: 0 0 15px rgba(170, 117, 255, .85); }
+      .eyebrow { color: #c18aff; }
+      .button-primary {
+        color: #fff;
+        background: linear-gradient(105deg, #7441e9, #9a50ed 50%, #c27bff);
+        box-shadow: 0 12px 32px rgba(102, 50, 224, .28), inset 0 1px rgba(255,255,255,.3);
+      }
+      .button-primary:hover:not(:disabled) { background: linear-gradient(105deg, #8557f3, #aa65f5 50%, #d193ff); box-shadow: 0 15px 36px rgba(125, 61, 239, .42), inset 0 1px rgba(255,255,255,.35); }
+      .button-secondary { border-color: rgba(172, 137, 255, .27); background: rgba(83, 52, 164, .13); }
+      .button-secondary:hover:not(:disabled) { border-color: rgba(200, 163, 255, .56); background: rgba(113, 70, 216, .22); }
+      .button-quiet:hover:not(:disabled) { color: #d4c6ff; }
+      .button svg { filter: drop-shadow(0 0 4px rgba(201, 154, 255, .6)); }
+      .privacy-view {
+        display: grid;
+        grid-template-columns: minmax(260px, 320px) minmax(0, 680px);
+        justify-content: center;
+        align-items: center;
+        gap: clamp(25px, 5vw, 72px);
+        width: min(100%, 1080px);
+        margin: 0 auto;
+      }
+      .privacy-aside {
+        padding: 34px 27px 28px;
+        border: 1px solid rgba(175, 125, 255, .4);
+        border-radius: 24px;
+        background: linear-gradient(145deg, rgba(86, 52, 166, .32), rgba(21, 19, 60, .5));
+        box-shadow: inset 0 1px rgba(255,255,255,.15), 0 24px 80px rgba(41, 15, 111, .28), 0 0 30px rgba(145, 66, 255, .15);
+        text-align: center;
+      }
+      .privacy-aside-icon { display: grid; place-items: center; width: 52px; height: 52px; margin: 0 auto 25px; border: 1px solid rgba(193, 144, 255, .46); border-radius: 14px; color: #c48eff; background: rgba(149, 91, 255, .16); box-shadow: 0 0 27px rgba(155, 82, 255, .3); }
+      .privacy-aside-icon svg { width: 26px; height: 26px; }
+      .privacy-aside h1 { font-size: clamp(33px, 4vw, 48px); }
+      .privacy-aside .lede { margin: 18px auto 0; font-size: 14px; line-height: 1.55; }
+      .privacy-aside-link { display: flex; align-items: center; justify-content: space-between; min-height: 58px; margin-top: 26px; padding: 0 16px; border: 1px solid rgba(183, 139, 255, .57); border-radius: 13px; color: #d8bdff; background: rgba(92, 49, 190, .17); font-size: 12px; text-align: left; }
+      .privacy-aside-link svg { width: 15px; height: 15px; }
+      .privacy-panel { padding: clamp(27px, 4vw, 43px); border: 1px solid rgba(188, 147, 255, .42); border-radius: 24px; background: linear-gradient(150deg, rgba(37, 31, 77, .7), rgba(13, 13, 35, .77)); box-shadow: inset 0 1px rgba(255,255,255,.16), 0 26px 80px rgba(17, 7, 57, .45), 0 0 45px rgba(128, 67, 247, .12); backdrop-filter: blur(22px); }
+      .privacy-panel .eyebrow { margin-bottom: 17px; }
+      .privacy-panel h2 { font-size: clamp(29px, 4vw, 41px); }
+      .privacy-panel > .lede { margin-top: 14px; font-size: 14px; }
+      .privacy-list { margin-top: 26px; max-height: 365px; overflow-y: auto; padding: 0 12px 0 0; border: 1px solid rgba(188, 157, 255, .25); border-radius: 16px; background: rgba(9, 9, 26, .26); scrollbar-color: rgba(174, 121, 255, .72) rgba(255,255,255,.06); }
+      .privacy-row { display: grid; grid-template-columns: minmax(110px, 140px) 1fr; gap: 14px; padding: 16px 18px; border-bottom-color: rgba(186, 159, 255, .15); }
+      .privacy-row:last-child { border-bottom: 0; }
+      .privacy-label { font-size: 13px; }
+      .privacy-copy { font-size: 13px; }
+      .privacy-panel details { margin-top: 17px; }
+      .privacy-panel .actions { margin-top: 22px; justify-content: flex-end; }
+      .privacy-panel .actions .button-primary { min-width: 220px; }
+      .policy-draft { border-color: rgba(182, 148, 255, .22); background: rgba(115, 75, 209, .09); }
+      .draft-tag, .preview-tag { border-color: rgba(190, 143, 255, .45); color: #d1a4ff; background: rgba(144, 75, 240, .13); }
+      .persona-card, .text-field, .text-area, .chip { border-color: rgba(182, 151, 255, .2); background: linear-gradient(145deg, rgba(70, 47, 137, .2), rgba(24, 23, 57, .35)); }
+      .persona-card { box-shadow: inset 0 1px rgba(255,255,255,.08), 0 13px 40px rgba(12, 6, 38, .28); }
+      .persona-card::after { background: rgba(168, 91, 255, .16); }
+      .persona-card:hover { border-color: rgba(193, 143, 255, .65); background: linear-gradient(145deg, rgba(117, 66, 216, .28), rgba(42, 29, 91, .4)); box-shadow: 0 16px 45px rgba(53, 20, 130, .4), inset 0 1px rgba(255,255,255,.14); }
+      .persona-icon { border-color: rgba(193, 151, 255, .3); background: rgba(129, 73, 223, .16); box-shadow: 0 0 17px rgba(139, 70, 235, .2); }
+      .chip:hover { border-color: rgba(201, 160, 255, .57); background: rgba(118, 68, 218, .2); }
+      .chip.is-selected { color: #fff; border-color: #bd8bff; background: linear-gradient(105deg, #7540dc, #a25ce8); box-shadow: 0 0 18px rgba(157, 84, 244, .35); }
+      .text-field:focus, .text-area:focus { border-color: rgba(193, 141, 255, .8); background: rgba(106, 64, 193, .17); box-shadow: 0 0 0 3px rgba(170, 117, 255, .14), 0 0 20px rgba(117, 52, 231, .14); }
+      .brain-ring { border-color: rgba(179, 127, 255, .25); border-top-color: var(--accent); }
+      .brain-core { background: var(--accent); box-shadow: 0 0 27px rgba(170, 117, 255, .6); }
+      .success-mark { border-color: rgba(193, 143, 255, .65); color: #cc9cff; background: rgba(132, 70, 220, .14); box-shadow: 0 0 28px rgba(124, 62, 219, .25); }
+      @media (max-width: 980px) {
+        .privacy-view {
+          grid-template-columns: 1fr;
+          max-width: 620px;
+          gap: 20px;
+        }
+        .privacy-aside {
+          padding: 26px 22px;
+          border-radius: 20px;
+        }
+        .privacy-aside h1 {
+          font-size: clamp(26px, 5.5vw, 36px);
+        }
+        .privacy-aside-link {
+          display: none;
+        }
+        .privacy-panel {
+          padding: 26px 22px;
+          border-radius: 20px;
+        }
+        .privacy-list {
+          max-height: none;
+        }
+      }
+      @media (max-width: 640px) {
+        .topbar {
+          width: min(100% - 32px, 1160px);
+          min-height: 64px;
+        }
+        .step-meta { gap: 10px; }
+        .progress-track { width: 80px; }
+        .main {
+          width: min(100% - 32px, 1160px);
+          padding: 18px 0 36px;
+        }
+        .privacy-view {
+          gap: 16px;
+        }
+        .privacy-aside {
+          padding: 20px 16px;
+          border-radius: 16px;
+        }
+        .privacy-panel {
+          padding: 20px 16px;
+          border-radius: 16px;
+        }
+        .privacy-row {
+          grid-template-columns: 1fr;
+          gap: 4px;
+          padding: 13px 12px;
+        }
+        .privacy-panel .actions {
+          flex-direction: column-reverse;
+          gap: 10px;
+          margin-top: 18px;
+        }
+        .privacy-panel .actions .button {
+          width: 100%;
+          min-height: 48px;
+        }
+        .persona-grid {
+          grid-template-columns: 1fr;
+          gap: 10px;
+          margin-top: 22px;
+        }
+        .persona-card {
+          min-height: 108px;
+          padding: 18px 16px;
+          border-radius: 12px;
+        }
+        .persona-icon {
+          margin-bottom: 12px;
+        }
+        .question-head {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 8px;
+          margin-bottom: 22px;
+        }
+        .question-actions {
+          margin-top: 32px;
+        }
+        .review-row {
+          grid-template-columns: 1fr;
+          gap: 4px;
+          padding: 13px 0;
+        }
+        .review-foot {
+          align-items: stretch;
+          flex-direction: column;
+          gap: 12px;
+        }
+        .review-foot .button-primary {
+          width: 100%;
+          min-height: 48px;
+        }
+      }
+      @media (max-width: 400px) {
+        .topbar {
+          width: min(100% - 20px, 1160px);
+          min-height: 56px;
+        }
+        .main {
+          width: min(100% - 20px, 1160px);
+          padding: 14px 0 28px;
+        }
+        .brand-name {
+          font-size: 13px;
+        }
+        .step-label {
+          font-size: 11px;
+        }
+        .progress-track {
+          width: 60px;
+        }
+        .privacy-aside, .privacy-panel {
+          padding: 16px 14px;
+        }
+        .chip {
+          padding: 0 12px;
+          font-size: 12px;
+          min-height: 40px;
+        }
+        .text-field {
+          height: 48px;
+          padding: 0 12px;
+        }
+      }
+      @media (max-height: 700px) {
+        .main {
+          padding: 16px 0 28px;
+        }
+        .privacy-aside-icon {
+          width: 40px;
+          height: 40px;
+          margin-bottom: 16px;
+        }
+        .privacy-aside-icon svg {
+          width: 20px;
+          height: 20px;
+        }
+        .privacy-list {
+          max-height: 240px;
+        }
+        .persona-card {
+          min-height: 100px;
+          padding: 16px;
+        }
+        .persona-icon {
+          margin-bottom: 10px; } /*
+        }
+      }
+
+
+
+
+
+
+      }
+    */ } </style>
+  <script>
+if(location.protocol !== "file:" && window.self!==window.top){
+  var s=document.createElement("script");s.src="/visual-edit-overlay.js";document.head.appendChild(s);
+  
+}
+</script>
+  <script data-emergent-overlay="">/* Emergent preview error overlay. Injected inline by plugins/emergent-overlay.
+   Classic script on purpose: it must run even when the whole module graph fails. */
+(function () {
+  "use strict";
+  if (window.__EMERGENT_OVERLAY__) return;
+  window.__EMERGENT_OVERLAY__ = true;
+  window.__EMERGENT_OVERLAY_STATE__ = {
+    visible: false,
+    errors: [],
+    get splash() {
+      return !!document.querySelector("[data-emergent-splash]");
+    },
+  };
+
+  var BASE = "/";
+  var HMR_ENABLED = location.protocol !== "file:";
+  var ROOT = "/app/frontend";
+  var RRWEB_MODE = "buffer";
+  // "hot" = vite custom-event channel; "http" = token-authenticated POSTs (craco/webpack).
+  var TRANSPORT = "hot";
+  var TOKEN = "";
+  // The bug FAB is a product surface with its own knob — recording and reporting
+  // work headlessly without it.
+  var FAB_MODE = "off";
+  // Opt-in for the fetch/XHR capture alone (EMERGENT_OVERLAY_NETWORK=on); absent or off leaves the
+  // natives untouched while the recorder and the button keep working.
+  var NETWORK_MODE = "on";
+  var MAX_ERRORS = 20;
+
+  var KINDS = {
+    compile: { badge: "Build error", tone: "warn", headline: "The latest code change didn't compile" },
+    runtime: { badge: "Runtime error", tone: "err", headline: "The app hit an error while running" },
+    rejection: { badge: "Unhandled rejection", tone: "err", headline: "A background operation failed" },
+    resource: { badge: "Load failure", tone: "neutral", headline: "Part of the app failed to load" },
+  };
+
+  // If overlay code itself ever throws, disable the overlay permanently rather than
+  // risk an error-event feedback loop or any interference with the host app.
+  var defused = false;
+  function safely(fn) {
+    return function () {
+      if (defused) return;
+      try {
+        return fn.apply(this, arguments);
+      } catch (e) {
+        defused = true;
+        netDisable(); // the recorder's emit handler is gone, so is the hook's consumer
+        try {
+          console.warn("[emergent-overlay] disabled after internal error:", e);
+        } catch (e2) {
+          /* stay silent */
+        }
+      }
+    };
+  }
+
+  // Not the app's fault: our own capture layer, browser extensions, opaque cross-origin scripts.
+  var FOREIGN_RE = /\/__emergent_overlay__\/|\/_emergent\/|cloudflareinsights\.com|(?:chrome|moz|safari-web|safari)-extension:\/\//;
+  function isForeign(file, stack) {
+    if (FOREIGN_RE.test(String(file || ""))) return true;
+    var lines = String(stack || "").split("\n");
+    for (var i = 0; i < lines.length; i++) {
+      if (/:\d+:\d+/.test(lines[i])) return FOREIGN_RE.test(lines[i]); // first real frame decides
+    }
+    return false;
+  }
+  function isCrossOrigin(url) {
+    try {
+      return new URL(url, location.href).origin !== location.origin;
+    } catch (e) {
+      return false; // unparsable → keep treating it as the app's
+    }
+  }
+  // Browser/OS-injected noise, never the app's own code: Safari & iOS password
+  // autofill (_AutofillCallbackHandler, thrown against index.html), a clipboard
+  // write/read blocked for want of a user gesture (fires in headless/automation
+  // and on locked-down browsers), Chromium's internal "report this bug" string, and
+  // the ResizeObserver "loop completed / limit exceeded" notice (the browser defers
+  // those notifications to the next frame; nothing is lost). None is an app render
+  // bug, so none should card the app or 503 /health.
+  var BROWSER_NOISE_RE = /_AutofillCallbackHandler|report this bug to chromium|clipboard[\s\S]{0,60}(?:permission denied|not\s*allowed)|ResizeObserver loop/i;
+  function isBrowserNoise(message) {
+    return BROWSER_NOISE_RE.test(String(message || ""));
+  }
+  function ignored(what, detail) {
+    try {
+      console.debug("[emergent-overlay] ignored non-app error (" + what + "):", detail);
+    } catch (e) {
+      /* stay silent */
+    }
+  }
+
+  var errors = [];
+  var current = 0;
+  var dismissed = false;
+  var ui = null;
+
+  function stripAnsi(s) {
+    return s ? String(s).replace(/\u001b\[[0-9;]*m/g, "") : "";
+  }
+
+  function shortFile(f) {
+    if (!f) return "";
+    f = String(f).split("?")[0];
+    if (ROOT && f.indexOf(ROOT) === 0) f = f.slice(ROOT.length).replace(/^\//, "");
+    f = f.replace(location.origin, "").replace(/^\//, "");
+    // inline <script> errors report the page URL as filename; name the served document
+    // (line numbers refer to the served HTML, which includes injected scripts)
+    if (f === "") return "index.html";
+    return f;
+  }
+
+  function describe(v) {
+    if (v instanceof Error) return v.message;
+    if (typeof v === "string") return v;
+    try {
+      return JSON.stringify(v).slice(0, 500);
+    } catch (e) {
+      return String(v);
+    }
+  }
+
+  // Beacon current error state to the plugin so /__emergent_overlay__/health
+  // (the probe API) can see runtime errors; heartbeat keeps it fresh, silence expires it.
+  // stock-splash detection: the template Home.tsx carries data-emergent-splash on its root
+  function splashVisible() {
+    try {
+      return !!document.querySelector("[data-emergent-splash]");
+    } catch (e) {
+      return false;
+    }
+  }
+
+  var heartbeat = null;
+  var seqCounter = 0;
+  // Reports + resolution ride Vite's token-authenticated hot channel (no open HTTP
+  // write endpoints). Queued until the hot context connects; flushed on ready.
+  var hotRef = null;
+  var hotQueue = [];
+  // With hot transport but HMR disabled the channel can never open: senders are dropped
+  // instead of queued forever (each dump closure retains a full buffer copy).
+  var hotDead = TRANSPORT === "hot" && !HMR_ENABLED;
+  function whenHot(fn) {
+    if (hotRef) fn(hotRef);
+    else if (!hotDead) {
+      if (hotQueue.length >= 50) hotQueue.shift(); // bound retained closures while connecting
+      hotQueue.push(fn);
+    }
+  }
+  function hotReady(hot) {
+    hotRef = hot;
+    var q = hotQueue.splice(0);
+    for (var i = 0; i < q.length; i++) {
+      try {
+        q[i](hot);
+      } catch (e) {
+        /* queued sender failed — drop it */
+      }
+    }
+  }
+  // stable per-tab across reloads, so a recovered tab's empty beacon clears its own slot
+  var PAGE_ID = (function () {
+    try {
+      var key = "__emergent_overlay_page_id__";
+      var id = sessionStorage.getItem(key) || Math.random().toString(36).slice(2, 10);
+      // claim the id: a duplicated tab copies sessionStorage, so leave it absent while
+      // this document is alive and restore it on pagehide for same-tab reloads
+      sessionStorage.removeItem(key);
+      window.addEventListener("pagehide", function () {
+        try {
+          sessionStorage.setItem(key, id);
+        } catch (e) {
+          /* storage gone — next load mints a fresh id; TTL reaps the old slot */
+        }
+      });
+      return id;
+    } catch (e) {
+      return Math.random().toString(36).slice(2, 10);
+    }
+  })();
+  function sendReport() {
+    var splash = splashVisible();
+    var payload = {
+      page: PAGE_ID,
+      seq: Date.now() * 1000 + (seqCounter = (seqCounter + 1) % 1000),
+      url: location.pathname,
+      splash: splash,
+      errors: errors.map(function (e) {
+        return { kind: e.kind, message: String(e.message).slice(0, 500), file: e.file, count: e.count, replay: e.replayFile || null };
+      }),
+    };
+    whenHot(function (hot) {
+      try {
+        hot.send("emergent-overlay:report", payload);
+      } catch (e) {
+        /* report is best-effort */
+      }
+    });
+    // heartbeat while there is anything the probe needs to see stay fresh
+    var active = errors.length > 0 || splash;
+    if (active && !heartbeat) heartbeat = setInterval(sendReport, 15000);
+    if (!active && heartbeat) {
+      clearInterval(heartbeat);
+      heartbeat = null;
+    }
+  }
+
+  // splash renders after React mounts (post boot-beacon) and can appear/vanish on SPA
+  // navigations — re-report on load, history changes, and shortly after boot.
+  window.addEventListener("load", sendReport);
+  window.addEventListener("popstate", function () {
+    setTimeout(sendReport, 800);
+  });
+  var origPushState = history.pushState;
+  history.pushState = function () {
+    var r = origPushState.apply(this, arguments);
+    setTimeout(sendReport, 800);
+    return r;
+  };
+  setTimeout(sendReport, 1500);
+
+  // JS templates report via the CDN ln.js "preview-logger" protocol; emit the same shape
+  // so the E1ectron preview panel handles farm-ts errors through its existing pipeline.
+  var LN_TYPES = {
+    compile: { type: "buildError", category: "build" },
+    runtime: { type: "runtimeError", category: "runtime" },
+    rejection: { type: "promiseRejection", category: "runtime" },
+    resource: { type: "resourceError", category: "resource" },
+  };
+  function notifyParent(err) {
+    try {
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage(
+          { type: "emergent:preview-error", kind: err.kind, message: err.message, file: err.file },
+          "*"
+        );
+        var ln = LN_TYPES[err.kind] || LN_TYPES.runtime;
+        window.parent.postMessage(
+          {
+            source: "preview-logger",
+            // provenance: lets the preview panel scope UI (fix-it chip) to overlay-equipped
+            // pods, distinct from the CDN emergent-main.js stream in JS templates
+            via: "emergent-overlay",
+            template: "farm-ts",
+            type: ln.type,
+            category: ln.category,
+            severity: "error",
+            data: { message: err.message, stack: err.stack, filename: err.file, frame: err.frame },
+            timestamp: new Date().toISOString(),
+          },
+          "*"
+        );
+      }
+    } catch (e) {
+      /* cross-origin parent — ignore */
+    }
+  }
+
+  function addError(e) {
+    e.count = 1;
+    for (var i = 0; i < errors.length; i++) {
+      var x = errors[i];
+      if (x.kind === e.kind && x.message === e.message && x.file === e.file) {
+        x.count++;
+        if (e.stack) x.stack = e.stack;
+        sendReport();
+        render();
+        return;
+      }
+    }
+    if (e.kind === "compile") {
+      // one live build error per file: the server's latest wins
+      errors = errors.filter(function (x) {
+        return x.kind !== "compile" || x.file !== e.file;
+      });
+    }
+    errors.push(e);
+    if (errors.length > MAX_ERRORS) errors.shift();
+    current = errors.length - 1;
+    if (e.kind === "resource") {
+      // a build error explains the load failure — keep focus on it
+      for (var j = 0; j < errors.length; j++) if (errors[j].kind === "compile") current = j;
+    }
+    dismissed = false;
+    if ((e.kind === "runtime" || e.kind === "rejection") && Date.now() - lastDumpAt > 30000) {
+      lastDumpAt = Date.now();
+      // Fires in every mode (without the recorder it is a stack-only crash report), and
+      // waits out sourcemap resolution (2s timeout) so it carries resolved coordinates.
+      setTimeout(safely(function () {
+        dumpReplay(
+          "crash",
+          "",
+          {
+            kind: e.kind,
+            message: String(e.message).slice(0, 300),
+            file: e.file,
+            stack: e.stack ? String(e.stack).slice(0, 4000) : null,
+            frame: e.frame || null,
+          },
+          function (file) {
+            if (file) {
+              e.replayFile = file;
+              sendReport();
+            }
+          }
+        );
+      }), 2500);
+    }
+    if ((e.kind === "runtime" || e.kind === "rejection") && e.stack) {
+      // parent gets ONE message with the best coordinates available: wait for sourcemap
+      // resolution (bounded), then notify
+      var notified = false;
+      var notifyOnce = function () {
+        if (!notified) {
+          notified = true;
+          notifyParent(e);
+        }
+      };
+      setTimeout(notifyOnce, 1500);
+      resolveRuntimeError(e, notifyOnce);
+    } else {
+      notifyParent(e);
+    }
+    sendReport();
+    render();
+  }
+
+  // Server rewrites the stack to original source positions (sourcemaps live in Vite's
+  // module graph) and replies over the hot channel — browser stacks point at
+  // transformed modules.
+  var resolveIdSeq = 0;
+  var pendingResolves = {};
+  function resolveRuntimeError(e, onSettled) {
+    if (e.resolvedRequested || !e.stack) {
+      if (onSettled) onSettled();
+      return;
+    }
+    e.resolvedRequested = true;
+    var id = "r" + ++resolveIdSeq;
+    var done = false;
+    pendingResolves[id] = function (d) {
+      if (done) return;
+      done = true;
+      delete pendingResolves[id];
+      if (d.stack) e.stack = d.stack;
+      if (d.file) e.file = d.file;
+      if (d.frame && !e.frame) e.frame = d.frame;
+      sendReport();
+      render();
+      if (onSettled) onSettled();
+    };
+    setTimeout(function () {
+      if (!done) {
+        done = true;
+        delete pendingResolves[id];
+        if (onSettled) onSettled();
+      }
+    }, 2000);
+    whenHot(function (hot) {
+      try {
+        hot.send("emergent-overlay:resolve", { id: id, stack: e.stack });
+      } catch (err2) {
+        /* resolution is best-effort */
+      }
+    });
+  }
+
+  // Clear the previous execution before HMR runs; clearing afterward would hide new errors.
+  function clearRuntimeErrors() {
+    errors = errors.filter(function (e) {
+      return e.kind !== "runtime" && e.kind !== "rejection";
+    });
+    current = Math.min(current, Math.max(0, errors.length - 1));
+    sendReport();
+    render();
+  }
+
+  function clearCompileErrors(shouldClear) {
+    errors = errors.filter(function (x) {
+      if (x.kind !== "compile") return true;
+      return shouldClear ? !shouldClear(x) : false;
+    });
+    if (current >= errors.length) current = Math.max(0, errors.length - 1);
+    sendReport();
+    render();
+  }
+
+  // ---- black box (RRWEB_MODE === "buffer"): rolling rrweb ring buffer in memory.
+  // Nothing leaves the page until an error fires or the user clicks the bug button;
+  // dumps go over the hot channel to .emergent/recordings/ in the workspace.
+  var IS_EMBEDDED = (function () {
+    try {
+      return window.parent && window.parent !== window;
+    } catch (e) {
+      return true;
+    }
+  })();
+  // Ring of finished checkout windows (oldest first) + the live one. Users fiddle for
+  // minutes before filing a report, so 2 windows (30-60s) lost the repro; keep ~5.
+  var RETAIN_WINDOWS = 5; // incl. the live window ≈ 2-2.5 min at 30s checkouts
+  var RETAIN_BYTES = 4 * 1024 * 1024; // circuit breaker for mutation-storm apps; server cap is 8MB
+  var bufWindows = [];
+  var bufCur = [];
+  var bufCurBytes = 0;
+  var lastForcedCheckout = 0;
+  var lastDumpAt = 0;
+  var replaySeq = 0;
+  var pendingReplays = {};
+
+  // ---- network capture (RRWEB_MODE === "buffer"): a failed request is the most common
+  // "can't reproduce" report, and the DOM only shows what the app chose to paint. Wrap fetch
+  // and XHR, emit one compact rrweb custom event per request into the same ring buffer, and
+  // read a response body ONLY for failures with a text-ish content type (a 403 block page, a
+  // JSON error). Never request bodies, never credential headers, never our own endpoints.
+  var NET_TAG = "emergent-network";
+  // Our own channels and dev-server plumbing: recording them is noise or a feedback loop.
+  var NET_SKIP_RE = /\/__emergent_overlay__\/|\/_emergent\/|\/cdn-cgi\/|\/@vite\/|\/@react-refresh|__webpack_hmr|\/sockjs-node\/|__vite_ping|^(?:data|blob):/;
+  // Response headers worth keeping: the content shape, and which layer answered (edge, origin,
+  // or something in between — the `server`/`via`/`cf-*` trio tells those apart).
+  var NET_HEADERS = ["content-type", "content-length", "server", "via", "cf-ray", "cf-mitigated", "x-request-id", "retry-after", "location"];
+  var NET_TEXT_RE = /^(?:text\/|application\/(?:json|xml|xhtml\+xml|javascript|problem\+json|graphql))|\+(?:json|xml)\b/i;
+  var NET_SECRET_RE = /token|key|secret|auth|sig|passw|session|jwt|nonce|state$|code$/i;
+  var NET_BODY_MAX = 2048; // bytes of a FAILED text response kept: a block page's title and reason fit
+  var NET_READ_MS = 500; // never wait on a slow or streaming body
+  var NET_QUEUE_MAX = 50; // requests seen before the recorder came up
+  var netQueue = [];
+  var netDropped = 0; // pre-recorder requests aged out of netQueue — reported, never hidden
+  var netLive = false;
+  var netDead = false;
+  var netOrigFetch = null;
+  var netWrappedFetch = null;
+  var netOrigXhr = null;
+  var netXhrMeta = typeof WeakMap === "function" ? new WeakMap() : null; // per-request meta, never a property on the XHR
+
+  function netNow() {
+    return window.performance && performance.now ? performance.now() : Date.now();
+  }
+  function netWarn(e) {
+    try {
+      console.warn("[emergent-overlay] network capture disabled after internal error:", e);
+    } catch (e2) {
+      /* stay silent */
+    }
+  }
+  // Capture-layer failures never reach the app: drop the hook and hand the natives back
+  // (only if nobody wrapped on top of us since — then theirs stays, ours goes inert).
+  function netDisable() {
+    netDead = true;
+    netQueue = [];
+    try {
+      if (netWrappedFetch && window.fetch === netWrappedFetch) window.fetch = netOrigFetch;
+    } catch (e) {
+      /* ignore */
+    }
+    try {
+      var proto = netOrigXhr && window.XMLHttpRequest && window.XMLHttpRequest.prototype;
+      if (proto) {
+        if (proto.open === netWrapOpen) proto.open = netOrigXhr.open;
+        if (proto.send === netWrapSend) proto.send = netOrigXhr.send;
+      }
+    } catch (e) {
+      /* ignore */
+    }
+  }
+  // Like safely(), scoped to this module: one internal throw disables capture, not the overlay.
+  function netGuard(fn) {
+    return function () {
+      if (netDead) return;
+      try {
+        return fn.apply(this, arguments);
+      } catch (e) {
+        netDisable();
+        netWarn(e);
+      }
+    };
+  }
+  // Same-origin → path + query; cross-origin keeps the origin. Query values under
+  // credential-looking keys are blanked; the whole thing is capped.
+  function netUrl(raw) {
+    var u = new URL(String(raw), location.href);
+    var q = "";
+    if (u.search.length > 1) {
+      var parts = u.search.slice(1).split("&");
+      for (var i = 0; i < parts.length; i++) {
+        var eq = parts[i].indexOf("=");
+        var key = eq < 0 ? parts[i] : parts[i].slice(0, eq);
+        // Match on the decoded name: %74%6f%6b%65%6e is still "token".
+        var probe = key;
+        try {
+          probe = decodeURIComponent(key.replace(/\+/g, " "));
+        } catch (e) {
+          /* malformed escape: match the raw name */
+        }
+        if (NET_SECRET_RE.test(probe)) parts[i] = key + "=…";
+      }
+      q = "?" + parts.join("&");
+    }
+    var out = (u.origin === location.origin ? "" : u.origin) + u.pathname + q;
+    return out.length > 300 ? out.slice(0, 300) + "…" : out;
+  }
+  function netStart(input, init, via) {
+    var url, method;
+    if (input && typeof input === "object" && typeof input.url === "string") {
+      url = input.url; // Request
+      method = input.method;
+    } else url = String(input);
+    if (init && init.method) method = init.method;
+    if (NET_SKIP_RE.test(url)) return null;
+    return { via: via, method: String(method || "GET").toUpperCase(), url: netUrl(url), t0: netNow() };
+  }
+  function netEmit(payload) {
+    if (netDead) return;
+    if (netLive && window.rrweb && window.rrweb.record && window.rrweb.record.addCustomEvent) {
+      window.rrweb.record.addCustomEvent(NET_TAG, payload);
+    } else {
+      netQueue.push(payload);
+      if (netQueue.length > NET_QUEUE_MAX) {
+        netQueue.shift();
+        netDropped++;
+      }
+    }
+  }
+  function netRecorderLive() {
+    var rec = window.rrweb && window.rrweb.record;
+    // An edge-injected rrweb build may lack addCustomEvent: then there is no consumer, so no hook.
+    if (!rec || typeof rec.addCustomEvent !== "function") {
+      netDisable();
+      netWarn("recorder build has no addCustomEvent");
+      return;
+    }
+    netLive = true;
+    var q = netQueue;
+    netQueue = [];
+    if (netDropped) netEmit({ at: Date.now(), via: "meta", dropped: netDropped });
+    for (var i = 0; i < q.length; i++) netEmit(q[i]);
+  }
+  function netPickHeaders(get) {
+    var out = null;
+    for (var i = 0; i < NET_HEADERS.length; i++) {
+      var v = get(NET_HEADERS[i]);
+      if (!v) continue;
+      // `location` is the one allowlisted header carrying a query string, and a 4xx is not
+      // followed by the browser, so its target is visible: redact it like a request URL.
+      if (NET_HEADERS[i] === "location") {
+        try {
+          v = netUrl(v);
+        } catch (e) {
+          v = "\u2026";
+        }
+      }
+      (out = out || {})[NET_HEADERS[i]] = String(v).slice(0, 200);
+    }
+    return out;
+  }
+  function netPayload(meta, status, headers, extra) {
+    var p = { at: Date.now(), via: meta.via, method: meta.method, url: meta.url, status: status, ms: Math.round(netNow() - meta.t0) };
+    if (headers) p.headers = headers;
+    if (extra) for (var k in extra) if (extra[k] != null) p[k] = extra[k];
+    return p;
+  }
+  function netWantsBody(status, headers) {
+    return status >= 400 && !!headers && NET_TEXT_RE.test(String(headers["content-type"] || ""));
+  }
+  function netDecode(chunks, total) {
+    try {
+      var buf = new Uint8Array(Math.min(total, NET_BODY_MAX));
+      var off = 0;
+      for (var i = 0; i < chunks.length && off < buf.length; i++) {
+        var c = chunks[i].subarray(0, buf.length - off);
+        buf.set(c, off);
+        off += c.length;
+      }
+      return new TextDecoder("utf-8").decode(buf);
+    } catch (e) {
+      return null;
+    }
+  }
+  // Bounded read of a FAILED response: clone, pull at most NET_BODY_MAX bytes, give up at
+  // NET_READ_MS. The caller's stream is untouched; a slow or streaming body yields a partial excerpt.
+  function netReadSnippet(res, done) {
+    var settled = false;
+    var chunks = [];
+    var total = 0;
+    var reader = null;
+    var timer = setTimeout(function () {
+      finish(true);
+    }, NET_READ_MS);
+    // done(text, truncated): a partial excerpt (time cap or byte cap) is marked as such.
+    function finish(timedOut) {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      try {
+        // cancel() on an errored stream (app abort, dropped connection) returns a rejected
+        // promise; left alone it is an unhandledrejection the overlay would card the app for.
+        if (reader) {
+          var cancelled = reader.cancel();
+          if (cancelled && typeof cancelled.then === "function") cancelled.then(null, function () {});
+        }
+      } catch (e) {
+        /* ignore */
+      }
+      done(total ? netDecode(chunks, total) : null, timedOut === true || total > NET_BODY_MAX);
+    }
+    try {
+      var clone = res.clone();
+      if (clone.body && clone.body.getReader) {
+        reader = clone.body.getReader();
+        var pump = function () {
+          reader.read().then(function (r) {
+            if (settled) return;
+            if (!r.done && r.value) {
+              chunks.push(r.value);
+              total += r.value.length;
+            }
+            if (r.done || total > NET_BODY_MAX) finish();
+            else pump();
+          }, finish);
+        };
+        pump();
+      } else {
+        clone.text().then(function (t) {
+          if (settled) return;
+          var enc = new TextEncoder().encode(String(t));
+          chunks = [enc];
+          total = enc.length;
+          finish();
+        }, finish);
+      }
+    } catch (e) {
+      finish();
+    }
+  }
+  var netOnResponse = netGuard(function (meta, res) {
+    var headers = null;
+    try {
+      headers = netPickHeaders(function (n) {
+        return res.headers.get(n);
+      });
+    } catch (e) {
+      /* opaque or headerless response */
+    }
+    var payload = netPayload(meta, res.status, headers, { type: res.type !== "basic" ? res.type : null, redirected: res.redirected || null });
+    if (netWantsBody(res.status, headers)) {
+      netReadSnippet(
+        res,
+        netGuard(function (s, truncated) {
+          if (s) payload.body = s;
+          if (s && truncated) payload.bodyTruncated = true;
+          netEmit(payload);
+        })
+      );
+    } else netEmit(payload);
+  });
+  var netOnFailure = netGuard(function (meta, err) {
+    // A cancelled request is the app's own doing (StrictMode remounts, effect cleanup), not a failure.
+    var aborted = !!(err && err.name === "AbortError");
+    netEmit(netPayload(meta, 0, null, { aborted: aborted || null, error: aborted ? null : describe(err).slice(0, 200) }));
+  });
+  function netWrapFetch() {
+    var orig = window.fetch;
+    if (typeof orig !== "function" || orig.__emergentOverlay) return;
+    netOrigFetch = orig;
+    var wrapped = function fetch(input, init) {
+      var meta = null;
+      if (!netDead) {
+        try {
+          meta = netStart(input, init, "fetch");
+        } catch (e) {
+          meta = null;
+        }
+      }
+      var p = orig.apply(this, arguments);
+      if (!meta) return p;
+      // Value and rejection pass through untouched; we only observe.
+      return p.then(
+        function (res) {
+          netOnResponse(meta, res);
+          return res;
+        },
+        function (err) {
+          netOnFailure(meta, err);
+          throw err;
+        }
+      );
+    };
+    // Marker + unpatch reference (the perf harness benchmarks against the original). Non-enumerable,
+    // and the wrapper mirrors the native's length and toString so crude "is fetch native?" checks
+    // in third-party instrumentation keep their fast path.
+    try {
+      Object.defineProperty(wrapped, "__emergentOverlay", { value: true, configurable: true });
+      Object.defineProperty(wrapped, "__emergentOverlayOriginal", { value: orig, configurable: true });
+      Object.defineProperty(wrapped, "length", { value: orig.length, configurable: true });
+      Object.defineProperty(wrapped, "toString", {
+        value: function () {
+          return Function.prototype.toString.call(orig);
+        },
+        configurable: true,
+        writable: true,
+      });
+    } catch (e) {
+      wrapped.__emergentOverlay = true;
+      wrapped.__emergentOverlayOriginal = orig;
+    }
+    netWrappedFetch = wrapped;
+    window.fetch = wrapped;
+  }
+  function netWrapOpen(method, url) {
+    var meta = null;
+    try {
+      meta = netDead ? null : netStart(url, { method: method }, "xhr");
+    } catch (e) {
+      /* capture is best-effort */
+    }
+    // Always reset: a throw must not leave the previous request's meta on a reused object.
+    // A previous request that has not been recorded yet is either complete (readyState 4: the
+    // app reopened from its own readystatechange/load handler, ahead of our listeners — take the
+    // still-intact response now, before open() resets status/headers/responseText) or in flight
+    // (open() terminates it with no abort/loadend event, so its listeners must go inert).
+    try {
+      var prev = netXhrMeta.get(this);
+      if (prev && prev.sent && !prev.emitted) {
+        if (this.readyState === 4) netXhrEmit(this, prev, prev.snap || netXhrSnapshot(this));
+        else prev.stale = true;
+      }
+      if (meta) netXhrMeta.set(this, meta);
+      else netXhrMeta.delete(this);
+    } catch (e) {
+      /* ignore */
+    }
+    return netOrigXhr.open.apply(this, arguments);
+  }
+  // Everything a completed XHR can tell us, read at readyState 4: that fires before load/loadend,
+  // so an app that reopens the object from its own loadend (or an await continuation) cannot have
+  // reset status/headers/responseText underneath us yet.
+  function netXhrSnapshot(xhr) {
+    var headers = null;
+    try {
+      var map = {};
+      var raw = String(xhr.getAllResponseHeaders() || "").split(/\r?\n/);
+      for (var i = 0; i < raw.length; i++) {
+        var c = raw[i].indexOf(":");
+        if (c > 0) map[raw[i].slice(0, c).trim().toLowerCase()] = raw[i].slice(c + 1).trim();
+      }
+      headers = netPickHeaders(function (n) {
+        return map[n];
+      });
+    } catch (e) {
+      /* headers unavailable */
+    }
+    var snap = { status: xhr.status, headers: headers, body: null, truncated: false };
+    if (netWantsBody(snap.status, headers) && (xhr.responseType === "" || xhr.responseType === "text")) {
+      try {
+        // NET_BODY_MAX is a byte budget; responseText is UTF-16, so cut on bytes like the fetch path.
+        var enc = new TextEncoder().encode(String(xhr.responseText));
+        snap.body = netDecode([enc], enc.length);
+        snap.truncated = enc.length > NET_BODY_MAX;
+      } catch (e) {
+        /* responseText inaccessible */
+      }
+    }
+    return snap;
+  }
+  function netXhrDetach(xhr, meta) {
+    var l = meta.listeners;
+    if (!l) return;
+    meta.listeners = null;
+    try {
+      xhr.removeEventListener("readystatechange", l.onState);
+      xhr.removeEventListener("abort", l.onAbort);
+      xhr.removeEventListener("timeout", l.onTimeout);
+      xhr.removeEventListener("loadend", l.onEnd);
+    } catch (e) {
+      /* ignore */
+    }
+  }
+  // Record one XHR outcome exactly once, from a snapshot taken while the response was intact.
+  function netXhrEmit(xhr, meta, snap) {
+    netXhrDetach(xhr, meta);
+    if (meta.emitted || meta.stale) return;
+    meta.emitted = true;
+    var payload = netPayload(meta, snap.status, snap.headers, meta.aborted ? { aborted: true } : meta.timedOut ? { error: "timeout" } : null);
+    if (meta.ttfb != null) payload.ms = Math.round(meta.ttfb);
+    if (snap.body) payload.body = snap.body;
+    if (snap.body && snap.truncated) payload.bodyTruncated = true;
+    netEmit(payload);
+  }
+  function netWrapSend() {
+    var xhr = this;
+    var meta = netXhrMeta.get(xhr);
+    if (meta && !netDead && !meta.sent) {
+      meta.sent = true; // one listener set per open()+send(); a reused object gets fresh meta from open()
+      meta.t0 = netNow();
+      try {
+        var onState = netGuard(function () {
+          if (meta.emitted || meta.stale) return;
+          if (xhr.readyState === 2 && meta.ttfb == null) meta.ttfb = netNow() - meta.t0; // headers in: same quantity fetch measures
+          if (xhr.readyState === 4 && !meta.snap) meta.snap = netXhrSnapshot(xhr);
+        });
+        var onAbort = netGuard(function () {
+          meta.aborted = true;
+        });
+        var onTimeout = netGuard(function () {
+          meta.timedOut = true;
+        });
+        var onEnd = netGuard(function () {
+          // The trailing loadend of a request that was reopened from its own DONE handler arrives
+          // with the object already OPENED for the next one: without a DONE snapshot and not DONE
+          // now, this loadend is not ours — keep listening for the real completion.
+          var snap = meta.snap;
+          if (!snap) {
+            if (xhr.readyState !== 4) return;
+            snap = netXhrSnapshot(xhr);
+          }
+          netXhrEmit(xhr, meta, snap);
+        });
+        meta.listeners = { onState: onState, onAbort: onAbort, onTimeout: onTimeout, onEnd: onEnd };
+        xhr.addEventListener("readystatechange", onState);
+        xhr.addEventListener("abort", onAbort);
+        xhr.addEventListener("timeout", onTimeout);
+        xhr.addEventListener("loadend", onEnd);
+      } catch (e) {
+        /* listeners are best-effort */
+      }
+    }
+    return netOrigXhr.send.apply(this, arguments);
+  }
+  function netWrapXhr() {
+    var X = window.XMLHttpRequest;
+    if (!X || !X.prototype || netOrigXhr || !netXhrMeta) return;
+    netOrigXhr = { open: X.prototype.open, send: X.prototype.send };
+    X.prototype.open = netWrapOpen;
+    X.prototype.send = netWrapSend;
+  }
+  // Installed at boot (the inline client runs before the app), so early requests are kept in
+  // netQueue until the recorder is up. If the recorder never comes, the hook is removed again.
+  function netInstall() {
+    if (RRWEB_MODE !== "buffer" || NETWORK_MODE !== "on" || hotDead || netDead) return;
+    try {
+      netWrapFetch();
+      netWrapXhr();
+    } catch (e) {
+      netDisable();
+      netWarn(e);
+    }
+  }
+
+  function startBlackBox() {
+    if (RRWEB_MODE !== "buffer" || hotDead) return; // no channel to flush to: no recorder, no button
+    var tries = 0;
+    var timer = setInterval(function () {
+      if (window.rrweb && window.rrweb.record) {
+        clearInterval(timer);
+        try {
+          window.rrweb.record({
+            emit: safely(function (event, isCheckout) {
+              if (isCheckout) {
+                bufWindows.push({ events: bufCur, bytes: bufCurBytes });
+                bufCur = [];
+                bufCurBytes = 0;
+                // Evict whole windows only — each starts with its own FullSnapshot, so
+                // any retained suffix stays a self-contained, replayable stream.
+                while (bufWindows.length > RETAIN_WINDOWS - 1) bufWindows.shift();
+                var total = bufCurBytes;
+                for (var i = 0; i < bufWindows.length; i++) total += bufWindows[i].bytes;
+                while (total > RETAIN_BYTES && bufWindows.length) {
+                  total -= bufWindows[0].bytes;
+                  bufWindows.shift();
+                }
+              }
+              var size;
+              try {
+                size = JSON.stringify(event).length;
+              } catch (e) {
+                size = 1024;
+              }
+              bufCur.push(event);
+              bufCurBytes += size;
+              if (bufCur.length > 1500) {
+                var drop = bufCur.length - 1500;
+                // proportional estimate: per-event sizes aren't stored
+                bufCurBytes = Math.max(0, Math.round(bufCurBytes * (1 - drop / bufCur.length)));
+                bufCur.splice(0, drop);
+              }
+              // Byte-bound the LIVE window too: force a checkout at half the cap so
+              // mutation-heavy apps rotate instead of growing one unbounded window.
+              // Rate-limited: each forced checkout costs a full snapshot.
+              if (bufCurBytes > RETAIN_BYTES / 2 && Date.now() - lastForcedCheckout > 5000) {
+                lastForcedCheckout = Date.now();
+                try {
+                  window.rrweb.record.takeFullSnapshot(true);
+                } catch (e2) {
+                  /* rotation is best-effort */
+                }
+              }
+              // Last resort (e.g. one event bigger than the cap): drop history, keep going.
+              if (bufCurBytes > RETAIN_BYTES) bufWindows = [];
+            }),
+            checkoutEveryNms: 30000,
+            maskAllInputs: true,
+            // The overlay's own UI (bug button + panel, error card) is not the user's session.
+            blockSelector: "[data-emergent-bug-fab],[data-emergent-overlay-host],[data-emergent-overlay-ui]",
+          });
+          netRecorderLive(); // before anything else that can throw: the queue now has a consumer
+          // FAB only once the recorder is live: a bug button that cannot capture the session is a half-promise
+          renderBugFab();
+        } catch (e) {
+          netDisable(); // no recorder to feed: hand fetch/XHR back rather than capture into a void
+          netWarn(e);
+        }
+      } else if (++tries > 40) {
+        clearInterval(timer);
+        netDisable(); // no recorder to feed: hand fetch/XHR back
+        try {
+          console.info("[emergent-overlay] session recorder did not load (content blocker?) — crash reports will be stack-only");
+        } catch (e) {
+          /* console may be missing */
+        }
+      }
+    }, 250);
+  }
+
+  // kind: "crash" | "user-report". onDone(fileOrNull).
+  function dumpReplay(kind, note, errorSummary, onDone) {
+    if (hotDead) {
+      if (onDone) onDone(null);
+      return;
+    }
+    var events = [];
+    for (var i = 0; i < bufWindows.length; i++) events = events.concat(bufWindows[i].events);
+    events = events.concat(bufCur);
+    var id = "d" + ++replaySeq;
+    var done = false;
+    pendingReplays[id] = function (file) {
+      if (done) return;
+      done = true;
+      delete pendingReplays[id];
+      if (onDone) onDone(file);
+    };
+    setTimeout(function () {
+      if (!done) {
+        done = true;
+        delete pendingReplays[id];
+        if (onDone) onDone(null);
+      }
+    }, 4000);
+    whenHot(function (hot) {
+      try {
+        hot.send("emergent-overlay:crash-replay", {
+          id: id,
+          kind: kind,
+          note: note || "",
+          url: location.pathname + location.search,
+          viewport: { w: window.innerWidth, h: window.innerHeight },
+          error: errorSummary || null,
+          recorder: RRWEB_MODE !== "buffer" ? "off" : window.rrweb ? "on" : "blocked",
+          events: events,
+        });
+      } catch (e) {
+        /* dump is best-effort */
+      }
+    });
+  }
+
+  // ---- bug button: styled as a sibling of the builder's edit toolbar (visual-edit-v2 tokens).
+  // Embedded it prefills the chat (the user presses send); standalone nothing reaches the agent,
+  // so it saves to the workspace and offers a ready-to-paste note instead.
+  var fabState = null;
+  var BUG_ICON =
+    '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2.5l1.8 1.8M16 2.5l-1.8 1.8"/><path d="M9 8a3 3 0 0 1 6 0"/><rect x="7" y="8" width="10" height="12" rx="5"/><path d="M12 8v12M3 13.5h4M17 13.5h4M4.5 19.5l2.5-1.8M19.5 19.5L17 17.7M4.5 8l2.5 1.8M19.5 8L17 9.8"/></svg>';
+  var CHECK_ICON =
+    '<span class="dot"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#81ff89" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>';
+  var CHEV_UP = '<svg width="11" height="6.4" viewBox="0 0 10 5.83315" fill="none" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.47428 0.186982C4.80159 -0.0799805 5.2841 -0.0611521 5.5892 0.243948L9.75592 4.41067C10.0814 4.73611 10.0814 5.26363 9.75592 5.58907C9.43048 5.91451 8.90296 5.91451 8.57752 5.58907L5 2.01155L1.42248 5.58907C1.09704 5.91451 0.569522 5.91451 0.244081 5.58907C-0.0813603 5.26363 -0.0813603 4.73611 0.244081 4.41067L4.4108 0.243948L4.47428 0.186982Z" fill="currentColor"/></svg>';
+  var CHEV_DOWN = '<svg width="11" height="6.4" viewBox="0 0 10 5.83315" fill="none" aria-hidden="true" style="transform:rotate(180deg)"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.47428 0.186982C4.80159 -0.0799805 5.2841 -0.0611521 5.5892 0.243948L9.75592 4.41067C10.0814 4.73611 10.0814 5.26363 9.75592 5.58907C9.43048 5.91451 8.90296 5.91451 8.57752 5.58907L5 2.01155L1.42248 5.58907C1.09704 5.91451 0.569522 5.91451 0.244081 5.58907C-0.0813603 5.26363 -0.0813603 4.73611 0.244081 4.41067L4.4108 0.243948L4.47428 0.186982Z" fill="currentColor"/></svg>';
+  var COPY_ICON =
+    '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>';
+
+  function fallbackCopy(text) {
+    try {
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.cssText = "position:fixed;top:0;left:0;opacity:0";
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = document.execCommand("copy");
+      ta.remove();
+      return !!ok;
+    } catch (e) {
+      return false;
+    }
+  }
+  function copyText(text, done) {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(
+          function () {
+            done(true);
+          },
+          function () {
+            done(fallbackCopy(text));
+          }
+        );
+        return;
+      }
+    } catch (e) {
+      /* fall through */
+    }
+    done(fallbackCopy(text));
+  }
+
+  function renderBugFab() {
+    if (FAB_MODE !== "on" || fabState) return;
+    var tucked = false;
+    try {
+      tucked = !!sessionStorage.getItem("__emergent_bug_fab_dismissed__");
+    } catch (e) {
+      /* ignore */
+    }
+    var host = document.createElement("div");
+    host.setAttribute("data-emergent-bug-fab", "");
+    var sh = host.attachShadow({ mode: "open" });
+    // rrweb observes open shadow roots directly and blockSelector cannot see across the boundary,
+    // so every top-level node inside carries the marker itself and serialises as a placeholder.
+    var shMount = function (n) {
+      try {
+        n.setAttribute("data-emergent-overlay-ui", "");
+      } catch (e) {
+        /* text nodes etc. */
+      }
+      return sh.appendChild(n);
+    };
+    var style = document.createElement("style");
+    style.textContent =
+      ":host{all:initial}" +
+      ".bar,.pop{font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:rgba(26,26,26,.82);border:1px solid rgba(255,255,255,.12);box-shadow:0 8px 28px rgba(0,0,0,.4);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);box-sizing:border-box}" +
+      ".bar{position:fixed;left:16px;bottom:16px;z-index:2147483646;height:34px;padding:3px;border-radius:42px;display:flex;align-items:center;gap:4px}" +
+      ".fab,.mini,.hide{display:flex;align-items:center;justify-content:center;height:28px;border-radius:10px;border:none;background:transparent;color:#9aa0a6;cursor:pointer;padding:0;margin:0;font:inherit}" +
+      ".fab{width:28px}.fab:hover,.fab.open{background:rgba(255,255,255,.1);color:#fff}" +
+      ".bar{transition:transform .28s cubic-bezier(.4,0,.2,1),opacity .2s ease}.bar.tucked{transform:translateY(120%);opacity:0;pointer-events:none}" +
+      ".hide{display:none;width:24px}.bar:hover .hide{display:flex}.bar.busy .hide,.bar.tucked .hide{display:none}.hide:hover{color:#fff}" +
+      ".handle{position:fixed;left:16px;bottom:0;z-index:2147483646;width:34px;height:20px;box-sizing:border-box;border-radius:14px 14px 0 0;border:1px solid rgba(255,255,255,.12);border-bottom:none;background:rgba(26,26,26,.85);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:0 0 2px;margin:0;color:#9aa0a6;cursor:pointer;font:inherit;transform:translateY(120%);opacity:0;pointer-events:none;transition:height .28s cubic-bezier(.4,0,.2,1),transform .28s cubic-bezier(.4,0,.2,1),opacity .2s ease}" +
+      ".handle.on{transform:none;opacity:1;pointer-events:auto}.handle.on:hover{height:28px;color:#fff}" +
+      // toolbar-style tooltips instead of native title boxes
+      ".fab,.hide{position:relative}.fab::after,.hide::after,.handle::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 8px);left:0;display:none;border-radius:6px;background:#060606;color:rgba(255,255,255,.95);font:12px/16px Inter,ui-sans-serif,system-ui,sans-serif;padding:4px 6px;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.3);pointer-events:none}" +
+      ".fab:hover::after,.hide:hover::after,.handle.on:hover::after{display:block}.fab.open::after,.bar.busy .fab::after{display:none}" +
+      ".lbl{font-size:14px;line-height:20px;font-weight:500;color:#e5e5e7;white-space:nowrap;padding:0 8px 0 2px;cursor:default}.lbl.err{color:#ff5b52}" +
+      ".dot{width:18px;height:18px;border-radius:999px;background:rgba(129,255,137,.16);display:flex;align-items:center;justify-content:center}" +
+      ".mini{gap:6px;padding:0 10px;background:rgba(255,255,255,.1);color:#fff;font-size:13px;line-height:20px;font-weight:500;white-space:nowrap}.mini:hover{background:rgba(255,255,255,.16)}" +
+      ".tip{position:fixed;left:16px;bottom:56px;z-index:2147483646;border-radius:6px;background:#060606;color:rgba(255,255,255,.95);font:12px/16px Inter,ui-sans-serif,system-ui,sans-serif;padding:4px 6px;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.3)}" +
+      ".pop{position:fixed;left:16px;bottom:58px;z-index:2147483646;width:300px;max-width:calc(100vw - 32px);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:10px;color:#fff}" +
+      ".t{margin:0;font-size:14px;line-height:20px;font-weight:500;color:rgba(255,255,255,.95)}" +
+      ".h{margin:0;font-size:12px;line-height:16px;color:rgba(255,255,255,.6)}" +
+      "textarea{width:100%;box-sizing:border-box;height:56px;resize:none;outline:none;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#fff;font:13px/18px Inter,ui-sans-serif,system-ui,sans-serif;padding:8px 10px}" +
+      "textarea::placeholder{color:rgba(255,255,255,.4)}textarea:focus{border-color:rgba(255,255,255,.3)}" +
+      ".row{display:flex;gap:4px;justify-content:flex-end}" +
+      ".b{border-radius:999px;padding:8px 16px;font:500 14px/20px Inter,ui-sans-serif,system-ui,sans-serif;letter-spacing:-.28px;cursor:pointer;white-space:nowrap;border:none;margin:0}" +
+      ".cancel{background:transparent;color:#e5e5e7}.cancel:hover{background:rgba(255,255,255,.1)}" +
+      ".share{background:#0b7cff;color:#fff;font-weight:600;box-shadow:0 .636px .318px rgba(0,0,0,.1),inset 0 -1.75px 0 0 rgba(0,0,0,.2),inset 0 1.75px 8.75px 0 rgba(255,255,255,.4)}.share:hover{background:#2b8cff}.share:disabled{opacity:.6;cursor:default}";
+    shMount(style);
+
+    var bar = document.createElement("div");
+    bar.className = "bar";
+    var fab = document.createElement("button");
+    fab.className = "fab";
+    fab.type = "button";
+    fab.setAttribute("data-tip", "Report a bug");
+    fab.setAttribute("aria-label", "Report a bug");
+    fab.innerHTML = BUG_ICON;
+    bar.appendChild(fab);
+    var hideBtn = document.createElement("button");
+    hideBtn.className = "hide";
+    hideBtn.type = "button";
+    hideBtn.setAttribute("data-tip", "Hide");
+    hideBtn.setAttribute("aria-label", "Hide bug button");
+    hideBtn.innerHTML = CHEV_DOWN;
+    bar.appendChild(hideBtn);
+    var handle = document.createElement("button");
+    handle.className = "handle" + (tucked ? " on" : "");
+    handle.type = "button";
+    handle.setAttribute("data-tip", "Show bug button");
+    handle.setAttribute("aria-label", "Show bug button");
+    handle.innerHTML = CHEV_UP;
+    if (tucked) bar.classList.add("tucked");
+    shMount(bar);
+    shMount(handle);
+
+    var panel = null;
+    var tip = null;
+    var resetTimer = null;
+
+    function el(tag, cls, text) {
+      var n = document.createElement(tag);
+      n.className = cls;
+      if (text) n.textContent = text;
+      return n;
+    }
+    function reset() {
+      if (resetTimer) clearTimeout(resetTimer);
+      resetTimer = null;
+      if (tip) tip.remove();
+      tip = null;
+      var stale = bar.querySelectorAll(".lbl,.mini");
+      for (var i = 0; i < stale.length; i++) stale[i].remove();
+      bar.classList.remove("busy");
+      fab.innerHTML = BUG_ICON;
+      fab.classList.remove("open");
+    }
+    function closePanel() {
+      if (panel) panel.remove();
+      panel = null;
+      fab.classList.remove("open");
+    }
+    // The bar itself becomes the confirmation: check + label (+ optional action / tooltip).
+    function status(text, opts) {
+      reset();
+      bar.classList.add("busy");
+      fab.innerHTML = opts.err ? BUG_ICON : CHECK_ICON;
+      var lbl = el("span", "lbl ok" + (opts.err ? " err" : ""), text);
+      bar.appendChild(lbl);
+      if (opts.action) {
+        var m = el("button", "mini");
+        m.type = "button";
+        m.innerHTML = COPY_ICON;
+        m.appendChild(el("span", "", opts.action.label));
+        m.addEventListener(
+          "click",
+          safely(function (ev) {
+            ev.stopPropagation();
+            opts.action.onClick(m.lastChild);
+          })
+        );
+        bar.appendChild(m);
+      }
+      if (opts.tip) {
+        tip = el("div", "tip", opts.tip);
+        shMount(tip);
+      }
+      if (opts.ms) resetTimer = setTimeout(safely(reset), opts.ms);
+    }
+    function openPanel() {
+      panel = el("div", "pop");
+      panel.appendChild(el("p", "t", IS_EMBEDDED ? "Report this to your agent" : "Save a bug report"));
+      panel.appendChild(
+        el(
+          "p",
+          "h",
+          IS_EMBEDDED
+            ? "Added to your chat with the last few seconds of your session. You press send."
+            : "Saved into the app workspace with the last few seconds of your session."
+        )
+      );
+      var ta = document.createElement("textarea");
+      ta.placeholder = "What went wrong? (optional)";
+      ta.maxLength = 2000;
+      panel.appendChild(ta);
+      var row = el("div", "row");
+      var cancel = el("button", "b cancel", "Cancel");
+      cancel.type = "button";
+      var share = el("button", "b share", IS_EMBEDDED ? "Add to chat" : "Save report");
+      share.type = "button";
+      row.appendChild(cancel);
+      row.appendChild(share);
+      panel.appendChild(row);
+      shMount(panel);
+      fab.classList.add("open");
+      ta.focus();
+      ta.addEventListener(
+        "keydown",
+        safely(function (ev) {
+          if (ev.key === "Escape") closePanel();
+        })
+      );
+      cancel.addEventListener("click", safely(closePanel));
+      share.addEventListener(
+        "click",
+        safely(function () {
+          var note = ta.value.slice(0, 2000);
+          share.disabled = true;
+          share.textContent = "Capturing…";
+          dumpReplay("user-report", note, currentErrorSummary(), function (file) {
+            var md = file ? String(file).replace(/\.json$/, ".md") : null;
+            if (IS_EMBEDDED) {
+              try {
+                window.parent.postMessage(
+                  {
+                    source: "preview-logger",
+                    via: "emergent-overlay",
+                    type: "userBugReport",
+                    category: "report",
+                    severity: "info",
+                    data: { note: note, replay: file, url: location.pathname },
+                    timestamp: new Date().toISOString(),
+                  },
+                  "*"
+                );
+              } catch (e) {
+                /* parent gone */
+              }
+            }
+            closePanel();
+            if (IS_EMBEDDED) {
+              status("Added to your chat", { tip: "Press send in the chat to share it", ms: 3000 });
+              return;
+            }
+            if (!md) {
+              status("Could not capture — try again", { err: true, ms: 3000 });
+              return;
+            }
+            // Same shape as the builder's prefilled message, so the agent sees one format either way.
+            var noteText = "Bug report from the preview" + (note ? ': "' + note + '"' : "") + " — session digest at " + md;
+            status("Saved to your workspace", {
+              ms: 8000,
+              action: {
+                label: "Copy note",
+                onClick: function (labelNode) {
+                  copyText(noteText, function (ok) {
+                    labelNode.textContent = ok ? "Copied" : "Copy failed";
+                    if (resetTimer) clearTimeout(resetTimer);
+                    resetTimer = setTimeout(safely(reset), 1500);
+                  });
+                },
+              },
+            });
+          });
+        })
+      );
+    }
+    fab.addEventListener(
+      "click",
+      safely(function () {
+        if (bar.classList.contains("busy")) {
+          reset();
+          return;
+        }
+        if (panel) closePanel();
+        else openPanel();
+      })
+    );
+    hideBtn.addEventListener(
+      "click",
+      safely(function (ev) {
+        ev.stopPropagation();
+        closePanel();
+        reset();
+        bar.classList.add("tucked");
+        handle.classList.add("on");
+        try {
+          sessionStorage.setItem("__emergent_bug_fab_dismissed__", "1");
+        } catch (e) {
+          /* ignore */
+        }
+      })
+    );
+    handle.addEventListener(
+      "click",
+      safely(function () {
+        bar.classList.remove("tucked");
+        handle.classList.remove("on");
+        try {
+          sessionStorage.removeItem("__emergent_bug_fab_dismissed__");
+        } catch (e) {
+          /* ignore */
+        }
+      })
+    );
+    (document.body || document.documentElement).appendChild(host);
+    fabState = host;
+  }
+
+  function currentErrorSummary() {
+    if (!errors.length) return null;
+    var e = errors[errors.length - 1];
+    return { kind: e.kind, message: String(e.message).slice(0, 300), file: e.file };
+  }
+
+  netInstall();
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", safely(startBlackBox));
+  } else {
+    startBlackBox();
+  }
+
+  // ---- runtime errors (React 19 routes uncaught render errors here via reportError)
+  window.addEventListener(
+    "error",
+    safely(function (ev) {
+      var t = ev.target;
+      if (t && t !== window && (t.tagName === "SCRIPT" || (t.tagName === "LINK" && t.rel === "stylesheet"))) {
+        // capture-layer assets (/_emergent/*, /__emergent_overlay__/*: e.g. the recorder when no edge
+        // handler serves it or a content blocker drops it) must never surface as app errors or trigger the chip
+        var failedUrl = String(t.src || t.href || "");
+        if (failedUrl.indexOf("/_emergent/") !== -1 || failedUrl.indexOf("/__emergent_overlay__/") !== -1) return;
+        // The app's own modules and assets are same-origin under the dev server. A third-party asset that
+        // fails to load (Cloudflare's injected Insights beacon, PostHog via *.emergent.sh, a CDN font) is
+        // blocked by content blockers, restricted egress or a bot challenge far more often than it is broken,
+        // and a library that really is missing shows up as a runtime error a moment later anyway.
+        if (isCrossOrigin(failedUrl)) {
+          ignored("cross-origin resource", failedUrl);
+          return;
+        }
+        addError({
+          kind: "resource",
+          message: "Failed to load: " + (t.src || t.href || "unknown resource"),
+          file: shortFile(t.src || t.href),
+          stack: "",
+          frame: "",
+        });
+        // a dead module script usually means a build error somewhere in its import chain
+        fetchBuildState();
+        return;
+      }
+      if (!ev.message && !ev.error) return;
+      var fname = ev.filename || "";
+      var stk = (ev.error && ev.error.stack) || "";
+      // opaque cross-origin errors carry nothing actionable and are almost always third-party scripts
+      if (!fname && !stk && /^Script error\.?$/.test(String(ev.message || ""))) {
+        ignored("opaque cross-origin", ev.message);
+        return;
+      }
+      if (isForeign(fname, stk)) {
+        ignored("foreign source", fname || stk.split("\n")[1] || ev.message);
+        return;
+      }
+      var runMsg = (ev.error && ev.error.message) || ev.message || "";
+      if (isBrowserNoise(runMsg)) {
+        ignored("browser noise", runMsg);
+        return;
+      }
+      addError({
+        kind: "runtime",
+        message: (ev.error && ev.error.message) || ev.message || "Unknown error",
+        file: ev.filename
+          ? shortFile(ev.filename) + (ev.lineno ? ":" + ev.lineno + (ev.colno ? ":" + ev.colno : "") : "")
+          : "",
+        stack: (ev.error && ev.error.stack) || "",
+        frame: "",
+      });
+    }),
+    true
+  );
+
+  window.addEventListener("unhandledrejection", safely(function (ev) {
+    var r = ev.reason;
+    if (r instanceof Error && isForeign("", r.stack)) {
+      ignored("foreign rejection", r.stack.split("\n")[1] || r.message);
+      return;
+    }
+    var rejMsg = describe(r) || (r && r.message) || "";
+    if (isBrowserNoise(rejMsg)) {
+      ignored("browser noise", rejMsg);
+      return;
+    }
+    addError({
+      kind: "rejection",
+      message: describe(r) || "Unhandled promise rejection",
+      file: "",
+      stack: r instanceof Error ? r.stack || "" : "",
+      frame: "",
+    });
+  }));
+
+  // ---- build errors
+  function addCompileError(err) {
+    if (!err) return;
+    var loc = err.loc || {};
+    var message = stripAnsi(err.message) || "Build failed";
+    if (ROOT) message = message.split(ROOT + "/").join("").split(ROOT).join("");
+    var full = message;
+    var frame = stripAnsi(err.frame || "");
+    // oxc/babel embed the code frame in the message; show first line, frame goes below
+    var nl = message.indexOf("\n");
+    if (nl !== -1) {
+      if (!frame) frame = message.slice(nl + 1);
+      message = message.slice(0, nl);
+    }
+    addError({
+      kind: "compile",
+      message: message,
+      fullMessage: full,
+      moduleId: err.id || (loc.file ? String(loc.file) : ""),
+      file: loc.file
+        ? shortFile(loc.file) + (loc.line ? ":" + loc.line + (loc.column ? ":" + loc.column : "") : "")
+        : shortFile(err.id),
+      frame: frame,
+      plugin: err.plugin || "",
+      stack: stripAnsi(err.stack),
+    });
+  }
+
+  // Vite 8 keeps no error buffer for late-connecting clients, so ask the plugin's
+  // server-side cache; covers fresh page loads that race the HMR socket.
+  function fetchBuildState() {
+    if (location.protocol === "file:") return;
+    // ?client=1: same JSON, always 200 — our own fetch must never show up as a failed request in the
+    // user's (or an agent's) browser tooling; the 200/503 contract is for the platform probe only.
+    fetch(BASE + "__emergent_overlay__/health?client=1")
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (d) {
+        if (d && d.build_errors && d.build_errors.length) d.build_errors.forEach(addCompileError);
+        else if (d && d.build_error) addCompileError(d.build_error);
+      })
+      .catch(function () {
+        /* dev server unreachable — nothing to recover */
+      });
+  }
+  if (location.protocol !== "file:") sendReport(); // boot beacon: a fresh healthy load supersedes a previous tab's error report
+
+  // HTTP transport (craco/webpack): reports and dumps map onto the same send() surface as
+  // the hot channel, so every caller stays transport-blind. Compile errors are CRA's own
+  // overlay's job here, and sourcemap resolve is vite-only (the 2s fallback keeps raw stacks).
+  if (TRANSPORT === "http") {
+    window.addEventListener("emergent-overlay:beforeUpdate", safely(clearRuntimeErrors));
+    hotReady({
+      send: safely(function (event, payload) {
+        var pth = null;
+        if (event === "emergent-overlay:report") pth = "report";
+        else if (event === "emergent-overlay:crash-replay") pth = "crash-replay";
+        else return;
+        var url = (BASE === "/" ? "" : BASE.replace(/\/$/, "")) + "/__emergent_overlay__/" + pth;
+        fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-Emergent-Overlay-Token": TOKEN },
+          body: JSON.stringify(payload),
+        })
+          .then(function (r) {
+            if (pth !== "crash-replay") return;
+            return r.json().then(function (d) {
+              var cb = payload && payload.id && pendingReplays[payload.id];
+              if (cb) cb((d && d.file) || null);
+            });
+          })
+          .catch(function () {
+            /* transport is best-effort */
+          });
+      }),
+    });
+  }
+  // Live errors ride Vite's own (token-authenticated) HMR socket via its public client API.
+  // /state hydration runs AFTER listener registration so an error arriving in between
+  // is not missed (vite 8 keeps no buffer for late subscribers).
+  if (TRANSPORT !== "http" && !HMR_ENABLED) fetchBuildState();
+  if (TRANSPORT !== "http" && HMR_ENABLED) {
+    import(BASE + "@vite/client")
+      .then(function (m) {
+        var hot = m.createHotContext("/__emergent_overlay__");
+        var updatePaths = [];
+        var updateError = null;
+        // Vite catches failed module imports and exposes them only through its console logger.
+        var captureUpdateFailure = safely(function (prefix, value) {
+          if (prefix !== "[vite]" || !updatePaths.length) return;
+          for (var i = 0; i < updatePaths.length; i++) {
+            if (typeof value === "string" && value.indexOf("Failed to reload " + updatePaths[i] + ". ") === 0) {
+              addError({
+                kind: "runtime",
+                message: updateError ? describe(updateError) : value,
+                file: shortFile(updatePaths[i]),
+                stack: (updateError && updateError.stack) || "",
+              });
+              updateError = null;
+              return;
+            }
+          }
+          updateError = value;
+        });
+        var originalConsoleError = console.error;
+        console.error = function () {
+          var result = originalConsoleError.apply(this, arguments);
+          captureUpdateFailure.apply(null, arguments);
+          return result;
+        };
+        hot.on("vite:beforeUpdate", safely(function (payload) {
+          updateError = null;
+          updatePaths = ((payload && payload.updates) || []).filter(function (u) {
+            return u.type === "js-update" && !/\.(css|less|sass|scss|styl|stylus|pcss|postcss|sss)(?:$|\?)/.test(u.acceptedPath);
+          }).map(function (u) { return u.acceptedPath; });
+          if (updatePaths.length) clearRuntimeErrors();
+        }));
+        function endUpdate() {
+          updatePaths = [];
+          updateError = null;
+        }
+        hot.on("vite:afterUpdate", endUpdate);
+        hot.on("vite:beforeFullReload", endUpdate);
+        hot.on("vite:error", safely(function (payload) {
+          addCompileError(payload && payload.err);
+        }));
+        hot.on("emergent-overlay:resolved", safely(function (d) {
+          var cb = d && d.id && pendingResolves[d.id];
+          if (cb) cb(d);
+        }));
+        hot.on("emergent-overlay:crash-replay-saved", safely(function (d) {
+          var cb = d && d.id && pendingReplays[d.id];
+          if (cb) cb(d.file || null);
+        }));
+        hot.on("vite:afterUpdate", safely(function (payload) {
+          // only clear errors belonging to the modules that just updated successfully —
+          // an unrelated file's HMR update must not hide another module's build error
+          var paths = [];
+          (((payload && payload.updates) || [])).forEach(function (u) {
+            if (u.path) paths.push(u.path);
+            if (u.acceptedPath && u.acceptedPath !== u.path) paths.push(u.acceptedPath);
+          });
+          clearCompileErrors(function (e) {
+            // unidentified errors are kept (full reload revalidates); substring matching
+            // is out: /src/foo.ts must not clear /src/foo.tsx
+            if (!e.moduleId) return false;
+            var id = String(e.moduleId).split("?")[0];
+            for (var i = 0; i < paths.length; i++) {
+              var pth = String(paths[i]).split("?")[0];
+              if (id === pth || (pth.charAt(0) === "/" && id.length > pth.length && id.slice(-pth.length) === pth)) return true;
+            }
+            return false;
+          });
+        }));
+        hotReady(hot);
+        fetchBuildState();
+      })
+      .catch(function () {
+        /* vite client unavailable — the state fetch still covers build errors */
+        fetchBuildState();
+      });
+  }
+
+  // ---- UI (shadow DOM so app styles can't leak in). Styling mirrors Emergent's
+  // product language (app.emergent.sh): near-black cards, pill buttons, white->green
+  // headline gradient, lowercase wordmark. Theme vars flip for light-mode apps.
+  var CSS =
+    ":host{all:initial}" +
+    ".backdrop{--c-card:#0d0d0d;--c-border:#333;--c-divider:#262626;--c-text:#fff;--c-text2:rgba(255,255,255,.55);--c-text3:rgba(255,255,255,.4);--c-inset:#161616;--c-inset-border:#2a2a2a;--c-msg:#f28b8b;--c-accent:#81ff89;--c-grad:linear-gradient(90deg,#fff 0%,#81ff89 100%);--c-btn-bg:#fff;--c-btn-fg:#111;--c-btn-hover:#e2e2e2;--c-ghost-bg:#1a1a1a;--c-ghost-border:#333;--c-ghost-fg:rgba(255,255,255,.7);--c-ghost-hover:#242424;--c-err-bg:rgba(217,69,69,.16);--c-err-fg:#f28b8b;--c-warn-bg:rgba(185,164,82,.18);--c-warn-fg:#d6c17a;--c-neut-bg:#242424;--c-neut-fg:rgba(255,255,255,.55);" +
+    "position:fixed;inset:0;z-index:2147483647;background:rgba(17,17,17,.88);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:24px;font-family:Brockmann,Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:var(--c-text);overflow:auto}" +
+    ".backdrop.light{--c-card:#fff;--c-border:#e5e5e5;--c-divider:#ececec;--c-text:#111;--c-text2:rgba(0,0,0,.55);--c-text3:rgba(0,0,0,.4);--c-inset:#f6f6f6;--c-inset-border:#e5e5e5;--c-msg:#c92f2f;--c-accent:#0f8b2e;--c-grad:linear-gradient(90deg,#111 0%,#0f8b2e 100%);--c-btn-bg:#111;--c-btn-fg:#fff;--c-btn-hover:#333;--c-ghost-bg:#fff;--c-ghost-border:#d9d9d9;--c-ghost-fg:rgba(0,0,0,.65);--c-ghost-hover:#f2f2f2;--c-err-bg:rgba(217,69,69,.12);--c-err-fg:#b3261e;--c-warn-bg:rgba(122,93,0,.1);--c-warn-fg:#7a5d00;--c-neut-bg:#efefef;--c-neut-fg:rgba(0,0,0,.55);background:rgba(245,245,245,.88)}" +
+    ".card{background:var(--c-card);border:1px solid var(--c-border);border-radius:16px;box-shadow:0 18px 44px rgba(0,0,0,.24);max-width:760px;width:100%;max-height:calc(100vh - 48px);display:flex;flex-direction:column;overflow:hidden}" +
+    ".head{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--c-divider)}" +
+    ".word{height:15px;width:auto;color:var(--c-text);display:block}" +
+    ".badge{font-size:11px;font-weight:500;padding:3px 10px;border-radius:999px;white-space:nowrap}" +
+    ".badge.err{background:var(--c-err-bg);color:var(--c-err-fg)}" +
+    ".badge.warn{background:var(--c-warn-bg);color:var(--c-warn-fg)}" +
+    ".badge.neutral{background:var(--c-neut-bg);color:var(--c-neut-fg)}" +
+    ".spacer{flex:1}" +
+    ".nav{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--c-text3)}" +
+    ".nav button{background:none;border:1px solid var(--c-ghost-border);color:var(--c-text2);border-radius:999px;width:22px;height:22px;cursor:pointer;font-size:12px;line-height:1}" +
+    ".nav button:hover{background:var(--c-ghost-hover);color:var(--c-text)}" +
+    ".x{background:none;border:none;color:var(--c-text3);font-size:15px;cursor:pointer;padding:3px 7px;border-radius:999px}" +
+    ".x:hover{color:var(--c-text);background:var(--c-ghost-hover)}" +
+    ".body{padding:18px;overflow:auto}" +
+    ".headline{font-size:17px;font-weight:600;letter-spacing:-.01em;background:var(--c-grad);-webkit-background-clip:text;background-clip:text;color:transparent;width:fit-content;margin:0 0 10px}" +
+    ".msg{font-family:'Geist Mono','JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;line-height:1.55;color:var(--c-msg);white-space:pre-wrap;word-break:break-word;margin:0 0 12px}" +
+    ".meta{font-family:'Geist Mono','JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;color:var(--c-accent);margin:0 0 12px;word-break:break-all}" +
+    ".meta .plugin{color:var(--c-text3)}" +
+    "pre.frame{background:var(--c-inset);border:1px solid var(--c-inset-border);border-radius:10px;padding:12px 14px;font-family:'Geist Mono','JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;line-height:1.55;color:var(--c-text2);overflow:auto;max-height:240px;margin:0 0 12px;white-space:pre}" +
+    "details{margin:0 0 4px}" +
+    "summary{cursor:pointer;font-size:12px;color:var(--c-text3);user-select:none}" +
+    "summary:hover{color:var(--c-text)}" +
+    "pre.stack{background:var(--c-inset);border:1px solid var(--c-inset-border);border-radius:10px;padding:12px 14px;font-family:'Geist Mono','JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;line-height:1.55;color:var(--c-text3);overflow:auto;max-height:200px;margin:8px 0 0;white-space:pre}" +
+    ".foot{display:flex;align-items:center;gap:12px;padding:13px 18px;border-top:1px solid var(--c-divider)}" +
+    ".hint{font-size:12px;color:var(--c-text3);flex:1;line-height:1.5}" +
+    ".btn{border-radius:999px;font-size:12.5px;font-weight:500;padding:7px 16px;cursor:pointer;white-space:nowrap}" +
+    ".btn.primary{background:var(--c-btn-bg);border:1px solid var(--c-btn-bg);color:var(--c-btn-fg)}" +
+    ".btn.primary:hover{background:var(--c-btn-hover);border-color:var(--c-btn-hover)}" +
+    ".btn.ghost{background:var(--c-ghost-bg);border:1px solid var(--c-ghost-border);color:var(--c-ghost-fg)}" +
+    ".btn.ghost:hover{background:var(--c-ghost-hover)}";
+
+  // theme follows the app: html.dark class first, then rendered background luminance,
+  // then light. A 1x1 canvas normalizes any CSS color space (Tailwind v4 emits oklch).
+  function bgLuminance(color) {
+    try {
+      var canvas = document.createElement("canvas");
+      canvas.width = canvas.height = 1;
+      var ctx = canvas.getContext("2d");
+      ctx.fillStyle = color;
+      ctx.fillRect(0, 0, 1, 1);
+      var d = ctx.getImageData(0, 0, 1, 1).data;
+      if (d[3] < 20) return null;
+      return 0.299 * d[0] + 0.587 * d[1] + 0.114 * d[2];
+    } catch (e) {
+      return null;
+    }
+  }
+  function isDark() {
+    var cl = document.documentElement.classList;
+    if (cl.contains("dark")) return true;
+    if (cl.contains("light")) return false;
+    try {
+      // apps usually paint their theme on an inner container, not body — sample what's
+      // actually rendered at the viewport center and walk up to the first opaque bg
+      var el = document.elementFromPoint(window.innerWidth / 2, window.innerHeight / 2);
+      while (el && el !== document.documentElement) {
+        var lum = bgLuminance(getComputedStyle(el).backgroundColor);
+        if (lum != null) return lum < 128;
+        el = el.parentElement;
+      }
+      var els = [document.body, document.documentElement];
+      for (var i = 0; i < els.length; i++) {
+        if (!els[i]) continue;
+        var lum2 = bgLuminance(getComputedStyle(els[i]).backgroundColor);
+        if (lum2 != null) return lum2 < 128;
+      }
+    } catch (e) {
+      /* fall through */
+    }
+    return false;
+  }
+
+  var WORDMARK =
+    '<svg class="word" viewBox="0 0 112 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M63.1855 18.5146C63.6416 20.2898 65.2526 21.6022 67.1699 21.6025C69.0876 21.6025 70.6992 20.29 71.1553 18.5146H73.6016C73.1083 21.6232 70.4173 23.9999 67.1699 24C63.9227 23.9997 61.2306 21.6231 60.7373 18.5146H63.1855ZM60.6572 17.5615C60.6569 17.5366 60.6553 17.5114 60.6553 17.4863C60.6553 17.4616 60.6569 17.4367 60.6572 17.4121V17.5615ZM59.9707 6.17188L55.1709 8.57129V17.1445H52.7715V4.11719H55.1709V6.17188L59.9707 3.77148V6.17188ZM93.9121 6.17188C94.5323 5.18417 95.7329 4.7998 97.3408 4.7998C99.9593 4.79982 101.797 7.09506 101.797 9.64453V17.1436H99.3682V10.1963C99.3682 8.35869 98.2163 7.2002 96.6543 7.2002C95.0694 7.20025 93.9121 8.45061 93.9121 10.1963V17.1436H91.5117V4.7998H93.9121V6.17188ZM19.1709 6.17188C19.8566 5.1434 21.1585 4.79982 22.5996 4.7998C24.0407 4.7998 25.3426 5.48614 26.0283 6.51465C26.714 5.48614 27.7427 4.7998 29.7998 4.7998C32.7138 4.79994 34.9423 6.6857 34.9424 9.25684V17.1426H32.542V9.94238C32.5419 8.1529 31.3569 7.02848 29.7998 7.02832C28.196 7.02832 27.0567 8.24574 27.0566 9.94238V17.1426H24.6572V9.94238C24.6571 8.15278 23.3227 7.02832 21.7422 7.02832C20.1386 7.02851 19.1709 8.15009 19.1709 9.84668V17.1426H16.7715V4.7998H19.1709V6.17188ZM50.708 9.99512C50.8186 12.6349 49.3889 15.215 46.8623 16.4473C44.3358 17.6793 41.4232 17.2171 39.4111 15.5049L41.9023 14.29C43.0925 14.8701 44.5282 14.9162 45.8105 14.291C47.0928 13.6656 47.941 12.5059 48.2168 11.2109L50.708 9.99512ZM73.6836 10.5908C73.6837 10.6035 73.6846 10.6162 73.6846 10.6289C73.6846 10.6413 73.6837 10.6537 73.6836 10.666V10.9717H73.6748C73.4965 14.4098 70.6525 17.1426 67.1699 17.1426C63.5725 17.1423 60.6562 14.2263 60.6562 10.6289C60.6564 7.03165 63.5726 4.11549 67.1699 4.11523C68.7303 4.11523 70.1623 4.66426 71.2842 5.5791V3.42969H73.6836V10.5908ZM89.4502 9.99512C89.5608 12.6348 88.1309 15.2149 85.6045 16.4473C83.0779 17.6795 80.1645 17.2172 78.1523 15.5049L80.6436 14.29C81.8337 14.8701 83.2695 14.9162 84.5518 14.291C85.834 13.6656 86.6822 12.5059 86.958 11.2109L89.4502 9.99512ZM107.279 3.42773H110.021V5.82812H107.279V14.7422H111.739V17.1426L104.882 17.1416H104.88V5.82812H103.165V3.42773H104.88V0H107.279V3.42773ZM14.708 9.99316C14.8186 12.6329 13.3889 15.213 10.8623 16.4453C8.33582 17.6773 5.42318 17.2151 3.41113 15.5029L5.90234 14.2881C7.09265 14.8682 8.52816 14.9135 9.81055 14.2881C11.093 13.6626 11.9411 12.5031 12.2168 11.208L14.708 9.99316ZM67.1699 6.51367C64.8979 6.51378 63.0558 8.35502 63.0557 10.627C63.0557 12.899 64.8978 14.7411 67.1699 14.7412C69.4421 14.7412 71.2842 12.8991 71.2842 10.627C71.284 8.35496 69.442 6.51367 67.1699 6.51367ZM40.8525 4.12402C44.2554 2.46459 48.3598 3.8776 50.0195 7.28027C50.1209 7.48808 50.2104 7.69881 50.2891 7.91113L38.0273 13.8926C37.9084 13.6998 37.7977 13.4989 37.6963 13.291C36.0366 9.88819 37.4496 5.78369 40.8525 4.12402ZM79.5938 4.12402C82.9966 2.46455 87.101 3.8776 88.7607 7.28027C88.8621 7.48807 88.9516 7.69882 89.0303 7.91113L76.7686 13.8926C76.6496 13.6998 76.5389 13.4989 76.4375 13.291C74.7778 9.88819 76.1908 5.78369 79.5938 4.12402ZM4.85254 4.12207C8.25543 2.46258 12.3598 3.87557 14.0195 7.27832C14.1209 7.48616 14.2104 7.69683 14.2891 7.90918L2.02734 13.8896C1.90847 13.697 1.79765 13.4968 1.69629 13.2891C0.0365657 9.88623 1.4496 5.78174 4.85254 4.12207ZM46.8047 6.94141C45.4952 5.7885 43.5704 5.46869 41.9043 6.28125C40.2383 7.0938 39.3059 8.80725 39.4082 10.5488L46.8047 6.94141ZM85.5459 6.94141C84.2364 5.7885 82.3116 5.46869 80.6455 6.28125C78.9796 7.09382 78.0471 8.80727 78.1494 10.5488L85.5459 6.94141ZM10.8047 6.93945C9.49529 5.78661 7.57029 5.46593 5.9043 6.27832C4.23824 7.09088 3.30586 8.80523 3.4082 10.5469L10.8047 6.93945Z"/></svg>';
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+
+  function buildUi() {
+    var host = document.createElement("div");
+    host.setAttribute("data-emergent-overlay-host", "");
+    var shadow = host.attachShadow({ mode: "open" });
+    var shadowMount = function (n) {
+      try {
+        n.setAttribute("data-emergent-overlay-ui", "");
+      } catch (e) {
+        /* ignore */
+      }
+      return shadow.appendChild(n);
+    };
+    var style = document.createElement("style");
+    style.textContent = CSS;
+    shadowMount(style);
+
+    var backdrop = el("div", "backdrop");
+    var card = el("div", "card");
+
+    var head = el("div", "head");
+    var markWrap = document.createElement("span");
+    markWrap.innerHTML = WORDMARK;
+    head.appendChild(markWrap.firstChild);
+    var badge = el("span", "badge", "");
+    head.appendChild(badge);
+    head.appendChild(el("span", "spacer"));
+    var nav = el("span", "nav");
+    var prev = el("button", null, "‹");
+    var pos = el("span", null, "");
+    var next = el("button", null, "›");
+    nav.appendChild(prev);
+    nav.appendChild(pos);
+    nav.appendChild(next);
+    head.appendChild(nav);
+    var x = el("button", "x", "✕");
+    head.appendChild(x);
+    card.appendChild(head);
+
+    var body = el("div", "body");
+    var headline = el("p", "headline", "");
+    var msg = el("p", "msg", "");
+    var meta = el("p", "meta", "");
+    var frame = el("pre", "frame");
+    var det = document.createElement("details");
+    var sum = el("summary", null, "Stack trace");
+    var stack = el("pre", "stack");
+    det.appendChild(sum);
+    det.appendChild(stack);
+    body.appendChild(headline);
+    body.appendChild(msg);
+    body.appendChild(meta);
+    body.appendChild(frame);
+    body.appendChild(det);
+    card.appendChild(body);
+
+    var foot = el("div", "foot");
+    var hint = el(
+      "span",
+      "hint",
+      "This error was captured by Emergent. Full details also remain in the browser console."
+    );
+    var copy = el("button", "btn ghost", "Copy details");
+    var reload = el("button", "btn primary", "Reload app");
+    foot.appendChild(hint);
+    foot.appendChild(copy);
+    foot.appendChild(reload);
+    card.appendChild(foot);
+
+    backdrop.appendChild(card);
+    shadowMount(backdrop);
+
+    prev.addEventListener("click", function () {
+      current = (current - 1 + errors.length) % errors.length;
+      render();
+    });
+    next.addEventListener("click", function () {
+      current = (current + 1) % errors.length;
+      render();
+    });
+    x.addEventListener("click", function () {
+      dismissed = true;
+      render();
+    });
+    reload.addEventListener("click", function () {
+      location.reload();
+    });
+    copy.addEventListener("click", function () {
+      var text = errors.map(report).join("\n\n---\n\n");
+      try {
+        navigator.clipboard.writeText(text).then(
+          function () {
+            copy.textContent = "Copied ✓";
+            setTimeout(function () {
+              copy.textContent = "Copy details";
+            }, 1500);
+          },
+          function () {
+            /* permission denied — not an app error */
+          }
+        );
+      } catch (e) {
+        /* clipboard unavailable */
+      }
+    });
+    window.addEventListener("keydown", function (ev) {
+      if (ev.key === "Escape" && !dismissed && errors.length) {
+        dismissed = true;
+        render();
+      }
+    });
+
+    return {
+      host: host,
+      backdrop: backdrop,
+      badge: badge,
+      nav: nav,
+      pos: pos,
+      headline: headline,
+      msg: msg,
+      meta: meta,
+      frame: frame,
+      det: det,
+      stack: stack,
+    };
+  }
+
+  function report(e) {
+    var k = KINDS[e.kind] || KINDS.runtime;
+    return (
+      "[Emergent preview error] " +
+      k.badge +
+      (e.count > 1 ? " (seen " + e.count + "×)" : "") +
+      "\nMessage: " +
+      (e.fullMessage || e.message) +
+      (e.file ? "\nFile: " + e.file : "") +
+      (e.plugin ? "\nPlugin: " + e.plugin : "") +
+      (e.replayFile
+        ? "\nSession report: " +
+          String(e.replayFile).replace(/\.json$/, ".md") +
+          " in the workspace (digest; raw events in the matching .json)"
+        : "") +
+      (e.frame ? "\n\n" + e.frame : "") +
+      (e.stack ? "\n\nStack:\n" + e.stack : "")
+    );
+  }
+
+  function render() {
+    // browser-probe surface: window global mirrors what the overlay is showing
+    window.__EMERGENT_OVERLAY_STATE__ = {
+      visible: !dismissed && errors.length > 0,
+      errors: errors.map(function (e) {
+        return { kind: e.kind, message: e.message, file: e.file, count: e.count };
+      }),
+      get splash() {
+        return splashVisible();
+      },
+    };
+    if (!document.body) {
+      document.addEventListener("DOMContentLoaded", render);
+      return;
+    }
+    if (!ui) ui = buildUi();
+    if (!ui.host.isConnected) document.body.appendChild(ui.host);
+
+    if (dismissed || !errors.length) {
+      ui.host.style.display = "none";
+      return;
+    }
+    // hide the overlay while sampling so elementFromPoint sees the app, not us
+    ui.host.style.display = "none";
+    var dark = isDark();
+    ui.host.style.display = "";
+    ui.backdrop.className = "backdrop" + (dark ? "" : " light");
+
+    var e = errors[current];
+    var k = KINDS[e.kind] || KINDS.runtime;
+    ui.badge.className = "badge " + (k.tone || "neutral");
+    ui.badge.textContent = k.badge + (e.count > 1 ? " · " + e.count + "×" : "");
+    ui.headline.textContent = k.headline;
+    ui.msg.textContent = e.message;
+
+    var metaText = e.file || "";
+    ui.meta.textContent = metaText;
+    if (e.plugin) {
+      var pl = el("span", "plugin", (metaText ? "  ·  " : "") + "plugin: " + e.plugin);
+      ui.meta.appendChild(pl);
+    }
+    ui.meta.style.display = metaText || e.plugin ? "" : "none";
+
+    ui.frame.textContent = e.frame || "";
+    ui.frame.style.display = e.frame ? "" : "none";
+
+    ui.stack.textContent = e.stack || "";
+    ui.det.style.display = e.stack ? "" : "none";
+
+    ui.nav.style.display = errors.length > 1 ? "" : "none";
+    ui.pos.textContent = current + 1 + " / " + errors.length;
+  }
+})();
+</script>
+  <script defer="" src="/__emergent_overlay__/recorder.js" data-emergent-rrweb="1"></script>
+</head>
+  <body>
+    <div class="ambient" aria-hidden="true"></div>
+    <div class="shell">
+      <header class="topbar" data-testid="top-navigation">
+        <div class="brand" data-testid="brand-lockup">
+          <svg class="brand-mark" data-testid="brand-logo" viewBox="0 0 32 32" fill="none" aria-label="CreatorOS AI logo" role="img">
+            <path d="M16 2.7 28.7 10v12L16 29.3 3.3 22V10L16 2.7Z" stroke="currentColor" stroke-width="1.5"/>
+            <path d="m9.8 13.2 6.2-3.6 6.2 3.6v5.6L16 22.4l-6.2-3.6v-5.6Z" stroke="var(--accent)" stroke-width="1.5"/>
+          </svg>
+          <span class="brand-name" data-testid="brand-name">CreatorOS AI</span>
+        </div>
+        <div class="step-meta" data-testid="step-progress">
+          <span class="step-label" id="step-label" data-testid="progress-step-label">Step 1 of 4</span>
+          <div class="progress-track" data-testid="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="4" aria-valuenow="1" aria-label="Onboarding progress"><div class="progress-value" id="progress-value"></div></div>
+        </div>
+      </header>
+      <main class="main" id="app" data-testid="onboarding-app"></main>
+    </div>
+    <!-- Supabase JS & CreatorOS Auth Integration -->
+    <script src="supabase-config.js"></script>
+    <script src="supabase.min.js"></script>
+    <script>
+      if (!window.supabase) {
+        document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"><\/script>');
+      }
+    </script>
+    <script src="auth.js"></script>
+    <script>
+      /*
+       * HAND-OFF CONFIGURATION
+       * window.CREATOROS_CONFIG = {
+       *   gatewayBaseUrl: "",
+       *   getAccessToken: async () => "",
+       *   onComplete: (profile) => {},
+       *   onDecline: () => {},
+       *   prefillName: "",
+       *   enabledPersonas: ["content_creator", "product_builder", "freelancer", "advertiser"],
+       *   policyVersion: "2026-11-draft"
+       * };
+       */
+      (function () {
+        "use strict";
+
+        var defaultConfig = {
+          gatewayBaseUrl: "",
+          getAccessToken: async function () { return ""; },
+          onComplete: function () {
+            window.location.href = "index.html";
+          },
+          onDecline: function () {
+            window.location.href = "index.html";
+          },
+          prefillName: "",
+          enabledPersonas: ["content_creator", "product_builder", "freelancer", "advertiser"],
+          policyVersion: "2026-11-draft"
+        };
+        var config = Object.assign({}, defaultConfig, window.CREATOROS_CONFIG || {});
+        if (!Array.isArray(config.enabledPersonas)) config.enabledPersonas = defaultConfig.enabledPersonas;
+
+        var icons = {
+          creator: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/><path d="m19 16 .7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16Z"/></svg>',
+          builder: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m14.5 5.5 4 4M4 20l3.2-.7L19.4 7.1a2.8 2.8 0 0 0-4-4L3.3 15.3 2.6 18.5 4 20Z"/><path d="M13 7 17 11"/></svg>',
+          freelancer: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M8 6V4h8v2M3 11h18M10 11v2h4v-2"/></svg>',
+          advertiser: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a2 2 0 0 0 2 2h2l2 5h2l-1.5-5H12l7 3V6l-7 3H5a2 2 0 0 0-2 2Z"/><path d="M21 9.5c1 1.2 1 3.8 0 5"/></svg>',
+          arrow: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+          back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>',
+          check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4.5 4.5L19 7"/></svg>'
+        };
+
+        var personaInfo = {
+          content_creator: { title: "Content Creator", description: "Build an audience around what you know.", icon: icons.creator },
+          product_builder: { title: "Product Builder", description: "Turn an idea into something people want.", icon: icons.builder },
+          freelancer: { title: "Freelancer", description: "Make your expertise easier to discover.", icon: icons.freelancer },
+          advertiser: { title: "Advertiser", description: "Create campaigns that move people.", icon: icons.advertiser }
+        };
+        var personaQuestions = {
+          content_creator: [
+            { key: "display_name", title: "What should we call you?", note: "Your first name or a creator name both work.", type: "input", required: true, placeholder: "Your name" },
+            { key: "niche", title: "What do you create around?", note: "Choose the closest fit.", type: "chips", required: true, options: ["Fitness", "Tech", "Food", "Travel", "Education", "Fashion", "Gaming", "Finance", "Other"] },
+            { key: "platforms", title: "Where do you show up?", note: "Select every platform you use.", type: "multi", required: true, options: ["Instagram", "YouTube", "LinkedIn", "TikTok", "X", "Podcast"] },
+            { key: "audience", title: "Who are you here to reach?", note: "A few words about your audience helps us tune your suggestions.", type: "textarea", required: true, max: 120, placeholder: "For example: busy founders learning to market their work" },
+            { key: "tone", title: "How should your ideas sound?", note: "Pick the energy that feels most like you.", type: "chips", required: true, options: ["Energetic", "Calm", "Funny", "Professional", "Bold"] },
+            { key: "goals", title: "What would make this worth it?", note: "Choose up to three outcomes.", type: "goals", optional: true, options: ["Grow followers", "Earn from content", "Save time", "Land brand deals", "Post consistently"] }
+          ],
+          product_builder: [
+            { key: "display_name", title: "What should we call you?", note: "Your first name or a builder name both work.", type: "input", required: true, placeholder: "Your name" },
+            { key: "product_name", title: "What are you building?", note: "Give your product a working name.", type: "input", required: true, placeholder: "Product name" },
+            { key: "product_description", title: "What does it help people do?", note: "A clear sentence is plenty.", type: "textarea", required: true, placeholder: "Describe the problem your product solves" },
+            { key: "niche", title: "Which space are you building in?", note: "Choose the closest fit.", type: "chips", required: true, options: ["SaaS", "Developer tools", "E-commerce", "Fintech", "Health", "Other"] },
+            { key: "audience", title: "Who is the ideal customer?", note: "Describe the person or team you want to serve.", type: "textarea", required: true, max: 120, placeholder: "For example: independent designers with growing studios" },
+            { key: "region", title: "Where will you start?", note: "This helps keep your suggestions grounded.", type: "chips", required: true, options: ["India", "US", "Europe", "Global", "Other"] },
+            { key: "goals", title: "What would make this worth it?", note: "Choose up to three outcomes.", type: "goals", optional: true, options: ["Find customers", "Book sales calls", "Validate the idea", "Raise awareness"] }
+          ],
+          freelancer: [
+            { key: "display_name", title: "What should we call you?", note: "Your first name or a professional name both work.", type: "input", required: true, placeholder: "Your name" },
+            { key: "niche", title: "What do you sell?", note: "Choose the closest fit.", type: "chips", required: true, options: ["Templates", "Design", "Development", "Writing", "Video editing", "Other"] },
+            { key: "platforms", title: "Where can clients find you?", note: "Select every channel you use.", type: "multi", required: true, options: ["Gumroad", "Etsy", "Fiverr", "Upwork", "LinkedIn", "Own website"] },
+            { key: "audience", title: "Who is your ideal client?", note: "A clear client profile helps us tailor your positioning.", type: "textarea", required: true, max: 120, placeholder: "For example: early-stage founders who need a clear launch story" },
+            { key: "tone", title: "How should your ideas sound?", note: "Pick the energy that feels most like you.", type: "chips", required: true, options: ["Professional", "Friendly", "Creative", "Minimal"] },
+            { key: "goals", title: "What would make this worth it?", note: "Choose up to three outcomes.", type: "goals", optional: true, options: ["Grow followers", "Earn from content", "Save time", "Land brand deals", "Post consistently"] }
+          ],
+          advertiser: [
+            { key: "display_name", title: "What should we call you?", note: "Your first name or team name both work.", type: "input", required: true, placeholder: "Your name" },
+            { key: "brand_name", title: "Which brand are you growing?", note: "Use a working name if you are still exploring.", type: "input", required: true, placeholder: "Brand name" },
+            { key: "niche", title: "What industry are you in?", note: "Choose the closest fit.", type: "chips", required: true, options: ["Technology", "Retail", "Finance", "Health", "Education", "Travel", "Food", "Other"] },
+            { key: "audience", title: "Who should this reach?", note: "Describe the audience you want to move.", type: "textarea", required: true, max: 120, placeholder: "For example: curious urban professionals aged 25–40" },
+            { key: "platforms", title: "Where will you advertise?", note: "Select every channel you are considering.", type: "multi", required: true, options: ["Instagram", "YouTube", "LinkedIn", "TikTok", "X", "Search"] },
+            { key: "goals", title: "What should the campaign do?", note: "Choose up to three outcomes.", type: "goals", optional: true, options: ["Awareness", "Leads", "Sales", "Engagement"] },
+            { key: "budget_range", title: "What is your working budget?", note: "You can skip this for now.", type: "chips", optional: true, options: ["Under $1k", "$1k–$5k", "$5k–$20k", "$20k+", "Not sure"] }
+          ]
+        };
+
+        function blankAnswers() {
+          return { display_name: config.prefillName || "", product_name: "", product_description: "", brand_name: "", niche: "", nicheOther: "", region: "", regionOther: "", tone: "", toneOther: "", audience: "", platforms: [], goals: [], budget_range: "" };
+        }
+
+        var PERSONA_DASHBOARDS = {
+          content_creator: "creator.html",
+          product_builder: "Product%20based.html",
+          freelancer: "Freelancer.html",
+          advertiser: "advertisor.html"
+        };
+
+        var hasSavedPersona = false;
+        try {
+          hasSavedPersona = !!(localStorage.getItem("creatoros_persona") || localStorage.getItem("creatoros_onboarding"));
+        } catch (e) {}
+        var urlParams = new URLSearchParams(window.location.search);
+        var isSwitchMode = (urlParams.get("switch") === "true" || hasSavedPersona) && urlParams.get("retake") !== "true";
+        var initialScreen = isSwitchMode ? "personas" : "privacy";
+        var state = { screen: initialScreen, persona: "", answers: blankAnswers(), questionIndex: 0, saveError: "" };
+        var app = document.getElementById("app");
+        var stepLabel = document.getElementById("step-label");
+        var progressValue = document.getElementById("progress-value");
+        var progressTrack = document.querySelector(".progress-track");
+
+        function escapeHtml(value) {
+          return String(value == null ? "" : value).replace(/[&<>'"]/g, function (character) { return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[character]; });
+        }
+        function displayNiche() { return state.answers.niche === "Other" ? state.answers.nicheOther.trim() : state.answers.niche; }
+        function displayTone() { return state.answers.tone === "Other" ? state.answers.toneOther.trim() : state.answers.tone; }
+        function displayRegion() { return state.answers.region === "Other" ? state.answers.regionOther.trim() : state.answers.region; }
+        function currentQuestion() { return (personaQuestions[state.persona] || [])[state.questionIndex]; }
+        function selectedValues(key) { return Array.isArray(state.answers[key]) ? state.answers[key] : []; }
+        function answerValue(key) { if (key === "niche") return displayNiche(); if (key === "tone") return displayTone(); if (key === "region") return displayRegion(); return state.answers[key]; }
+        function isAnswered(question) {
+          if (!question || question.optional) return true;
+          if (question.key === "platforms") return selectedValues("platforms").length > 0;
+          if (question.key === "niche" && state.answers.niche === "Other") return state.answers.nicheOther.trim().length > 0;
+          if (question.key === "tone" && state.answers.tone === "Other") return state.answers.toneOther.trim().length > 0;
+          if (question.key === "region" && state.answers.region === "Other") return state.answers.regionOther.trim().length > 0;
+          return String(answerValue(question.key) || "").trim().length > 0;
+        }
+        function renderIcon(name) { return icons[name] || ""; }
+        function button(label, action, testid, kind, disabled, icon) {
+          return '<button class="button button-' + (kind || "secondary") + '" data-action="' + action + '" data-testid="' + testid + '"' + (disabled ? " disabled" : "") + '>' + (icon || "") + '<span data-testid="' + testid + '-label">' + label + "</span></button>";
+        }
+
+        function renderPrivacy() {
+          return '<section class="view privacy-view" data-testid="privacy-screen"><aside class="privacy-aside" data-testid="privacy-aside"><div class="privacy-aside-icon" data-testid="privacy-aside-icon">' + icons.creator + '</div><h1 data-testid="privacy-headline">Your data<br />stays yours.</h1><p class="lede" data-testid="privacy-intro">A few thoughtful answers help CreatorOS AI make better suggestions.</p><div class="privacy-aside-link" data-testid="privacy-aside-link"><span>Read our terms &amp; conditions</span>' + renderIcon("arrow") + '</div></aside><div class="privacy-panel" data-testid="privacy-panel"><p class="eyebrow" data-testid="privacy-eyebrow">One quick read</p><h2 data-testid="privacy-panel-headline">A few things before we begin</h2><p class="lede" data-testid="privacy-panel-intro">Understand how CreatorOS AI uses your preferences.</p><div class="privacy-list" data-testid="privacy-list"><div class="privacy-row" data-testid="privacy-row-store"><strong class="privacy-label">What we store</strong><span class="privacy-copy">Your answers and content.</span></div><div class="privacy-row" data-testid="privacy-row-use"><strong class="privacy-label">How we use it</strong><span class="privacy-copy">Only to personalise your AI suggestions.</span></div><div class="privacy-row" data-testid="privacy-row-see"><strong class="privacy-label">Who can see it</strong><span class="privacy-copy">Only you; every account is kept separate.</span></div><div class="privacy-row" data-testid="privacy-row-control"><strong class="privacy-label">Your control</strong><span class="privacy-copy">Nothing is posted without your approval; you can ask to delete your data.</span></div></div><details data-testid="privacy-policy-details"><summary data-testid="privacy-policy-summary">Read full policy</summary><div class="policy-draft" data-testid="privacy-policy-draft"><span class="draft-tag" data-testid="privacy-draft-tag">Draft text, replace before launch</span><br />This policy preview will be replaced with the full CreatorOS AI privacy policy before launch.</div></details><div class="actions" data-testid="privacy-actions">' + button("Agree and continue", "agree", "privacy-agree-button", "primary", false, renderIcon("arrow")) + button("Decline", "decline", "privacy-decline-button", "quiet", false, "") + "</div></div></section>";
+        }
+
+        function renderDeclined() {
+          return '<section class="view" data-testid="declined-screen"><p class="eyebrow" data-testid="declined-eyebrow">No pressure</p><h1 data-testid="declined-headline">Take your time.</h1><p class="decline-copy" data-testid="declined-copy">That is completely okay. Your answers will not be saved, and nothing will happen without your approval.</p><div class="decline-actions" data-testid="declined-actions">' + button("Review again", "review", "declined-review-button", "primary", false, renderIcon("back")) + button("Leave", "leave", "declined-leave-button", "secondary", false, "") + "</div></section>";
+        }
+
+        async function launchPersonaDirectly(key) {
+          var targetDashboard = PERSONA_DASHBOARDS[key] || "creator.html";
+          try {
+            localStorage.setItem("creatoros_persona", key);
+            localStorage.setItem("creatoros_onboarding", JSON.stringify({ persona: key, onboarding_completed: true }));
+          } catch (e) {}
+          if (window.CreatorAuth && typeof window.CreatorAuth.switchPersona === "function") {
+            await window.CreatorAuth.switchPersona(key);
+            return;
+          }
+          window.location.href = targetDashboard;
+        }
+
+        function renderPersonas() {
+          var currentPersona = "";
+          try { currentPersona = localStorage.getItem("creatoros_persona") || ""; } catch (e) {}
+
+          var cards = config.enabledPersonas.filter(function (key) { return personaInfo[key]; }).map(function (key) {
+            var item = personaInfo[key];
+            var isCurrent = currentPersona === key;
+            return '<div class="persona-card-wrapper" style="display:flex;flex-direction:column;gap:6px;">'
+              + '<button class="persona-card ' + (isCurrent ? "is-current" : "") + '" data-action="persona" data-persona="' + key + '" data-testid="persona-card-' + key + '" style="text-align:left;position:relative;">'
+                + '<span class="persona-icon" data-testid="persona-icon-' + key + '">' + item.icon + '</span>'
+                + '<span class="persona-title" data-testid="persona-title-' + key + '">' + item.title + (isCurrent ? ' <span style="font-size:10px;padding:2px 7px;border-radius:99px;background:rgba(53,212,154,0.18);color:#35D49A;border:1px solid rgba(53,212,154,0.3);margin-left:6px;vertical-align:middle;">Active</span>' : "") + '</span>'
+                + '<span class="persona-description" data-testid="persona-description-' + key + '">' + item.description + '</span>'
+                + (isSwitchMode ? '<span style="margin-top:12px;display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:#c48eff;">Launch Workspace →</span>' : "")
+              + '</button>'
+              + (isSwitchMode ? '<button class="button-quiet" data-action="customize-persona" data-persona="' + key + '" style="font-size:11px;padding:4px 8px;text-align:center;color:var(--muted);background:transparent;border:none;cursor:pointer;">⚙️ Customize with questions</button>' : "")
+            + '</div>';
+          }).join("");
+          return '<section class="view centered" data-testid="persona-screen"><p class="eyebrow" data-testid="persona-eyebrow">' + (isSwitchMode ? "Instant Jump" : "Your point of view") + '</p><h2 data-testid="persona-headline">' + (isSwitchMode ? "Choose workspace" : "Who are you?") + '</h2><p class="lede" data-testid="persona-intro">' + (isSwitchMode ? "Click any workspace to jump in directly without answering questions." : "Choose the path that feels closest. We will shape the rest around you.") + '</p><div class="persona-grid" data-testid="persona-grid">' + cards + "</div></section>";
+        }
+
+        function optionButton(option, selected, action, key, index) {
+          var safe = option.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+          return '<button class="chip' + (selected ? " is-selected" : "") + '" data-action="' + action + '" data-key="' + key + '" data-value="' + escapeHtml(option) + '" data-testid="chip-' + key + '-' + safe + '-' + index + '" aria-pressed="' + (selected ? "true" : "false") + '">' + escapeHtml(option) + "</button>";
+        }
+        function renderQuestionField(question) {
+          var key = question.key;
+          var value = state.answers[key] || "";
+          var html = "";
+          if (question.type === "input") {
+            html = '<input class="text-field" id="question-input" data-input="' + key + '" data-testid="question-' + key + '-input" type="text" value="' + escapeHtml(value) + '" placeholder="' + escapeHtml(question.placeholder || "") + '" autocomplete="off" />';
+          } else if (question.type === "textarea") {
+            html = '<div class="input-wrap"><textarea class="text-area" id="question-input" data-input="' + key + '" data-testid="question-' + key + '-input" maxlength="' + (question.max || 500) + '" placeholder="' + escapeHtml(question.placeholder || "") + '" autocomplete="off">' + escapeHtml(value) + '</textarea>' + (question.max ? '<span class="char-count" id="char-count" data-testid="question-' + key + '-character-count">' + String(value).length + "/" + question.max + "</span>" : "") + "</div>";
+          } else if (question.type === "multi") {
+            html = '<div class="chip-grid" data-testid="question-' + key + '-options">' + question.options.map(function (option, index) { return optionButton(option, selectedValues(key).indexOf(option) > -1, "toggle-multi", key, index); }).join("") + "</div>";
+          } else {
+            var selected = question.key === "goals" ? selectedValues("goals") : state.answers[key];
+            html = '<div class="chip-grid" data-testid="question-' + key + '-options">' + question.options.map(function (option, index) { return optionButton(option, question.key === "goals" ? selected.indexOf(option) > -1 : selected === option, question.key === "goals" ? "toggle-goal" : "select-chip", key, index); }).join("") + '</div>';
+            if (state.answers[key] === "Other") {
+              var otherKey = key + "Other";
+              html += '<div class="input-wrap" style="margin-top: 13px"><input class="text-field" id="other-input" data-input="' + otherKey + '" data-testid="question-' + key + '-other-input" type="text" value="' + escapeHtml(state.answers[otherKey] || "") + '" placeholder="Tell us a little more" autocomplete="off" />' + "</div>";
+            }
+          }
+          return html;
+        }
+
+        function renderQuestion() {
+          var question = currentQuestion();
+          if (!question) return renderPersonas();
+          var total = personaQuestions[state.persona].length;
+          var disabled = !isAnswered(question);
+          var noteClass = question.optional ? "field-note optional" : "field-note";
+          return '<section class="view centered" data-testid="question-screen"><div class="question-head"><div><p class="eyebrow" data-testid="question-persona-label">' + escapeHtml(personaInfo[state.persona].title) + '</p><h2 class="question-title" data-testid="question-title">' + escapeHtml(question.title) + '</h2></div><span class="question-count" data-testid="question-count">' + (state.questionIndex + 1) + " / " + total + '</span></div><p class="' + noteClass + '" data-testid="question-note">' + escapeHtml(question.note || "") + '</p><div style="margin-top: 24px" data-testid="question-field">' + renderQuestionField(question) + '</div><div class="inline-error" id="inline-error" data-testid="question-validation" aria-live="polite"></div><div class="question-actions" data-testid="question-actions">' + button("Back", "question-back", "question-back-button", "quiet", false, renderIcon("back")) + button(state.questionIndex === total - 1 ? "Review answers" : "Continue", "question-next", "question-next-button", "primary", disabled, state.questionIndex === total - 1 ? renderIcon("arrow") : renderIcon("arrow")) + "</div></section>";
+        }
+
+        function formatReviewValue(value) { return Array.isArray(value) ? value.join(", ") : value; }
+        function renderReview() {
+          var a = state.answers;
+          var rows = [{ key: "Persona", value: personaInfo[state.persona].title }, { key: "Name", value: a.display_name }, { key: "Niche", value: displayNiche() }, { key: "Audience", value: a.audience }, { key: "Platforms", value: a.platforms }, { key: "Tone", value: displayTone() }, { key: "Goals", value: a.goals }];
+          if (state.persona === "product_builder") rows.splice(2, 0, { key: "Product", value: a.product_name }, { key: "Description", value: a.product_description });
+          if (state.persona === "product_builder") rows.push({ key: "Region", value: displayRegion() });
+          if (state.persona === "advertiser") rows.splice(2, 0, { key: "Brand", value: a.brand_name });
+          if (state.persona === "advertiser") rows.push({ key: "Budget", value: a.budget_range });
+          var reviewRows = rows.map(function (row, index) { var formatted = formatReviewValue(row.value); return '<div class="review-row" data-testid="review-row-' + index + '"><span class="review-key" data-testid="review-key-' + index + '">' + escapeHtml(row.key) + '</span><span class="review-value' + (!formatted ? " empty" : "") + '" data-testid="review-value-' + index + '">' + escapeHtml(formatted || "Not added") + '</span></div>'; }).join("");
+          var error = state.saveError ? '<p class="inline-error" data-testid="save-error" aria-live="assertive">' + escapeHtml(state.saveError) + '</p>' : "";
+          return '<section class="view centered" data-testid="review-screen"><p class="eyebrow" data-testid="review-eyebrow">One last look</p><h2 data-testid="review-headline">Your starting point.</h2><p class="lede" data-testid="review-intro">This is the context we will use to make your first suggestions feel like yours.</p><div class="review-list" data-testid="review-list">' + reviewRows + "</div>" + error + '<div class="review-foot" data-testid="review-actions"><span class="preview-tag" data-testid="preview-mode-tag">' + (config.gatewayBaseUrl ? "Ready to save securely" : "Preview mode: nothing was saved") + '</span>' + button("Finish setup", "finish", "finish-setup-button", "primary", false, renderIcon("arrow")) + '</div><div style="margin-top: 14px">' + button("Back", "review-back", "review-back-button", "quiet", false, renderIcon("back")) + "</div></section>";
+        }
+
+        function renderSaving() { return '<section class="view centered saving" data-testid="saving-screen"><div><div class="brain" data-testid="brain-animation" aria-label="Setting up your Brain"><span class="brain-ring"></span><span class="brain-core"></span></div><p class="saving-copy" data-testid="saving-copy">Setting up your Brain</p></div></section>'; }
+        function renderSuccess() { return '<section class="view centered" data-testid="success-screen"><div class="success-mark" data-testid="success-checkmark">' + renderIcon("check") + '</div><h2 data-testid="success-headline">You are ready to create.</h2><p class="lede" data-testid="success-copy">Your Brain is set up with a starting point that is uniquely yours. Let us make something useful.</p><div class="actions" data-testid="success-actions">' + (config.gatewayBaseUrl ? "" : '<span class="preview-tag" data-testid="success-preview-mode-tag">Preview mode: nothing was saved</span>') + button("Continue to CreatorOS", "complete", "success-complete-button", "primary", false, renderIcon("arrow")) + "</div></section>"; }
+
+        function updateProgress() {
+          var step = state.screen === "privacy" || state.screen === "declined" ? 1 : state.screen === "personas" ? 2 : state.screen === "question" ? 3 : 4;
+          stepLabel.textContent = "Step " + step + " of 4";
+          progressValue.style.width = (step * 25) + "%";
+          progressTrack.setAttribute("aria-valuenow", String(step));
+        }
+        function render() {
+          updateProgress();
+          if (state.screen === "privacy") app.innerHTML = renderPrivacy();
+          if (state.screen === "declined") app.innerHTML = renderDeclined();
+          if (state.screen === "personas") app.innerHTML = renderPersonas();
+          if (state.screen === "question") app.innerHTML = renderQuestion();
+          if (state.screen === "review") app.innerHTML = renderReview();
+          if (state.screen === "saving") app.innerHTML = renderSaving();
+          if (state.screen === "success") app.innerHTML = renderSuccess();
+          var firstInput = app.querySelector("input, textarea");
+          if (firstInput && state.screen === "question") firstInput.focus();
+        }
+        function setQuestionError(message) { var node = document.getElementById("inline-error"); if (node) node.textContent = message || ""; }
+        function updateQuestionButton() { var buttonNode = document.querySelector('[data-action="question-next"]'); if (buttonNode) buttonNode.disabled = !isAnswered(currentQuestion()); }
+        function selectPersona(key) { state.persona = key; state.answers = blankAnswers(); state.questionIndex = 0; state.saveError = ""; state.screen = "question"; render(); }
+        function buildPayload() {
+          var a = state.answers;
+          var extras = { consent: { accepted: true, policy_version: config.policyVersion, accepted_at: new Date().toISOString() }, goals_list: a.goals.slice() };
+          if (state.persona === "product_builder") { extras.product_name = a.product_name; extras.product_description = a.product_description; extras.region = displayRegion(); }
+          if (state.persona === "advertiser") { extras.brand_name = a.brand_name; extras.budget_range = a.budget_range; }
+          return { persona: state.persona, display_name: a.display_name.trim(), niche: displayNiche(), tone: displayTone(), audience: a.audience.trim(), goals: a.goals.join(", "), platforms: a.platforms.slice(), extras: extras };
+        }
+        function callback(name, value) { try { if (typeof config[name] === "function") config[name](value); } catch (ignore) {} }
+        async function saveProfile() {
+          var payload = buildPayload();
+          try {
+            localStorage.setItem("creatoros_persona", payload.persona);
+            localStorage.setItem("creatoros_onboarding", JSON.stringify(payload));
+          } catch (storageErr) {
+            console.warn("Could not save persona to localStorage:", storageErr);
+          }
+          if (window.CreatorAuth) {
+            try {
+              await window.CreatorAuth.saveOnboarding(payload.persona, payload);
+            } catch (authSaveErr) {
+              console.warn("[CreatorOS Auth] Could not save to Supabase:", authSaveErr && authSaveErr.message);
+            }
+          }
+          if (!config.gatewayBaseUrl) {
+            console.log(payload);
+            callback("onComplete", payload);
+            state.screen = "success";
+            render();
+            return;
+          }
+          var controller = new AbortController();
+          var timeout = window.setTimeout(function () { controller.abort(); }, 15000);
+          try {
+            var token = await config.getAccessToken();
+            var response = await fetch(String(config.gatewayBaseUrl).replace(/\/$/, "") + "/memory/profile", { method: "POST", headers: { "Authorization": "Bearer " + token, "Content-Type": "application/json" }, body: JSON.stringify(payload), signal: controller.signal });
+            var result = await response.json().catch(function () { return {}; });
+            if (!response.ok || result.ok !== true) throw new Error("save_failed");
+            callback("onComplete", payload);
+            state.screen = "success";
+            render();
+          } catch (error) {
+            state.saveError = error && error.name === "AbortError" ? "That took a little too long. Check your connection and try again." : "We could not save that just yet. Your answers are still here to try again.";
+            state.screen = "review";
+            render();
+          } finally { window.clearTimeout(timeout); }
+        }
+
+        document.addEventListener("click", async function (event) {
+          var target = event.target.closest("[data-action]");
+          if (!target || target.disabled) return;
+          var action = target.getAttribute("data-action");
+          if (action === "agree") { state.screen = "personas"; render(); }
+          else if (action === "decline") { state.screen = "declined"; render(); }
+          else if (action === "review") { state.screen = "privacy"; render(); }
+          else if (action === "leave") { callback("onDecline"); window.location.href = "index.html"; }
+          else if (action === "persona") {
+            var targetP = target.getAttribute("data-persona");
+            if (urlParams.get("retake") === "true") {
+              selectPersona(targetP);
+            } else {
+              launchPersonaDirectly(targetP);
+            }
+          }
+          else if (action === "customize-persona") {
+            selectPersona(target.getAttribute("data-persona"));
+          }
+          else if (action === "select-chip") { var chipKey = target.getAttribute("data-key"); state.answers[chipKey] = target.getAttribute("data-value"); render(); }
+          else if (action === "toggle-multi") { var multiKey = target.getAttribute("data-key"); var multiValue = target.getAttribute("data-value"); var values = selectedValues(multiKey); state.answers[multiKey] = values.indexOf(multiValue) > -1 ? values.filter(function (item) { return item !== multiValue; }) : values.concat(multiValue); render(); }
+          else if (action === "toggle-goal") { var goal = target.getAttribute("data-value"); var goals = selectedValues("goals"); if (goals.indexOf(goal) > -1) state.answers.goals = goals.filter(function (item) { return item !== goal; }); else if (goals.length < 3) state.answers.goals = goals.concat(goal); render(); }
+          else if (action === "question-back") { if (state.questionIndex === 0) { state.screen = "personas"; } else state.questionIndex -= 1; render(); }
+          else if (action === "question-next") { if (!isAnswered(currentQuestion())) { setQuestionError("Please answer this question to continue."); return; } if (state.questionIndex === personaQuestions[state.persona].length - 1) state.screen = "review"; else state.questionIndex += 1; render(); }
+          else if (action === "review-back") { state.screen = "question"; state.questionIndex = personaQuestions[state.persona].length - 1; render(); }
+          else if (action === "finish") { state.screen = "saving"; state.saveError = ""; render(); window.setTimeout(saveProfile, 850); }
+          else if (action === "complete") {
+            var payload = buildPayload();
+            try {
+              localStorage.setItem("creatoros_persona", payload.persona);
+              localStorage.setItem("creatoros_onboarding", JSON.stringify(payload));
+            } catch (storageErr) {
+              console.warn("Could not save persona to localStorage:", storageErr);
+            }
+            if (window.CreatorAuth) {
+              try {
+                await window.CreatorAuth.saveOnboarding(payload.persona, payload);
+              } catch (authSaveErr) {
+                console.warn("[CreatorOS Auth] Could not save to Supabase:", authSaveErr && authSaveErr.message);
+              }
+            }
+            callback("onComplete", payload);
+            window.location.href = "index.html";
+          }
+        });
+        document.addEventListener("input", function (event) {
+          var input = event.target.closest("[data-input]");
+          if (!input) return;
+          var key = input.getAttribute("data-input");
+          state.answers[key] = input.value;
+          if (input.maxLength > 0) { var counter = document.getElementById("char-count"); if (counter) counter.textContent = input.value.length + "/" + input.maxLength; }
+          updateQuestionButton();
+          setQuestionError("");
+        });
+        render();
+      }());
+    </script>
+  <script>
+    if (location.protocol === "http:" || location.protocol === "https:") {
+      var cfScript = document.createElement("script");
+      cfScript.type = "module";
+      cfScript.src = "https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092";
+      cfScript.integrity = "sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==";
+      cfScript.crossOrigin = "anonymous";
+      cfScript.setAttribute("data-cf-beacon", '{"version":"2024.11.0","token":"7f7b0fd8732c4326aae4b9d58d5c514a","spa":2}');
+      document.body.appendChild(cfScript);
+    }
+  </script>
+</body>
+</html>

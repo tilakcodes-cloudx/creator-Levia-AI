@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CreatorOS — Sign In</title>
+  <meta name="description" content="Sign in to your CreatorOS workspace." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="signin.css">
+
+  <style>
+    /* Additional helper styles for display name and configuration banner */
+    .field-hidden {
+      display: none !important;
+    }
+    .auth-alert {
+      display: none;
+      margin-bottom: 16px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.4;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      color: #fca5a5;
+    }
+    .auth-alert.visible {
+      display: block;
+    }
+    .auth-alert.success {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: rgba(16, 185, 129, 0.35);
+      color: #6ee7b7;
+    }
+    .config-banner {
+      margin-top: 20px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px dashed rgba(255, 255, 255, 0.15);
+      font-size: 12px;
+      color: var(--text-muted);
+      text-align: center;
+    }
+    .config-banner button {
+      background: none;
+      border: none;
+      color: #7dd3fc;
+      cursor: pointer;
+      font-size: 12px;
+      text-decoration: underline;
+      padding: 0 4px;
+    }
+    .config-modal-back {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .config-modal-back.open {
+      display: flex;
+    }
+    .config-card {
+      width: 100%;
+      max-width: 440px;
+      background: #0f1322;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 28px;
+      color: #fff;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    }
+    .config-card h2 {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+    .config-card p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+      line-height: 1.45;
+    }
+    .config-card .form-group {
+      margin-bottom: 14px;
+    }
+    .config-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .config-actions button {
+      flex: 1;
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .config-btn-save {
+      background: #7957ff;
+      color: #fff;
+      border-color: #7957ff !important;
+    }
+    .config-btn-close {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <!-- Dynamic Starfield Background Canvas -->
+  <canvas id="starfield"></canvas>
+
+  <!-- Ambient Cosmic Dust & Glow Effects -->
+  <div class="cosmic-glow cosmic-glow-top"></div>
+  <div class="cosmic-glow cosmic-glow-bottom"></div>
+
+  <main class="page-container">
+    <div class="login-card">
+      <!-- Header with Title and Shooting Star -->
+      <header class="card-header">
+        <div class="title-wrapper">
+          <h1 class="page-title" id="formTitle">Sign In</h1>
+          <!-- Shooting star streak replicating the template reference -->
+          <div class="shooting-star-streak" aria-hidden="true"></div>
+        </div>
+      </header>
+
+      <!-- Auth Alert Banner -->
+      <div id="authAlert" class="auth-alert" role="alert"></div>
+
+      <!-- Main Login / Sign Up Form -->
+      <form id="authForm" class="auth-form" autocomplete="on" novalidate>
+        <!-- Display Name Input Group (Shown only in Sign Up mode) -->
+        <div class="form-group field-hidden" id="displayNameGroup">
+          <label for="displayName" class="form-label">Full Name</label>
+          <div class="input-wrapper">
+            <input 
+              type="text" 
+              id="displayName" 
+              name="displayName" 
+              class="form-input" 
+              placeholder="Maya Chen" 
+              autocomplete="name"
+            >
+          </div>
+          <span class="field-error" id="nameError" role="alert"></span>
+        </div>
+
+        <!-- Email Input Group -->
+        <div class="form-group">
+          <label for="email" class="form-label">Email</label>
+          <div class="input-wrapper">
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              class="form-input" 
+              placeholder="name@example.com" 
+              required
+              autocomplete="email"
+            >
+          </div>
+          <span class="field-error" id="emailError" role="alert"></span>
+        </div>
+
+        <!-- Password Input Group -->
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <div class="input-wrapper">
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              class="form-input password-input" 
+              placeholder="••••••••••••" 
+              required
+              autocomplete="current-password"
+            >
+            <button 
+              type="button" 
+              class="password-toggle-btn" 
+              id="passwordToggle" 
+              aria-label="Toggle password visibility"
+              title="Show / Hide Password"
+            >
+              <svg class="eye-icon eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              <svg class="eye-icon eye-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
+                <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
+                <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
+                <line x1="2" y1="2" x2="22" y2="22" />
+              </svg>
+            </button>
+          </div>
+          <span class="field-error" id="passwordError" role="alert"></span>
+        </div>
+
+        <!-- Options: Remember Me & Forgot Password -->
+        <div class="form-options">
+          <label class="remember-label" for="rememberMe">
+            <input type="checkbox" id="rememberMe" name="rememberMe" class="custom-checkbox" checked>
+            <span class="checkbox-visual" aria-hidden="true">
+              <svg class="checkmark-icon" viewBox="0 0 14 14" fill="none">
+                <path d="M3 7.5L5.5 10L11 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="remember-text">Remember me</span>
+          </label>
+
+          <a href="#forgot" class="forgot-link" id="forgotPasswordLink">Forget Password ?</a>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn" id="submitBtn">
+          <span class="btn-text">Sign In</span>
+          <div class="btn-loader" aria-hidden="true"></div>
+        </button>
+      </form>
+
+      <!-- Sign Up / In Switcher -->
+      <footer class="card-footer">
+        <p class="signup-prompt">
+          Don’t Have an Account ? 
+          <a href="#signup" class="signup-link" id="toggleAuthMode">Sign Up</a>
+        </p>
+
+        <!-- Divider Line -->
+        <div class="divider" aria-hidden="true"></div>
+
+        <!-- Social & Alternative Login Row (5 icons) -->
+        <div class="social-login-group">
+          <!-- 1. Google -->
+          <button type="button" class="social-btn" aria-label="Sign in with Google" title="Google">
+            <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#FFFFFF"/>
+              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#FFFFFF" fill-opacity="0.9"/>
+              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FFFFFF" fill-opacity="0.85"/>
+              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#FFFFFF"/>
+            </svg>
+          </button>
+
+          <!-- 2. GitHub -->
+          <button type="button" class="social-btn" aria-label="Sign in with GitHub" title="GitHub">
+            <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+            </svg>
+          </button>
+
+          <!-- 3. Facebook -->
+          <button type="button" class="social-btn" aria-label="Sign in with Facebook" title="Facebook">
+            <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+          </button>
+
+          <!-- 4. Windows / Microsoft -->
+          <button type="button" class="social-btn" aria-label="Sign in with Microsoft" title="Microsoft">
+            <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+              <rect x="2.5" y="2.5" width="8.8" height="8.8" rx="1.2" />
+              <rect x="12.7" y="2.5" width="8.8" height="8.8" rx="1.2" />
+              <rect x="2.5" y="12.7" width="8.8" height="8.8" rx="1.2" />
+              <rect x="12.7" y="12.7" width="8.8" height="8.8" rx="1.2" />
+            </svg>
+          </button>
+
+          <!-- 5. Passkey / Security Key -->
+          <button type="button" class="social-btn" aria-label="Sign in with Passkey or Security Key" title="Passkey">
+            <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="8" cy="8" r="5" />
+              <path d="m11.5 11.5 9.5 9.5" />
+              <path d="m16 16 2 2" />
+              <path d="m18 14 3 3" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Supabase Configuration Indicator -->
+        <div class="config-banner" id="configBanner">
+          <span id="configStatusText">Supabase Auth: Ready</span>
+          <button type="button" id="openConfigBtn">Configure Supabase Keys</button>
+        </div>
+      </footer>
+    </div>
+  </main>
+
+  <!-- Supabase Credentials Configuration Modal -->
+  <div class="config-modal-back" id="configModal">
+    <div class="config-card">
+      <h2>Supabase Configuration</h2>
+      <p>Configure your Supabase Project URL and Anon/Publishable Key for real database authentication.</p>
+      
+      <div class="form-group">
+        <label for="cfgUrl" class="form-label">Project URL</label>
+        <div class="input-wrapper">
+          <input type="text" id="cfgUrl" class="form-input" placeholder="https://xyzcompany.supabase.co">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="cfgKey" class="form-label">Anon / Publishable Key</label>
+        <div class="input-wrapper">
+          <input type="password" id="cfgKey" class="form-input" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
+        </div>
+      </div>
+
+      <div class="config-actions">
+        <button type="button" class="config-btn-close" id="closeConfigBtn">Cancel</button>
+        <button type="button" class="config-btn-save" id="saveConfigBtn">Save & Connect</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Feedback Toast -->
+  <div id="toastNotification" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- Supabase Credentials & Configuration -->
+  <script src="supabase-config.js"></script>
+
+  <!-- Supabase JS Client (Local + CDN fallback) -->
+  <script src="supabase.min.js"></script>
+  <script>
+    if (!window.supabase) {
+      document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"><\/script>');
+    }
+  </script>
+
+  <!-- CreatorOS Central Auth -->
+  <script src="auth.js"></script>
+
+  <!-- Sign In Page Logic & Starfield Engine -->
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      // -------------------------------------------------------------
+      // 1. DYNAMIC STARFIELD CANVAS ENGINE
+      // -------------------------------------------------------------
+      const canvas = document.getElementById("starfield");
+      const ctx = canvas.getContext("2d");
+
+      let width = (canvas.width = window.innerWidth);
+      let height = (canvas.height = window.innerHeight);
+      let dpr = window.devicePixelRatio || 1;
+
+      const STAR_COUNT = Math.max(120, Math.floor((width * height) / 4500));
+      const stars = [];
+
+      const starColors = [
+        "rgba(255, 255, 255, ",
+        "rgba(224, 238, 255, ",
+        "rgba(195, 222, 255, ",
+        "rgba(255, 246, 228, "
+      ];
+
+      class Star {
+        constructor() {
+          this.reset();
+        }
+        reset() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.size = (Math.random() * 1.4 + 0.5) * (dpr > 1 ? 0.95 : 1);
+          this.baseAlpha = Math.random() * 0.25 + 0.25;
+          this.alpha = this.baseAlpha;
+          this.color = starColors[Math.floor(Math.random() * starColors.length)];
+          this.layer = Math.random() * 0.5 + 0.5;
+          this.drawX = this.x;
+          this.drawY = this.y;
+        }
+        update(mouseOffsetX, mouseOffsetY) {
+          this.drawX = this.x + mouseOffsetX * this.layer;
+          this.drawY = this.y + mouseOffsetY * this.layer;
+        }
+        draw(customAlpha = null) {
+          const renderAlpha = customAlpha !== null ? customAlpha : this.alpha;
+          ctx.beginPath();
+          ctx.arc(this.drawX, this.drawY, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = this.color + renderAlpha + ")";
+          ctx.fill();
+        }
+      }
+
+      for (let i = 0; i < STAR_COUNT; i++) {
+        stars.push(new Star());
+      }
+
+      let mouseX = 0;
+      let mouseY = 0;
+      let targetMouseX = 0;
+      let targetMouseY = 0;
+
+      window.addEventListener("mousemove", (e) => {
+        targetMouseX = (e.clientX - width / 2) * 0.035;
+        targetMouseY = (e.clientY - height / 2) * 0.035;
+      });
+
+      function animate() {
+        mouseX += (targetMouseX - mouseX) * 0.05;
+        mouseY += (targetMouseY - mouseY) * 0.05;
+
+        ctx.clearRect(0, 0, width, height);
+
+        for (let i = 0; i < stars.length; i++) {
+          stars[i].update(mouseX, mouseY);
+          stars[i].draw();
+        }
+
+        requestAnimationFrame(animate);
+      }
+      requestAnimationFrame(animate);
+
+      window.addEventListener("resize", () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+
+      // -------------------------------------------------------------
+      // 2. CHECK EXISTING ACTIVE SESSION
+      // -------------------------------------------------------------
+      const authAlert = document.getElementById("authAlert");
+
+      function showAlert(msg, isSuccess = false) {
+        authAlert.textContent = msg;
+        authAlert.className = "auth-alert visible" + (isSuccess ? " success" : "");
+      }
+      function hideAlert() {
+        authAlert.className = "auth-alert";
+        authAlert.textContent = "";
+      }
+
+      // If already logged in, redirect to index.html
+      const { user } = await CreatorAuth.getSession();
+      if (user) {
+        showAlert("Active session detected. Loading your workspace...", true);
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 300);
+        return;
+      }
+
+      // Update Supabase configuration status in UI
+      const configStatusText = document.getElementById("configStatusText");
+      function updateConfigIndicator() {
+        const cfg = CreatorAuth.getConfig();
+        if (cfg.isConfigured) {
+          configStatusText.textContent = "Supabase Auth: Connected (" + cfg.url.replace(/https?:\/\//, '').split('.')[0] + ")";
+        } else {
+          configStatusText.textContent = "Supabase Auth: Unconfigured (Check supabase-config.js)";
+        }
+      }
+      updateConfigIndicator();
+
+      // Config Modal handlers
+      const configModal = document.getElementById("configModal");
+      const openConfigBtn = document.getElementById("openConfigBtn");
+      const closeConfigBtn = document.getElementById("closeConfigBtn");
+      const saveConfigBtn = document.getElementById("saveConfigBtn");
+      const cfgUrlInput = document.getElementById("cfgUrl");
+      const cfgKeyInput = document.getElementById("cfgKey");
+
+      openConfigBtn.addEventListener("click", () => {
+        const cur = CreatorAuth.getConfig();
+        cfgUrlInput.value = cur.url;
+        cfgKeyInput.value = "";
+        configModal.classList.add("open");
+      });
+
+      closeConfigBtn.addEventListener("click", () => {
+        configModal.classList.remove("open");
+      });
+
+      saveConfigBtn.addEventListener("click", () => {
+        const url = cfgUrlInput.value.trim();
+        const key = cfgKeyInput.value.trim();
+        CreatorAuth.setConfig(url, key);
+        updateConfigIndicator();
+        configModal.classList.remove("open");
+        showToast("Supabase credentials saved.");
+      });
+
+      // -------------------------------------------------------------
+      // 3. PASSWORD VISIBILITY TOGGLE
+      // -------------------------------------------------------------
+      const passwordInput = document.getElementById("password");
+      const passwordToggle = document.getElementById("passwordToggle");
+      const eyeOpenIcon = passwordToggle.querySelector(".eye-open");
+      const eyeClosedIcon = passwordToggle.querySelector(".eye-closed");
+
+      passwordToggle.addEventListener("click", () => {
+        const isPassword = passwordInput.getAttribute("type") === "password";
+        passwordInput.setAttribute("type", isPassword ? "text" : "password");
+        eyeOpenIcon.style.display = isPassword ? "none" : "block";
+        eyeClosedIcon.style.display = isPassword ? "block" : "none";
+      });
+
+      // -------------------------------------------------------------
+      // 4. SIGN IN / SIGN UP MODE TOGGLE
+      // -------------------------------------------------------------
+      const authForm = document.getElementById("authForm");
+      const emailInput = document.getElementById("email");
+      const displayNameInput = document.getElementById("displayName");
+      const displayNameGroup = document.getElementById("displayNameGroup");
+      const emailError = document.getElementById("emailError");
+      const passwordError = document.getElementById("passwordError");
+      const submitBtn = document.getElementById("submitBtn");
+      const formTitle = document.getElementById("formTitle");
+      const toggleAuthMode = document.getElementById("toggleAuthMode");
+      const forgotPasswordLink = document.getElementById("forgotPasswordLink");
+
+      let isSignUpMode = false;
+
+      function clearErrors() {
+        emailInput.classList.remove("has-error");
+        passwordInput.classList.remove("has-error");
+        emailError.textContent = "";
+        passwordError.textContent = "";
+        hideAlert();
+      }
+
+      toggleAuthMode.addEventListener("click", (e) => {
+        e.preventDefault();
+        isSignUpMode = !isSignUpMode;
+        clearErrors();
+
+        const promptText = toggleAuthMode.parentElement;
+        const btnText = submitBtn.querySelector(".btn-text");
+
+        if (isSignUpMode) {
+          formTitle.textContent = "Sign Up";
+          document.title = "CreatorOS — Create Account";
+          btnText.textContent = "Create Account";
+          displayNameGroup.classList.remove("field-hidden");
+          promptText.childNodes[0].nodeValue = "Already Have an Account ? ";
+          toggleAuthMode.textContent = "Sign In";
+          forgotPasswordLink.style.visibility = "hidden";
+        } else {
+          formTitle.textContent = "Sign In";
+          document.title = "CreatorOS — Sign In";
+          btnText.textContent = "Sign In";
+          displayNameGroup.classList.add("field-hidden");
+          promptText.childNodes[0].nodeValue = "Don’t Have an Account ? ";
+          toggleAuthMode.textContent = "Sign Up";
+          forgotPasswordLink.style.visibility = "visible";
+        }
+      });
+
+      // -------------------------------------------------------------
+      // 5. FORM SUBMISSION (AUTHENTICATION FLOW)
+      // -------------------------------------------------------------
+      function validateEmail(val) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+      }
+
+      authForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        clearErrors();
+
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+        const displayName = displayNameInput.value.trim();
+        let hasError = false;
+
+        if (!email) {
+          emailInput.classList.add("has-error");
+          emailError.textContent = "Please enter your email address.";
+          hasError = true;
+        } else if (!validateEmail(email)) {
+          emailInput.classList.add("has-error");
+          emailError.textContent = "Please enter a valid email format (name@example.com).";
+          hasError = true;
+        }
+
+        if (!password) {
+          passwordInput.classList.add("has-error");
+          passwordError.textContent = "Please enter your password.";
+          hasError = true;
+        } else if (password.length < 6) {
+          passwordInput.classList.add("has-error");
+          passwordError.textContent = "Password must be at least 6 characters.";
+          hasError = true;
+        }
+
+        if (hasError) return;
+
+        submitBtn.classList.add("loading");
+        submitBtn.disabled = true;
+
+        try {
+          if (isSignUpMode) {
+            // REAL SIGN UP
+            if (!CreatorAuth.isConfigured()) {
+              showAlert("Supabase credentials missing. Please configure supabase-config.js with your project URL and publishable key.");
+              return;
+            }
+
+            const data = await CreatorAuth.signUp(email, password, displayName);
+            
+            // Check if Supabase requires email confirmation
+            if (data && data.user && (!data.session || !data.user.confirmed_at)) {
+              showAlert("Account created! Please check your email inbox (" + email + ") for the confirmation link before signing in.", true);
+              setTimeout(() => {
+                toggleAuthMode.click();
+              }, 3000);
+            } else {
+              showAlert("Account created successfully! Directing to persona setup...", true);
+              setTimeout(() => {
+                window.location.href = "persona.html";
+              }, 600);
+            }
+
+          } else {
+            // REAL SIGN IN
+            if (!CreatorAuth.isConfigured()) {
+              showAlert("Supabase credentials missing. Please configure supabase-config.js with your project URL and publishable key.");
+              return;
+            }
+
+            const data = await CreatorAuth.signIn(email, password);
+            showAlert("Signed in successfully! Loading workspace...", true);
+
+            // Fetch user profile from Supabase
+            const profile = await CreatorAuth.getUserProfile(data.user.id);
+
+            setTimeout(() => {
+              if (!profile || !profile.onboarding_completed || !profile.selected_persona) {
+                window.location.href = "persona.html";
+              } else {
+                window.location.href = "index.html";
+              }
+            }, 500);
+          }
+        } catch (err) {
+          showAlert(err.message || "Authentication failed. Please try again.");
+        } finally {
+          submitBtn.classList.remove("loading");
+          submitBtn.disabled = false;
+        }
+      });
+
+      // Forgot password link
+      forgotPasswordLink.addEventListener("click", async (e) => {
+        e.preventDefault();
+        const email = emailInput.value.trim();
+        if (!email || !validateEmail(email)) {
+          showAlert("Please enter your email address in the field above first.");
+          emailInput.focus();
+          return;
+        }
+
+        try {
+          if (!CreatorAuth.isConfigured()) {
+            showToast(`[Demo] Password reset sent to ${email}`);
+            return;
+          }
+          await CreatorAuth.resetPassword(email);
+          showAlert(`Password reset instructions sent to ${email}`, true);
+        } catch (err) {
+          showAlert(err.message);
+        }
+      });
+
+      // Toast Notification Helper
+      const toast = document.getElementById("toastNotification");
+      let toastTimeout = null;
+      function showToast(message) {
+        if (toastTimeout) clearTimeout(toastTimeout);
+        toast.textContent = message;
+        toast.classList.add("show");
+        toastTimeout = setTimeout(() => {
+          toast.classList.remove("show");
+        }, 3200);
+      }
+
+      // Social button placeholders
+      document.querySelectorAll(".social-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const provider = btn.getAttribute("title") || "OAuth Provider";
+          showAlert(`${provider} authentication is coming in the next release. Please use email & password for now.`);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

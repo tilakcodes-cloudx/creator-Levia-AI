@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#070709" />
+  <meta name="description" content="CreatorOS — Central Persona Router" />
+  <title>CreatorOS — Workspace Router</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #070709;
+      --surface: rgba(255, 255, 255, 0.05);
+      --surface-border: rgba(255, 255, 255, 0.1);
+      --purple: #7957ff;
+      --lav: #b58aff;
+      --lime: #a9e76f;
+      --text: #f5f5f7;
+      --muted: #8e8d9a;
+      --sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --display: 'Plus Jakarta Sans', var(--sans);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at 50% 20%, rgba(121, 87, 255, 0.12) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 80%, rgba(169, 231, 111, 0.06) 0%, transparent 45%),
+                  var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .ambient-glow {
+      position: fixed;
+      width: 480px;
+      height: 480px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(121, 87, 255, 0.22) 0%, transparent 70%);
+      filter: blur(40px);
+      pointer-events: none;
+      animation: pulse 6s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.9) translate(-10px, -10px); opacity: 0.6; }
+      100% { transform: scale(1.15) translate(10px, 10px); opacity: 0.9; }
+    }
+
+    .router-card {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 420px);
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-radius: 24px;
+      padding: 44px 32px 36px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(121, 87, 255, 0.1);
+    }
+
+    .brand-mark-wrapper {
+      position: relative;
+      margin-bottom: 24px;
+    }
+
+    .brand-mark {
+      width: 64px;
+      height: 64px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #7957ff, #b58aff);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 12px 30px rgba(121, 87, 255, 0.45);
+      position: relative;
+      z-index: 2;
+    }
+
+    .orbit-ring {
+      position: absolute;
+      inset: -8px;
+      border: 1px dashed rgba(169, 231, 111, 0.45);
+      border-radius: 26px;
+      animation: spin 14s linear infinite;
+    }
+
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+
+    .brand-name {
+      font-family: var(--display);
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.6px;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .brand-tagline {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    .loading-track {
+      width: 140px;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 99px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .loading-bar {
+      position: absolute;
+      height: 100%;
+      width: 45%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #7957ff, #a9e76f);
+      box-shadow: 0 0 12px rgba(169, 231, 111, 0.6);
+      animation: slide 1.4s ease-in-out infinite alternate;
+    }
+
+    @keyframes slide {
+      0% { left: 0%; transform: translateX(0); }
+      100% { left: 100%; transform: translateX(-100%); }
+    }
+
+    .status-text {
+      font-size: 13px;
+      color: #dedee6;
+      line-height: 1.5;
+      min-height: 20px;
+      font-weight: 500;
+    }
+
+    /* Error Fallback View */
+    .error-view {
+      display: none;
+      width: 100%;
+    }
+
+    .error-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: rgba(245, 101, 101, 0.15);
+      border: 1px solid rgba(245, 101, 101, 0.3);
+      color: #f56565;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 18px;
+    }
+
+    .error-title {
+      font-family: var(--display);
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .error-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .button-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      background: var(--purple);
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(121, 87, 255, 0.35);
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .button-primary:hover {
+      background: #6744f0;
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(121, 87, 255, 0.45);
+    }
+
+    .footer-note {
+      position: absolute;
+      bottom: 22px;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.3);
+      letter-spacing: 0.4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient-glow"></div>
+
+  <main class="router-card" id="router-container">
+    <!-- Active Loading Flow -->
+    <div id="router-loader" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+      <div class="brand-mark-wrapper" data-testid="router-brand">
+        <div class="orbit-ring"></div>
+        <div class="brand-mark">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/>
+            <path d="m19 16 .7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16Z"/>
+          </svg>
+        </div>
+      </div>
+      <h1 class="brand-name">CreatorOS</h1>
+      <p class="brand-tagline">Intelligent Creative Workspace</p>
+
+      <div class="loading-track">
+        <div class="loading-bar"></div>
+      </div>
+      <p class="status-text" id="router-status" data-testid="router-status">Initializing workspace...</p>
+    </div>
+
+    <!-- Error Screen Fallback -->
+    <div class="error-view" id="router-error" data-testid="router-error">
+      <div class="error-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+      </div>
+      <h2 class="error-title">Workspace Unavailable</h2>
+      <p class="error-desc" id="error-message">The requested workspace could not be opened or has not been configured yet.</p>
+      <button class="button-primary" id="returnPersonaBtn" data-testid="return-persona-button" onclick="window.CreatorRouter.returnToPersonaSelection()">
+        <span>Return to Persona Selection</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M13 6l6 6-6 6"/>
+        </svg>
+      </button>
+    </div>
+  </main>
+
+  <footer class="footer-note">CreatorOS · Autonomous Workspace Architecture</footer>
+
+  <!-- Supabase JS & CreatorOS Auth Integration -->
+  <script src="supabase-config.js"></script>
+  <script src="supabase.min.js"></script>
+  <script>
+    if (!window.supabase) {
+      document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"><\/script>');
+    }
+  </script>
+  <script src="auth.js"></script>
+
+  <script>
+    (function () {
+      "use strict";
+
+      // Exact Persona Routing Map as defined by CreatorOS specifications
+      const PERSONA_ROUTES = Object.freeze({
+        content_creator: "creator.html",
+        product_builder: "Product%20based.html",
+        freelancer: "Freelancer.html",
+        advertiser: "advertisor.html"
+      });
+
+      const PERSONA_LABELS = Object.freeze({
+        content_creator: "Content Creator",
+        product_builder: "Product Builder",
+        freelancer: "Freelancer",
+        advertiser: "Advertiser"
+      });
+
+      const STORAGE_KEY = "creatoros_persona";
+
+      function getSavedPersona() {
+        try {
+          return localStorage.getItem(STORAGE_KEY);
+        } catch (e) {
+          return null;
+        }
+      }
+
+      function clearSavedPersona() {
+        try {
+          localStorage.removeItem(STORAGE_KEY);
+          localStorage.removeItem("creatoros_onboarding");
+        } catch (e) {}
+      }
+
+      function showError(message) {
+        const loader = document.getElementById("router-loader");
+        const errorBox = document.getElementById("router-error");
+        const errorMsg = document.getElementById("error-message");
+        if (loader) loader.style.display = "none";
+        if (errorBox) errorBox.style.display = "block";
+        if (errorMsg && message) errorMsg.textContent = message;
+      }
+
+      async function routeUser() {
+        const statusEl = document.getElementById("router-status");
+
+        // Allow simulation of error screen via query param for testing / edge case handling
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get("error") === "missing") {
+          showError("Dashboard file could not be located on this device.");
+          return;
+        }
+
+        // STEP 1 & 2: Check for valid Supabase session
+        if (statusEl) statusEl.textContent = "Verifying session...";
+        const { user } = await CreatorAuth.getSession();
+
+        // STEP 3: If no session exists, redirect to signin.html
+        if (!user) {
+          // If legacy standalone router test mode is requested without auth
+          if (urlParams.get("test_mode") === "standalone") {
+            const legacyPersona = getSavedPersona();
+            if (!legacyPersona || !legacyPersona.trim()) {
+              if (statusEl) statusEl.textContent = "Redirecting to persona setup...";
+              setTimeout(() => { window.location.href = "persona.html"; }, 250);
+              return;
+            }
+            if (PERSONA_ROUTES[legacyPersona]) {
+              if (statusEl) statusEl.textContent = "Opening " + (PERSONA_LABELS[legacyPersona] || "your") + " workspace...";
+              setTimeout(() => { window.location.href = PERSONA_ROUTES[legacyPersona]; }, 300);
+              return;
+            }
+            clearSavedPersona();
+            setTimeout(() => { window.location.href = "persona.html"; }, 250);
+            return;
+          }
+
+          if (statusEl) statusEl.textContent = "Redirecting to sign in...";
+          setTimeout(function () {
+            window.location.href = "signin.html";
+          }, 250);
+          return;
+        }
+
+        // STEP 5: Retrieve user's authoritative profile from Supabase
+        if (statusEl) statusEl.textContent = "Loading your CreatorOS profile...";
+        const profile = await CreatorAuth.getUserProfile(user.id);
+
+        // STEP 6: If profile does not exist or onboarding incomplete -> route to persona.html
+        if (!profile || !profile.onboarding_completed || !profile.selected_persona) {
+          if (statusEl) statusEl.textContent = "Directing to persona setup...";
+          setTimeout(function () {
+            window.location.href = "persona.html";
+          }, 250);
+          return;
+        }
+
+        // STEP 7: Onboarding complete -> retrieve saved persona and route to dashboard
+        const persona = profile.selected_persona;
+        const targetDashboard = PERSONA_ROUTES[persona];
+
+        if (targetDashboard) {
+          const label = PERSONA_LABELS[persona] || "your";
+          if (statusEl) statusEl.textContent = "Opening " + label + " workspace...";
+          try { localStorage.setItem(STORAGE_KEY, persona); } catch (e) {}
+          setTimeout(function () {
+            try {
+              window.location.href = targetDashboard;
+            } catch (err) {
+              showError("Could not open " + targetDashboard + ". Please check file permissions.");
+            }
+          }, 300);
+          return;
+        }
+
+        // Invalid persona in profile -> clear and go to persona.html
+        console.warn("Unrecognized persona in database profile:", persona);
+        clearSavedPersona();
+        if (statusEl) statusEl.textContent = "Resetting persona preferences...";
+        setTimeout(function () {
+          window.location.href = "persona.html";
+        }, 250);
+      }
+
+      // Public API for programmatic routing and testing
+      window.CreatorRouter = {
+        routeUser: routeUser,
+        showError: showError,
+        PERSONA_ROUTES: PERSONA_ROUTES,
+        PERSONA_LABELS: PERSONA_LABELS,
+        STORAGE_KEY: STORAGE_KEY,
+        setPersonaAndRoute: function (personaId) {
+          if (PERSONA_ROUTES[personaId]) {
+            localStorage.setItem(STORAGE_KEY, personaId);
+            window.location.href = PERSONA_ROUTES[personaId];
+          } else {
+            showError("Invalid persona selected: " + personaId);
+          }
+        },
+        returnToPersonaSelection: function () {
+          clearSavedPersona();
+          window.location.href = "persona.html";
+        }
+      };
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", routeUser);
+      } else {
+        routeUser();
+      }
+    })();
+  </script>
+</body>
+</html>
