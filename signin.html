@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CreatorOS — Sign In</title>
-  <meta name="description" content="Sign in to your CreatorOS workspace." />
+  <title>Levia-AI — Sign In</title>
+  <meta name="description" content="Sign in to your Levia-AI workspace." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -326,7 +326,7 @@
           <circle class="back" cx="17" cy="17" r="14"></circle>
           <circle class="front" cx="17" cy="17" r="14"></circle>
         </svg>
-        <div class="text" data-text="Loading CreatorOS..."></div>
+        <div class="text" data-text="Loading Levia-AI..."></div>
       </div>
     </div>
     <div class="skeleton-grid-preview">
@@ -594,7 +594,7 @@
     }
   </script>
 
-  <!-- CreatorOS Central Auth -->
+  <!-- Levia-AI Central Auth -->
   <script src="auth.js"></script>
 
   <!-- Sign In Page Logic & Starfield Engine -->
@@ -795,7 +795,7 @@
 
         if (isSignUpMode) {
           formTitle.textContent = "Sign Up";
-          document.title = "CreatorOS — Create Account";
+          document.title = "Levia-AI — Create Account";
           btnText.textContent = "Create Account";
           displayNameGroup.classList.remove("field-hidden");
           promptText.childNodes[0].nodeValue = "Already Have an Account ? ";
@@ -803,7 +803,7 @@
           forgotPasswordLink.style.visibility = "hidden";
         } else {
           formTitle.textContent = "Sign In";
-          document.title = "CreatorOS — Sign In";
+          document.title = "Levia-AI — Sign In";
           btnText.textContent = "Sign In";
           displayNameGroup.classList.add("field-hidden");
           promptText.childNodes[0].nodeValue = "Don’t Have an Account ? ";

@@ -3,8 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>CreatorOS AI — Freelancer Workspace</title>
-        <meta name="description" content="CreatorOS AI — a premium freelancer command centre. Manage clients, projects, proposals, invoices and earnings in one intelligent workspace.">
+        <title>Levia-AI — Freelancer Workspace</title>
+        <meta name="description" content="Levia-AI — a premium freelancer command centre. Manage clients, projects, proposals, invoices and earnings in one intelligent workspace.">
         <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237045F5'/%3E%3Cstop offset='1' stop-color='%23A56BFF'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='9' fill='url(%23g)'/%3E%3Cpath d='M20.5 12.2a5.4 5.4 0 1 0 0 7.6' stroke='white' stroke-width='2.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -4016,7 +4016,7 @@
                         <circle class="back" cx="17" cy="17" r="14"></circle>
                         <circle class="front" cx="17" cy="17" r="14"></circle>
                     </svg>
-                    <div class="text" data-text="Loading CreatorOS..."></div>
+                    <div class="text" data-text="Loading Levia-AI..."></div>
                 </div>
             </div>
             <div class="skeleton-grid-preview">
@@ -4044,7 +4044,7 @@
                         </svg>
                     </div>
                     <div class="logo-name">
-                        CreatorOS AI<small>Freelancer OS</small>
+                        Levia-AI<small>Freelancer OS</small>
                     </div>
                     <button class="side-collapse" id="collapseBtn" data-action="toggle-collapse" data-testid="sidebar-collapse-btn" title="Collapse sidebar">
                         <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4338,7 +4338,7 @@
                             </div>
                         </div>
                         <p style="text-align:center;color:var(--muted);font-size:11px;margin-top:26px">
-                            CreatorOS AI · Freelancer Workspace · All figures in this workspace are <span class="sample-flag" style="margin:0 4px">Sample Data</span>
+                            Levia-AI · Freelancer Workspace · All figures in this workspace are <span class="sample-flag" style="margin:0 4px">Sample Data</span>
                             stored locally in your browser
                         </p>
                     </section>
@@ -4359,7 +4359,7 @@
                                 <div class="panel-head">
                                     <div>
                                         <h3>Recent Activity</h3>
-                                        <span class="sub">Your last moves in CreatorOS</span>
+                                        <span class="sub">Your last moves in Levia-AI</span>
                                     </div>
                                 </div>
                                 <div class="rowlist" id="activityFeed"></div>
@@ -4691,7 +4691,7 @@
                             <div>
                                 <div class="set-card">
                                     <h4>Experience</h4>
-                                    <p>Tune how CreatorOS feels.</p>
+                                    <p>Tune how Levia-AI feels.</p>
                                     <div class="set-row">
                                         <div>
                                             <b>Ambient animations</b>
@@ -4732,7 +4732,7 @@
                                     <h4>Frequently asked</h4>
                                     <details class="faq">
                                         <summary>Is my data sent anywhere?</summary>
-                                        <p>No. Everything is stored locally in your browser's localStorage. CreatorOS AI runs fully offline in this standalone build.</p>
+                                        <p>No. Everything is stored locally in your browser's localStorage. Levia-AI runs fully offline in this standalone build.</p>
                                     </details>
                                     <details class="faq">
                                         <summary>Are the numbers real?</summary>
@@ -4778,7 +4778,7 @@
                                 </div>
                                 <div class="set-card">
                                     <h4>Support</h4>
-                                    <p>Questions about this workspace? Reach the CreatorOS team.</p>
+                                    <p>Questions about this workspace? Reach the Levia-AI team.</p>
                                     <a class="btn btn-ghost" href="mailto:hello@creatoros.ai">hello@creatoros.ai</a>
                                 </div>
                             </div>
@@ -4813,7 +4813,7 @@
             <div class="ai-head">
                 <div class="ai-orb-core"></div>
                 <div>
-                    <b>Nova · CreatorOS Assistant</b>
+                    <b>Nova · Levia-AI Assistant</b>
                     <small>
                         <span class="demo-tag">Demo mode</span>
                         local response engine
@@ -6289,7 +6289,7 @@
                     return String(t || '').split('\n').map(x => x.trim()).filter(Boolean);
                 }
                 function proposalDoc(p) {
-                    return '<div class="doc-head"><div><div class="doc-brand">CreatorOS AI</div><div style="font-size:12px;color:#74718A;margin-top:4px">' + esc(state.profile.name) + ' · ' + esc(state.profile.title) + '</div><div style="font-size:12px;color:#74718A">' + esc(state.profile.email) + '</div></div><div class="doc-meta"><b style="font-size:15px;color:#17152D;font-family:var(--font-mono)">PROPOSAL</b><br>For: ' + esc(p.client) + '<br>' + fmtD(p.date) + '<br><span style="text-transform:uppercase;letter-spacing:.1em">' + esc(p.status) + '</span></div></div>' + '<h2 style="font-size:20px;margin-bottom:6px">' + esc(p.title) + '</h2>' + '<div style="font-family:var(--font-mono);font-size:11.5px;color:#7045F5;margin-bottom:16px">' + esc(p.service) + ' · ' + esc(p.timeline) + ' · ' + inr(p.price) + '</div>' + (p.desc ? '<div class="doc-sec"><h4>Project description</h4><p>' + esc(p.desc) + '</p></div>' : '') + (lines(p.scope).length ? '<div class="doc-sec"><h4>Scope of work</h4><ul>' + lines(p.scope).map(x => '<li>' + esc(x) + '</li>').join('') + '</ul></div>' : '') + (lines(p.deliverables).length ? '<div class="doc-sec"><h4>Deliverables</h4><ul>' + lines(p.deliverables).map(x => '<li>' + esc(x) + '</li>').join('') + '</ul></div>' : '') + (p.terms ? '<div class="doc-sec"><h4>Terms &amp; conditions</h4><p>' + esc(p.terms) + '</p></div>' : '') + '<div class="doc-note">Demo document generated by CreatorOS AI — sample content, not a binding contract.</div>';
+                    return '<div class="doc-head"><div><div class="doc-brand">Levia-AI</div><div style="font-size:12px;color:#74718A;margin-top:4px">' + esc(state.profile.name) + ' · ' + esc(state.profile.title) + '</div><div style="font-size:12px;color:#74718A">' + esc(state.profile.email) + '</div></div><div class="doc-meta"><b style="font-size:15px;color:#17152D;font-family:var(--font-mono)">PROPOSAL</b><br>For: ' + esc(p.client) + '<br>' + fmtD(p.date) + '<br><span style="text-transform:uppercase;letter-spacing:.1em">' + esc(p.status) + '</span></div></div>' + '<h2 style="font-size:20px;margin-bottom:6px">' + esc(p.title) + '</h2>' + '<div style="font-family:var(--font-mono);font-size:11.5px;color:#7045F5;margin-bottom:16px">' + esc(p.service) + ' · ' + esc(p.timeline) + ' · ' + inr(p.price) + '</div>' + (p.desc ? '<div class="doc-sec"><h4>Project description</h4><p>' + esc(p.desc) + '</p></div>' : '') + (lines(p.scope).length ? '<div class="doc-sec"><h4>Scope of work</h4><ul>' + lines(p.scope).map(x => '<li>' + esc(x) + '</li>').join('') + '</ul></div>' : '') + (lines(p.deliverables).length ? '<div class="doc-sec"><h4>Deliverables</h4><ul>' + lines(p.deliverables).map(x => '<li>' + esc(x) + '</li>').join('') + '</ul></div>' : '') + (p.terms ? '<div class="doc-sec"><h4>Terms &amp; conditions</h4><p>' + esc(p.terms) + '</p></div>' : '') + '<div class="doc-note">Demo document generated by CreatorOS AI — sample content, not a binding contract.</div>';
                 }
                 function proposalText(p) {
                     return ['PROPOSAL — ' + p.title, 'Prepared by ' + state.profile.name + ' (' + state.profile.email + ')', 'Client: ' + p.client, 'Date: ' + fmtD(p.date), '', 'Service: ' + p.service, 'Timeline: ' + p.timeline, 'Investment: ' + inr(p.price), '', 'DESCRIPTION', p.desc || '—', '', 'SCOPE OF WORK'].concat(lines(p.scope).map(x => '- ' + x)).concat(['', 'DELIVERABLES']).concat(lines(p.deliverables).map(x => '- ' + x)).concat(['', 'TERMS & CONDITIONS', p.terms || '—', '', 'Generated by CreatorOS AI (demo document)']).join('\n');
@@ -6407,7 +6407,7 @@
                 }
                 function invoiceDocHtml(i) {
                     const st = effStatus(i);
-                    return '<div class="doc-head"><div><div class="doc-brand">CreatorOS AI</div><div style="font-size:12px;color:#74718A;margin-top:4px">' + esc(state.profile.name) + ' · ' + esc(state.profile.title) + '</div><div style="font-size:12px;color:#74718A">' + esc(state.profile.email) + '</div></div><div class="doc-meta"><b style="font-size:15px;color:#17152D;font-family:var(--font-mono)">TAX INVOICE</b><br>' + esc(i.number) + '<br>Issued: ' + fmtD(i.date) + '<br>Due: ' + fmtD(i.due) + '</div></div>' + '<div class="doc-sec"><h4>Billed to</h4><p><b>' + esc(i.client) + '</b></p></div>' + '<table style="width:100%;border-collapse:collapse;margin:6px 0 14px"><thead><tr style="font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#74718A;text-align:left"><th style="padding:8px 0;border-bottom:2px solid #17152D">Description</th><th style="padding:8px 0;border-bottom:2px solid #17152D;text-align:right">Qty</th><th style="padding:8px 0;border-bottom:2px solid #17152D;text-align:right">Rate</th><th style="padding:8px 0;border-bottom:2px solid #17152D;text-align:right">Amount</th></tr></thead><tbody>' + '<tr style="border-bottom:1px solid rgba(23,21,45,.08)"><td style="padding:10px 0">' + esc(i.desc) + '</td><td style="padding:10px 0;text-align:right;font-family:var(--font-mono)">' + i.qty + '</td><td style="padding:10px 0;text-align:right;font-family:var(--font-mono)">' + inr(i.rate) + '</td><td style="padding:10px 0;text-align:right;font-family:var(--font-mono)">' + inr(invSub(i)) + '</td></tr></tbody></table>' + '<div class="doc-totals"><div><span>Subtotal</span><b class="mono">' + inr(invSub(i)) + '</b></div><div><span>GST (' + i.tax + '%)</span><b class="mono">' + inr(invTax(i)) + '</b></div><div class="g"><span>Total</span><span>' + inr(invTotal(i)) + '</span></div></div>' + '<div style="display:flex;align-items:center;gap:10px;margin-top:14px"><span class="pill" style="color:' + (I_STATUS[st] || ['#25B982'])[0] + ';background:' + (I_STATUS[st] || ['', 'rgba(37,185,130,.14)'])[1] + '"><i></i>' + st + '</span><span style="font-size:11px;color:#74718A">Demo record — no payment has been processed.</span></div>' + '<div class="doc-note">Payable in ₹ (INR). This is a demo invoice generated by CreatorOS AI for illustration only.</div>';
+                    return '<div class="doc-head"><div><div class="doc-brand">Levia-AI</div><div style="font-size:12px;color:#74718A;margin-top:4px">' + esc(state.profile.name) + ' · ' + esc(state.profile.title) + '</div><div style="font-size:12px;color:#74718A">' + esc(state.profile.email) + '</div></div><div class="doc-meta"><b style="font-size:15px;color:#17152D;font-family:var(--font-mono)">TAX INVOICE</b><br>' + esc(i.number) + '<br>Issued: ' + fmtD(i.date) + '<br>Due: ' + fmtD(i.due) + '</div></div>' + '<div class="doc-sec"><h4>Billed to</h4><p><b>' + esc(i.client) + '</b></p></div>' + '<table style="width:100%;border-collapse:collapse;margin:6px 0 14px"><thead><tr style="font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#74718A;text-align:left"><th style="padding:8px 0;border-bottom:2px solid #17152D">Description</th><th style="padding:8px 0;border-bottom:2px solid #17152D;text-align:right">Qty</th><th style="padding:8px 0;border-bottom:2px solid #17152D;text-align:right">Rate</th><th style="padding:8px 0;border-bottom:2px solid #17152D;text-align:right">Amount</th></tr></thead><tbody>' + '<tr style="border-bottom:1px solid rgba(23,21,45,.08)"><td style="padding:10px 0">' + esc(i.desc) + '</td><td style="padding:10px 0;text-align:right;font-family:var(--font-mono)">' + i.qty + '</td><td style="padding:10px 0;text-align:right;font-family:var(--font-mono)">' + inr(i.rate) + '</td><td style="padding:10px 0;text-align:right;font-family:var(--font-mono)">' + inr(invSub(i)) + '</td></tr></tbody></table>' + '<div class="doc-totals"><div><span>Subtotal</span><b class="mono">' + inr(invSub(i)) + '</b></div><div><span>GST (' + i.tax + '%)</span><b class="mono">' + inr(invTax(i)) + '</b></div><div class="g"><span>Total</span><span>' + inr(invTotal(i)) + '</span></div></div>' + '<div style="display:flex;align-items:center;gap:10px;margin-top:14px"><span class="pill" style="color:' + (I_STATUS[st] || ['#25B982'])[0] + ';background:' + (I_STATUS[st] || ['', 'rgba(37,185,130,.14)'])[1] + '"><i></i>' + st + '</span><span style="font-size:11px;color:#74718A">Demo record — no payment has been processed.</span></div>' + '<div class="doc-note">Payable in ₹ (INR). This is a demo invoice generated by CreatorOS AI for illustration only.</div>';
                 }
                 function previewInvoice(id) {
                     const i = state.invoices.find(x => x.id === id);
@@ -6682,7 +6682,7 @@ This proposal outlines a phased migration to Next.js 15 SSR, Edge Caching, and S
 Apex Innovations Inc. hereby approves the scope, deliverables, and commercial schedule described herein.
 
 Authorized Signature: Rajiv Mehra (VP Technology, Apex Innovations)
-Technical Lead Signature: Freelancer Lead (CreatorOS)`
+Technical Lead Signature: Freelancer Lead (Levia-AI)`
   },
   {
     id: 't2',
@@ -6728,7 +6728,7 @@ Both parties agree that technical specifications, customer datasets, source code
 ## 6. Execution
 Signed and agreed by the authorized signatories:
 For Nexus Health Systems Pvt Ltd: Dr. Arvind Swaminathan, Managing Director
-For Contractor: Freelancer Lead, CreatorOS Engineering`
+For Contractor: Freelancer Lead, Levia-AI Engineering`
   },
   {
     id: 't3',
@@ -6785,7 +6785,7 @@ Approved by Orbit Cloud Labs: Meera Sundaram, VP Engineering`
     x: `MONTHLY TECHNICAL RETAINER & SLA CONTRACT
 Reference: SLA-KITE-2024-R1
 Client: Kite Logistics Technologies Ltd
-Service Provider: Freelancer Lead, CreatorOS
+Service Provider: Freelancer Lead, Levia-AI
 Effective Period: November 2024 – October 2025 (12 Months Renewable)
 
 ## 1. Retainer Scope & Allocation
@@ -6864,7 +6864,7 @@ Due Date: 17 November 2024 (Net-15)
 Place of Supply: Maharashtra (State Code 27)
 
 ## Supplier Details
-- Legal Entity: Freelancer Lead · CreatorOS Technologies
+- Legal Entity: Freelancer Lead · Levia-AI Technologies
 - Address: 402 Indiranagar 100ft Road, Bangalore, Karnataka 560038
 - GSTIN: 29AAAAA0000A1Z5 · State: Karnataka (Code 29)
 - Email: billing@creatoros.ai · PAN: AAAAA0000A
@@ -6926,7 +6926,7 @@ Our financial reconciliation system shows that Invoice #INV-2024-082, issued on 
 - Agreed Payment Terms: Net-15 (Matured on 27 October 2024)
 
 ## Direct Settlement Details
-- Beneficiary Account: Freelancer Lead (CreatorOS Engineering)
+- Beneficiary Account: Freelancer Lead (Levia-AI Engineering)
 - Bank: HDFC Bank Ltd · Account: 50200088923412
 - IFSC Code: HDFC0001234
 - UPI VPA ID: payments@creatoros.ai
@@ -6936,7 +6936,7 @@ If this disbursement has already been processed by your accounts payable team to
 
 Warm regards,
 Freelancer Lead
-Principal Technical Consultant · CreatorOS`
+Principal Technical Consultant · Levia-AI`
   },
   {
     id: 't8',
@@ -7327,7 +7327,7 @@ Client requests the addition of Stripe International Multi-Currency Payment Proc
 ## 4. Formal Signatures & Authorization
 Apex Innovations Inc. hereby approves the additional investment and timeline modification:
 Authorized Signature: Rajiv Mehra, VP Technology (Apex Innovations)
-Consultant Signature: Freelancer Lead (CreatorOS Engineering)`
+Consultant Signature: Freelancer Lead (Levia-AI Engineering)`
   }
 ];
                 let tplCat = 'All';
@@ -7791,7 +7791,7 @@ Consultant Signature: Freelancer Lead (CreatorOS Engineering)`
                     cat: 'Project Management',
                     col: '#0079BF',
                     ini: 'TR',
-                    d: 'Mirror CreatorOS projects as Trello boards for client-facing tracking.',
+                    d: 'Mirror Levia-AI projects as Trello boards for client-facing tracking.',
                     s: 'Board sync, card progress'
                 }, {
                     id: 'notion',
@@ -7956,7 +7956,7 @@ Consultant Signature: Freelancer Lead (CreatorOS Engineering)`
                     $('#setEmail').value = state.profile.email;
                     $('#motionSwitch').classList.toggle('on', state.prefs.motion);
                     $('#miniSwitch').classList.toggle('on', state.prefs.mini);
-                    $('#aboutBox').innerHTML = '<b style="color:var(--text)">CreatorOS AI · v1.0 (demo)</b><br>Standalone freelancer workspace. One HTML file, zero backends. Your data never leaves this browser.';
+                    $('#aboutBox').innerHTML = '<b style="color:var(--text)">Levia-AI · v1.0 (demo)</b><br>Standalone freelancer workspace. One HTML file, zero backends. Your data never leaves this browser.';
                 }
                 function saveProfile() {
                     const v = $('#setName').value.trim();
@@ -8797,7 +8797,7 @@ Consultant Signature: Freelancer Lead (CreatorOS Engineering)`
                     'about': () => {
                         closePop();
                         openModal({
-                            title: 'About CreatorOS AI',
+                            title: 'About Levia-AI',
                             narrow: true,
                             sub: 'Freelancer Workspace · v1.0 (demo)',
                             body: '<p style="color:var(--muted);font-size:13.5px;line-height:1.7">A premium, standalone freelancer command centre — one HTML file, zero backends, zero network calls. All clients, invoices and earnings are <b>sample data</b> stored locally in your browser. Connections are frontend demonstrations only.</p>',
@@ -8943,7 +8943,7 @@ Consultant Signature: Freelancer Lead (CreatorOS Engineering)`
                     setTimeout( () => {
                         if (!state.prefs.motion)
                             return;
-                        toast('Welcome to CreatorOS Freelancer Workspace', 'info');
+                        toast('Welcome to Levia-AI Freelancer Workspace', 'info');
                     }
                     , 900);
                 }

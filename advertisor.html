@@ -11,8 +11,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#09090c" />
-    <meta name="description" content="CreatorOS AI — your cinematic, local-first advertising agency workspace. A self-contained demo for campaigns, creatives and collaboration." />
-    <title>CreatorOS AI — Agency Workspace</title>
+    <meta name="description" content="Levia-AI — your cinematic, local-first advertising agency workspace. A self-contained demo for campaigns, creatives and collaboration." />
+    <title>Levia-AI — Agency Workspace</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='m20 3 15 8v18l-15 8-15-8V11zm0 0v17m-15-9 15 9 15-9m-15 9v17' fill='none' stroke='%23ff9a32' stroke-width='2.5'/%3E%3C/svg%3E" />
     <style>
       :root {
@@ -2622,7 +2622,7 @@ if(typeof location !== "undefined" && location.protocol.indexOf("http") === 0){
             <circle class="back" cx="17" cy="17" r="14"></circle>
             <circle class="front" cx="17" cy="17" r="14"></circle>
           </svg>
-          <div class="text" data-text="Loading CreatorOS..."></div>
+          <div class="text" data-text="Loading Levia-AI..."></div>
         </div>
       </div>
       <div class="skeleton-grid-preview">
@@ -3099,7 +3099,7 @@ if(typeof location !== "undefined" && location.protocol.indexOf("http") === 0){
         document.body.classList.toggle('compact', state.preferences.compact);
         document.body.classList.toggle('reduced-motion', state.preferences.reducedMotion);
         document.getElementById('sidebar-root').innerHTML = `<aside class="sidebar" aria-label="Agency navigation">
-          <div class="brand">${icon('cube')}<span class="brand-name">CreatorOS <em>AI</em></span></div>
+          <div class="brand">${icon('cube')}<span class="brand-name">Levia-AI</span></div>
           <button class="workspace" data-action="persona-menu" title="Switch workspace">${icon('agency')}<span>Advertiser &amp; Agency</span>${icon('down')}</button>
           <nav class="nav-list">${nav.map(([view, label, name]) => `<button class="nav-item ${ui.view === view ? 'active' : ''}" data-action="navigate" data-id="${view}" title="${label}" ${ui.view === view ? 'aria-current="page"' : ''}>${icon(name)}<span>${label}</span>${view === 'approvals' && (state.approvals || []).some(a => a.status === 'Pending') ? `<span class="nav-count">${state.approvals.filter(a => a.status === 'Pending').length}</span>` : ''}</button>`).join('')}</nav>
           <nav class="nav-list nav-secondary" aria-label="Creative tools">
@@ -3335,7 +3335,7 @@ if(typeof location !== "undefined" && location.protocol.indexOf("http") === 0){
         renderHeader();
         const views = { overview: renderOverview, campaigns: renderCampaigns, audiences: renderAudiences, clients: renderClients, creatives: renderCreatives, accounts: renderAccounts, approvals: renderApprovals, studio: renderStudio, reports: renderReports, analytics: renderAnalytics, schedule: renderSchedule, settings: renderSettings };
         (views[ui.view] || renderOverview)();
-        document.title = `CreatorOS AI — ${ui.view === 'overview' ? 'Agency Workspace' : ui.view.charAt(0).toUpperCase() + ui.view.slice(1)}`;
+        document.title = `Levia-AI — ${ui.view === 'overview' ? 'Agency Workspace' : ui.view.charAt(0).toUpperCase() + ui.view.slice(1)}`;
         instrument(document.body, ui.view);
       }
 
